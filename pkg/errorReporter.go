@@ -16,6 +16,7 @@ package pkg
 
 import (
 	"fmt"
+
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 )
 
@@ -25,17 +26,17 @@ type GruleErrorReporter struct {
 	Errors                      []error
 }
 
-// AddError simply add an error into this reporter
+// AddError simply add an error into this reporter.
 func (c *GruleErrorReporter) AddError(err error) {
 	c.Errors = append(c.Errors, err)
 }
 
-// SyntaxError call back which will be called upon parsing error
+// SyntaxError call back which will be called upon parsing error.
 func (c *GruleErrorReporter) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
 	c.Errors = append(c.Errors, fmt.Errorf("grl error on %d:%d %s", line, column, msg))
 }
 
-// HasError check if this reporter has an error
+// HasError check if this reporter has an error.
 func (c *GruleErrorReporter) HasError() bool {
 	return c.Errors != nil && len(c.Errors) > 0
 }

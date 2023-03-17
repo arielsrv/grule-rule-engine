@@ -17,11 +17,12 @@ package ast
 import (
 	"bytes"
 	"errors"
+
 	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewAssignment will create new instance of Assignment AST Node
+// NewAssignment will create new instance of Assignment AST Node.
 func NewAssignment() *Assignment {
 	return &Assignment{
 		AstID: unique.NewID(),
@@ -68,12 +69,12 @@ func (e *Assignment) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// AssignmentReceiver must be implemented by all other ast graph that uses an assigment expression
+// AssignmentReceiver must be implemented by all other ast graph that uses an assigment expression.
 type AssignmentReceiver interface {
 	AcceptAssignment(assignment *Assignment) error
 }
 
-// Clone will clone this Assignment. The new clone will have an identical structure
+// Clone will clone this Assignment. The new clone will have an identical structure.
 func (e *Assignment) Clone(cloneTable *pkg.CloneTable) *Assignment {
 	clone := &Assignment{
 		AstID:   unique.NewID(),
@@ -105,7 +106,7 @@ func (e *Assignment) Clone(cloneTable *pkg.CloneTable) *Assignment {
 	return clone
 }
 
-// AcceptExpression will accept an Expression AST graph into this ast graph
+// AcceptExpression will accept an Expression AST graph into this ast graph.
 func (e *Assignment) AcceptExpression(exp *Expression) error {
 	if e.Expression != nil {
 		return errors.New("expression for assignment already assigned")
@@ -114,7 +115,7 @@ func (e *Assignment) AcceptExpression(exp *Expression) error {
 	return nil
 }
 
-// AcceptVariable will accept an Variable AST graph into this ast graph
+// AcceptVariable will accept an Variable AST graph into this ast graph.
 func (e *Assignment) AcceptVariable(vari *Variable) error {
 	if e.Variable != nil {
 		return errors.New("variable for assignment already assigned")
@@ -123,17 +124,17 @@ func (e *Assignment) AcceptVariable(vari *Variable) error {
 	return nil
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *Assignment) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *Assignment) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *Assignment) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(ASSIGMENT)
@@ -165,7 +166,7 @@ func (e *Assignment) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// Execute will execute this graph in the Then scope
+// Execute will execute this graph in the Then scope.
 func (e *Assignment) Execute(dataContext IDataContext, memory *WorkingMemory) error {
 	exprVal, err := e.Expression.Evaluate(dataContext, memory)
 	if err != nil {

@@ -310,7 +310,6 @@ func TestValueSub(t *testing.T) {
 		if err == nil {
 			t.Errorf("Subtracting with string should raise an error, but its not.")
 		}
-
 	}
 }
 

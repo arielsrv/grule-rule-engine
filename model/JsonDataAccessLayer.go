@@ -17,9 +17,10 @@ package model
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
 	"reflect"
 	"time"
+
+	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
 var (
@@ -41,24 +42,24 @@ func NewJSONValueNode(JSONString, identifiedAs string) (ValueNode, error) {
 	}, nil
 }
 
-// JSONValueNode will hold the json root object as the result of JSON unmarshal
+// JSONValueNode will hold the json root object as the result of JSON unmarshal.
 type JSONValueNode struct {
 	parent       ValueNode
 	identifiedAs string
 	data         reflect.Value
 }
 
-// IdentifiedAs will return the node label
+// IdentifiedAs will return the node label.
 func (vn *JSONValueNode) IdentifiedAs() string {
 	return vn.identifiedAs
 }
 
-// Value returns the reflect.Value of this node
+// Value returns the reflect.Value of this node.
 func (vn *JSONValueNode) Value() reflect.Value {
 	return vn.data
 }
 
-// HasParent will return true if this node has parent node, other wise return false
+// HasParent will return true if this node has parent node, other wise return false.
 func (vn *JSONValueNode) HasParent() bool {
 	return vn.parent != nil
 }
@@ -77,17 +78,17 @@ func (vn *JSONValueNode) ContinueWithValue(value reflect.Value, identifiedAs str
 	}
 }
 
-// GetValue same as Value()
+// GetValue same as Value().
 func (vn *JSONValueNode) GetValue() (reflect.Value, error) {
 	return vn.data, nil
 }
 
-// GetType return the reflect.Type of the value in this node
+// GetType return the reflect.Type of the value in this node.
 func (vn *JSONValueNode) GetType() (reflect.Type, error) {
 	return vn.data.Type(), nil
 }
 
-// IsArray will validate if this node's value is of kind Array or Slice
+// IsArray will validate if this node's value is of kind Array or Slice.
 func (vn *JSONValueNode) IsArray() bool {
 	return vn.data.Kind() == reflect.Slice || vn.data.Kind() == reflect.Array
 }
@@ -171,7 +172,7 @@ func (vn *JSONValueNode) SetMapValueAt(index, newValue reflect.Value) error {
 	return nil
 }
 
-// GetChildNodeBySelector get the ValueNode
+// GetChildNodeBySelector get the ValueNode.
 func (vn *JSONValueNode) GetChildNodeBySelector(index reflect.Value) (ValueNode, error) {
 	val, err := vn.GetMapValueAt(index)
 	if err != nil {
@@ -202,7 +203,7 @@ func (vn *JSONValueNode) GetObjectValueByField(field string) (reflect.Value, err
 }
 
 // GetObjectTypeByField get the type of the value by specified field. Since in json any field could store any field and
-// there are no definition of what type on any field, this function will always return value of nil
+// there are no definition of what type on any field, this function will always return value of nil.
 func (vn *JSONValueNode) GetObjectTypeByField(field string) (reflect.Type, error) {
 	return reflect.TypeOf(nil), nil
 }
@@ -327,7 +328,7 @@ func (vn *JSONValueNode) CallFunction(funcName string, args ...reflect.Value) (r
 	return reflect.ValueOf(nil), fmt.Errorf("this node identified as \"%s\" is not referencing an object thus function %s call is not supported", vn.IdentifiedAs(), funcName)
 }
 
-// GetChildNodeByField will return the field ValueNode
+// GetChildNodeByField will return the field ValueNode.
 func (vn *JSONValueNode) GetChildNodeByField(field string) (ValueNode, error) {
 	val, err := vn.GetObjectValueByField(field)
 	if err != nil {
@@ -336,7 +337,7 @@ func (vn *JSONValueNode) GetChildNodeByField(field string) (ValueNode, error) {
 	return vn.ContinueWithValue(val, field), nil
 }
 
-// IsTime return true if the value of this node is of type string with specified DateTimeLayout
+// IsTime return true if the value of this node is of type string with specified DateTimeLayout.
 func (vn *JSONValueNode) IsTime() bool {
 	if vn.data.Kind() == reflect.String {
 		return IsDateFormatValid(DateTimeLayout, vn.data.String())

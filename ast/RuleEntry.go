@@ -18,13 +18,14 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"reflect"
+
+	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewRuleEntry create new instance of RuleEntry
+// NewRuleEntry create new instance of RuleEntry.
 func NewRuleEntry() *RuleEntry {
 	return &RuleEntry{
 		AstID:           unique.NewID(),
@@ -34,7 +35,7 @@ func NewRuleEntry() *RuleEntry {
 	}
 }
 
-// RuleEntry AST graph node
+// RuleEntry AST graph node.
 type RuleEntry struct {
 	AstID   string
 	GrlText string
@@ -73,30 +74,30 @@ func (e *RuleEntry) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// RuleEntryReceiver should be implemented by any rule AST object that receive a RuleEntry
+// RuleEntryReceiver should be implemented by any rule AST object that receive a RuleEntry.
 type RuleEntryReceiver interface {
 	ReceiveRuleEntry(entry *RuleEntry) error
 }
 
-// AcceptSalience will accept salience value
+// AcceptSalience will accept salience value.
 func (e *RuleEntry) AcceptSalience(salience *Salience) error {
 	e.Salience = salience.SalienceValue
 	return nil
 }
 
-// AcceptWhenScope will accept WhenScope AST Graph into this AST Graph
+// AcceptWhenScope will accept WhenScope AST Graph into this AST Graph.
 func (e *RuleEntry) AcceptWhenScope(when *WhenScope) error {
 	e.WhenScope = when
 	return nil
 }
 
-// AcceptThenScope will accept ThenScope AST Graph into this AST Graph
+// AcceptThenScope will accept ThenScope AST Graph into this AST Graph.
 func (e *RuleEntry) AcceptThenScope(thenScope *ThenScope) error {
 	e.ThenScope = thenScope
 	return nil
 }
 
-// Clone will clone this RuleEntry. The new clone will have an identical structure
+// Clone will clone this RuleEntry. The new clone will have an identical structure.
 func (e *RuleEntry) Clone(cloneTable *pkg.CloneTable) *RuleEntry {
 	clone := &RuleEntry{
 		AstID:           unique.NewID(),
@@ -130,17 +131,17 @@ func (e *RuleEntry) Clone(cloneTable *pkg.CloneTable) *RuleEntry {
 	return clone
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *RuleEntry) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *RuleEntry) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *RuleEntry) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(RULEENTRY)
@@ -156,7 +157,7 @@ func (e *RuleEntry) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// Evaluate will evaluate this AST graph for when scope evaluation
+// Evaluate will evaluate this AST graph for when scope evaluation.
 func (e *RuleEntry) Evaluate(ctx context.Context, dataContext IDataContext, memory *WorkingMemory) (bool, error) {
 	if ctx.Err() != nil {
 		return false, ctx.Err()
@@ -175,7 +176,7 @@ func (e *RuleEntry) Evaluate(ctx context.Context, dataContext IDataContext, memo
 	return val.Bool(), nil
 }
 
-// Execute will execute this graph in the Then scope
+// Execute will execute this graph in the Then scope.
 func (e *RuleEntry) Execute(ctx context.Context, dataContext IDataContext, memory *WorkingMemory) (err error) {
 	if ctx.Err() != nil {
 		return ctx.Err()

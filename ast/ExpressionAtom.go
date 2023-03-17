@@ -18,21 +18,22 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"reflect"
+
 	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"github.com/hyperjumptech/grule-rule-engine/model"
-	"reflect"
 
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewExpressionAtom create new instance of ExpressionAtom
+// NewExpressionAtom create new instance of ExpressionAtom.
 func NewExpressionAtom() *ExpressionAtom {
 	return &ExpressionAtom{
 		AstID: unique.NewID(),
 	}
 }
 
-// ExpressionAtom AST node graph
+// ExpressionAtom AST node graph.
 type ExpressionAtom struct {
 	AstID   string
 	GrlText string
@@ -86,12 +87,12 @@ func (e *ExpressionAtom) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// ExpressionAtomReceiver contains function to be implemented by other AST graph to receive an ExpressionAtom AST graph
+// ExpressionAtomReceiver contains function to be implemented by other AST graph to receive an ExpressionAtom AST graph.
 type ExpressionAtomReceiver interface {
 	AcceptExpressionAtom(exp *ExpressionAtom) error
 }
 
-// Clone will clone this ExpressionAtom. The new clone will have an identical structure
+// Clone will clone this ExpressionAtom. The new clone will have an identical structure.
 func (e *ExpressionAtom) Clone(cloneTable *pkg.CloneTable) *ExpressionAtom {
 	clone := &ExpressionAtom{
 		AstID:        unique.NewID(),
@@ -153,12 +154,12 @@ func (e *ExpressionAtom) Clone(cloneTable *pkg.CloneTable) *ExpressionAtom {
 	return clone
 }
 
-// AcceptMemberVariable accept a member variable AST graph into this Variable graph
+// AcceptMemberVariable accept a member variable AST graph into this Variable graph.
 func (e *ExpressionAtom) AcceptMemberVariable(name string) {
 	e.VariableName = name
 }
 
-// AcceptVariable will accept an Variable AST graph into this ast graph
+// AcceptVariable will accept an Variable AST graph into this ast graph.
 func (e *ExpressionAtom) AcceptVariable(vari *Variable) error {
 	if e.Variable != nil {
 		return errors.New("variable for ExpressionAtom already assigned")
@@ -167,7 +168,7 @@ func (e *ExpressionAtom) AcceptVariable(vari *Variable) error {
 	return nil
 }
 
-// AcceptFunctionCall will accept an FunctionCall AST graph into this ast graph
+// AcceptFunctionCall will accept an FunctionCall AST graph into this ast graph.
 func (e *ExpressionAtom) AcceptFunctionCall(fun *FunctionCall) error {
 	if e.FunctionCall != nil {
 		return errors.New("function call for ExpressionAtom already assigned")
@@ -176,7 +177,7 @@ func (e *ExpressionAtom) AcceptFunctionCall(fun *FunctionCall) error {
 	return nil
 }
 
-// AcceptExpressionAtom will accept an ExpressionAtom AST graph into this ast graph
+// AcceptExpressionAtom will accept an ExpressionAtom AST graph into this ast graph.
 func (e *ExpressionAtom) AcceptExpressionAtom(ea *ExpressionAtom) error {
 	if e.ExpressionAtom != nil {
 		return errors.New("expression atom for ExpressionAtom already assigned")
@@ -185,7 +186,7 @@ func (e *ExpressionAtom) AcceptExpressionAtom(ea *ExpressionAtom) error {
 	return nil
 }
 
-// AcceptConstant will accept a Constant AST graph into this ast graph
+// AcceptConstant will accept a Constant AST graph into this ast graph.
 func (e *ExpressionAtom) AcceptConstant(cons *Constant) error {
 	if e.Constant != nil {
 		return errors.New("constant for ExpressionAtom already assigned")
@@ -194,23 +195,23 @@ func (e *ExpressionAtom) AcceptConstant(cons *Constant) error {
 	return nil
 }
 
-// AcceptArrayMapSelector accept an array map selector into this variable graph
+// AcceptArrayMapSelector accept an array map selector into this variable graph.
 func (e *ExpressionAtom) AcceptArrayMapSelector(sel *ArrayMapSelector) error {
 	e.ArrayMapSelector = sel
 	return nil
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *ExpressionAtom) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *ExpressionAtom) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *ExpressionAtom) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(EXPRESSIONATOM)
@@ -250,7 +251,7 @@ func (e *ExpressionAtom) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// Evaluate will evaluate this AST graph for when scope evaluation
+// Evaluate will evaluate this AST graph for when scope evaluation.
 func (e *ExpressionAtom) Evaluate(dataContext IDataContext, memory *WorkingMemory) (val reflect.Value, err error) {
 	if e.Evaluated == true {
 		return e.Value, nil
@@ -350,7 +351,6 @@ func (e *ExpressionAtom) Evaluate(dataContext IDataContext, memory *WorkingMemor
 		return e.Value, nil
 	}
 	if e.ExpressionAtom != nil && e.ArrayMapSelector != nil && len(e.VariableName) == 0 {
-
 		_, err := e.ExpressionAtom.Evaluate(dataContext, memory)
 		if err != nil {
 			return reflect.Value{}, err

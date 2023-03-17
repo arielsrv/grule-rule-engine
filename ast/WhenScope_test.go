@@ -15,9 +15,10 @@
 package ast
 
 import (
-	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 type TestStructShenScope struct {
@@ -26,7 +27,6 @@ type TestStructShenScope struct {
 }
 
 func TestNewWhenScope(t *testing.T) {
-
 	expr1 := &Expression{
 		AstID:           "abc",
 		LeftExpression:  &Expression{ExpressionAtom: &ExpressionAtom{Constant: &Constant{Value: reflect.ValueOf("Whooho")}}},
@@ -77,5 +77,4 @@ func TestNewWhenScopeEvaluate(t *testing.T) {
 	val, err = ws.Evaluate(dt, wm)
 	assert.NoError(t, err)
 	assert.Equal(t, 123, int(val.Int()))
-
 }

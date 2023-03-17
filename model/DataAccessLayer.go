@@ -16,10 +16,11 @@ package model
 
 import (
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
 	"reflect"
 	"regexp"
 	"strings"
+
+	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
 // ValueNode is an abstraction layer to access underlying dom style data.
@@ -62,7 +63,7 @@ type ValueNode interface {
 	IsString() bool
 }
 
-// StrLen is return the string length value
+// StrLen is return the string length value.
 func StrLen(str string, arg []reflect.Value) (reflect.Value, error) {
 	if arg != nil && len(arg) != 0 {
 		return reflect.ValueOf(nil), fmt.Errorf("function Len requires no argument")
@@ -208,7 +209,7 @@ func StrTrim(str string, arg []reflect.Value) (reflect.Value, error) {
 	return reflect.ValueOf(b), nil
 }
 
-// StrIn will check the string instance if its equals one of the arguments, if no argument specified it will return false
+// StrIn will check the string instance if its equals one of the arguments, if no argument specified it will return false.
 func StrIn(str string, arg []reflect.Value) (reflect.Value, error) {
 	for _, a := range arg {
 		if !a.IsValid() || a.Kind() != reflect.String {
@@ -233,7 +234,7 @@ func StrMatchRegexPattern(str string, arg []reflect.Value) (reflect.Value, error
 	return reflect.ValueOf(m), nil
 }
 
-// ArrMapLen will return the size of underlying map, array or slice
+// ArrMapLen will return the size of underlying map, array or slice.
 func ArrMapLen(arr reflect.Value, arg []reflect.Value) (reflect.Value, error) {
 	if arg != nil && len(arg) != 0 {
 		return reflect.ValueOf(nil), fmt.Errorf("function Len requires no argument")

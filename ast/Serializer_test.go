@@ -16,9 +16,10 @@ package ast
 
 import (
 	"bytes"
+	"testing"
+
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestReadWriteString(t *testing.T) {

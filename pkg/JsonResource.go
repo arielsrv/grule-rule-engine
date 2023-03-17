@@ -23,7 +23,7 @@ import (
 	"strings"
 )
 
-// GruleJSON represents a rule in JSON format
+// GruleJSON represents a rule in JSON format.
 type GruleJSON struct {
 	Name        string        `json:"name"`
 	Description string        `json:"desc"`

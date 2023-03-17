@@ -20,7 +20,7 @@ import (
 	"time"
 )
 
-// EvaluateMultiplication will evaluate multiplication operation over two value
+// EvaluateMultiplication will evaluate multiplication operation over two value.
 func EvaluateMultiplication(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -74,7 +74,7 @@ func EvaluateMultiplication(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateDivision will evaluate division operation over two value
+// EvaluateDivision will evaluate division operation over two value.
 func EvaluateDivision(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -128,7 +128,7 @@ func EvaluateDivision(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateModulo will evaluate modulo operation over two value
+// EvaluateModulo will evaluate modulo operation over two value.
 func EvaluateModulo(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -161,7 +161,7 @@ func EvaluateModulo(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateAddition will evaluate addition operation over two value
+// EvaluateAddition will evaluate addition operation over two value.
 func EvaluateAddition(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -249,7 +249,7 @@ func EvaluateAddition(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateSubtraction will evaluate subtraction operation over two value
+// EvaluateSubtraction will evaluate subtraction operation over two value.
 func EvaluateSubtraction(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -303,7 +303,7 @@ func EvaluateSubtraction(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateBitAnd will evaluate Bitwise And operation over two value
+// EvaluateBitAnd will evaluate Bitwise And operation over two value.
 func EvaluateBitAnd(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -336,7 +336,7 @@ func EvaluateBitAnd(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateBitOr will evaluate Bitwise Or operation over two value
+// EvaluateBitOr will evaluate Bitwise Or operation over two value.
 func EvaluateBitOr(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -369,7 +369,7 @@ func EvaluateBitOr(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateGreaterThan will evaluate GreaterThan operation over two value
+// EvaluateGreaterThan will evaluate GreaterThan operation over two value.
 func EvaluateGreaterThan(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -437,7 +437,7 @@ func EvaluateGreaterThan(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateLesserThan will evaluate LesserThan operation over two value
+// EvaluateLesserThan will evaluate LesserThan operation over two value.
 func EvaluateLesserThan(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -505,7 +505,7 @@ func EvaluateLesserThan(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateGreaterThanEqual will evaluate GreaterThanEqual operation over two value
+// EvaluateGreaterThanEqual will evaluate GreaterThanEqual operation over two value.
 func EvaluateGreaterThanEqual(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -573,7 +573,7 @@ func EvaluateGreaterThanEqual(left, right reflect.Value) (reflect.Value, error) 
 	}
 }
 
-// EvaluateLesserThanEqual will evaluate LesserThanEqual operation over two value
+// EvaluateLesserThanEqual will evaluate LesserThanEqual operation over two value.
 func EvaluateLesserThanEqual(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -641,7 +641,7 @@ func EvaluateLesserThanEqual(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateEqual will evaluate Equal operation over two value
+// EvaluateEqual will evaluate Equal operation over two value.
 func EvaluateEqual(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -714,7 +714,7 @@ func EvaluateEqual(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateNotEqual will evaluate NotEqual operation over two value
+// EvaluateNotEqual will evaluate NotEqual operation over two value.
 func EvaluateNotEqual(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	switch left.Kind() {
@@ -787,7 +787,7 @@ func EvaluateNotEqual(left, right reflect.Value) (reflect.Value, error) {
 	}
 }
 
-// EvaluateLogicAnd will evaluate LogicalAnd operation over two value
+// EvaluateLogicAnd will evaluate LogicalAnd operation over two value.
 func EvaluateLogicAnd(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	if left.Kind() == reflect.Bool && right.Kind() == reflect.Bool {
@@ -798,7 +798,7 @@ func EvaluateLogicAnd(left, right reflect.Value) (reflect.Value, error) {
 	return reflect.ValueOf(nil), fmt.Errorf("can not use data type of %s in Logical AND comparison", left.Kind().String())
 }
 
-// EvaluateLogicOr will evaluate LogicalOr operation over two value
+// EvaluateLogicOr will evaluate LogicalOr operation over two value.
 func EvaluateLogicOr(left, right reflect.Value) (reflect.Value, error) {
 	left, right = GetValueElem(left), GetValueElem(right)
 	if left.Kind() == reflect.Bool && right.Kind() == reflect.Bool {
@@ -809,7 +809,7 @@ func EvaluateLogicOr(left, right reflect.Value) (reflect.Value, error) {
 	return reflect.ValueOf(nil), fmt.Errorf("can not use data type of %s in Logical OR comparison", left.Kind().String())
 }
 
-// EvaluateLogicSingle will evaluate single expression value
+// EvaluateLogicSingle will evaluate single expression value.
 func EvaluateLogicSingle(left reflect.Value) (reflect.Value, error) {
 	left = GetValueElem(left)
 	if left.Kind() == reflect.Bool {

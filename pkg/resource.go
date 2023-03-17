@@ -98,7 +98,7 @@ func (bundle *FileResourceBundle) Load() ([]Resource, error) {
 	return bundle.loadPath(bundle.BasePath)
 }
 
-// MustLoad function is the same as Load with difference that it will panic if any error is raised
+// MustLoad function is the same as Load with difference that it will panic if any error is raised.
 func (bundle *FileResourceBundle) MustLoad() []Resource {
 	resources, err := bundle.Load()
 	if err != nil {
@@ -184,7 +184,7 @@ func NewBytesResource(bytes []byte) Resource {
 	}
 }
 
-// BytesResource is a struct that will hold the byte array data
+// BytesResource is a struct that will hold the byte array data.
 type BytesResource struct {
 	Bytes []byte
 }
@@ -199,7 +199,7 @@ func (res *BytesResource) String() string {
 	return fmt.Sprintf("Byte array resources %d bytes", len(res.Bytes))
 }
 
-// NewURLResource will create a new Resource using a resource as located in the url
+// NewURLResource will create a new Resource using a resource as located in the url.
 func NewURLResource(url string) Resource {
 	return &URLResource{
 		URL:    url,
@@ -207,7 +207,7 @@ func NewURLResource(url string) Resource {
 	}
 }
 
-// NewURLResourceWithHeaders will create a new Resource using a resource as located in the url with headers
+// NewURLResourceWithHeaders will create a new Resource using a resource as located in the url with headers.
 func NewURLResourceWithHeaders(url string, Header http.Header) Resource {
 	return &URLResource{
 		URL:    url,
@@ -215,7 +215,7 @@ func NewURLResourceWithHeaders(url string, Header http.Header) Resource {
 	}
 }
 
-// URLResource is a struct that will hold the byte array data and URL source
+// URLResource is a struct that will hold the byte array data and URL source.
 type URLResource struct {
 	URL    string
 	Header http.Header
@@ -230,7 +230,7 @@ func (res *URLResource) String() string {
 // Load will load the resource into byte array. This resource will cache the obtained result byte arrays.
 // So calling this function multiple times only call the URL once at the first time.
 // If you want to refresh the load, you simply create a new instance of URLResource using
-// NewURLResource
+// NewURLResource.
 func (res *URLResource) Load() ([]byte, error) {
 	if res.Bytes != nil {
 		return res.Bytes, nil
@@ -258,7 +258,7 @@ func (res *URLResource) Load() ([]byte, error) {
 
 // NewGITResourceBundle will create a new instance of GITResourceBundle
 // url is the GIT http/https url.
-// pathPattern are list of file pattern (glob) to filter files located in the repository
+// pathPattern are list of file pattern (glob) to filter files located in the repository.
 func NewGITResourceBundle(url string, pathPattern ...string) *GITResourceBundle {
 	return &GITResourceBundle{
 		URL:         url,
@@ -348,7 +348,7 @@ func (bundle *GITResourceBundle) MustLoad() []Resource {
 	return resources
 }
 
-// GITResource resource implementation that loaded from GIT
+// GITResource resource implementation that loaded from GIT.
 type GITResource struct {
 	URL   string
 	Path  string

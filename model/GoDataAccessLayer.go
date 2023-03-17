@@ -21,7 +21,7 @@ import (
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewGoValueNode creates new instance of ValueNode backed by golang reflection
+// NewGoValueNode creates new instance of ValueNode backed by golang reflection.
 func NewGoValueNode(value reflect.Value, identifiedAs string) ValueNode {
 	return &GoValueNode{
 		parentNode:   nil,
@@ -30,29 +30,29 @@ func NewGoValueNode(value reflect.Value, identifiedAs string) ValueNode {
 	}
 }
 
-// GoValueNode is an implementation of ValueNode that used to traverse native golang primitives through reflect package
+// GoValueNode is an implementation of ValueNode that used to traverse native golang primitives through reflect package.
 type GoValueNode struct {
 	parentNode   ValueNode
 	identifiedAs string
 	thisValue    reflect.Value
 }
 
-// Value returns the underlying reflect.Value
+// Value returns the underlying reflect.Value.
 func (node *GoValueNode) Value() reflect.Value {
 	return node.thisValue
 }
 
-// HasParent returns `true` if the current value is a field, function, map, array, slice of another value
+// HasParent returns `true` if the current value is a field, function, map, array, slice of another value.
 func (node *GoValueNode) HasParent() bool {
 	return node.parentNode != nil
 }
 
-// Parent returns the value node of the parent value, if this node is a field, function, map, array, slice of another value
+// Parent returns the value node of the parent value, if this node is a field, function, map, array, slice of another value.
 func (node *GoValueNode) Parent() ValueNode {
 	return node.parentNode
 }
 
-// IdentifiedAs return the current representation of this Value Node
+// IdentifiedAs return the current representation of this Value Node.
 func (node *GoValueNode) IdentifiedAs() string {
 	if node.HasParent() {
 		if node.parentNode.IsArray() || node.parentNode.IsMap() {
@@ -73,17 +73,17 @@ func (node *GoValueNode) ContinueWithValue(value reflect.Value, identifiedAs str
 	}
 }
 
-// GetValue will return the underlying reflect.Value
+// GetValue will return the underlying reflect.Value.
 func (node *GoValueNode) GetValue() (reflect.Value, error) {
 	return node.thisValue, nil
 }
 
-// GetType will return the underlying value's type
+// GetType will return the underlying value's type.
 func (node *GoValueNode) GetType() (reflect.Type, error) {
 	return node.thisValue.Type(), nil
 }
 
-// IsArray to check if the underlying value is an array or not
+// IsArray to check if the underlying value is an array or not.
 func (node *GoValueNode) IsArray() bool {
 	return node.thisValue.Kind() == reflect.Array || node.thisValue.Kind() == reflect.Slice
 }
@@ -100,7 +100,7 @@ func (node *GoValueNode) GetArrayType() (reflect.Type, error) {
 	return nil, fmt.Errorf("this node identified as \"%s\" is not referring to an array or slice", node.IdentifiedAs())
 }
 
-// GetArrayValueAt to get the value of an array element if the current underlying value is an array
+// GetArrayValueAt to get the value of an array element if the current underlying value is an array.
 func (node *GoValueNode) GetArrayValueAt(index int) (val reflect.Value, err error) {
 	if node.IsArray() {
 		defer func() {
@@ -165,7 +165,7 @@ func (node *GoValueNode) AppendValue(value []reflect.Value) (err error) {
 	return fmt.Errorf("this node identified as \"%s\" is not referencing an array or slice", node.IdentifiedAs())
 }
 
-// Length will return the length of underlying value if its an array, slice, map or string
+// Length will return the length of underlying value if its an array, slice, map or string.
 func (node *GoValueNode) Length() (int, error) {
 	if node.IsArray() || node.IsMap() || node.IsString() {
 		return node.thisValue.Len(), nil
@@ -190,7 +190,7 @@ func (node *GoValueNode) GetMapValueAt(index reflect.Value) (reflect.Value, erro
 	return reflect.Value{}, fmt.Errorf("this node identified as \"%s\" is not referencing a map", node.IdentifiedAs())
 }
 
-// SetMapValueAt will set the map value for the specified key, value argument
+// SetMapValueAt will set the map value for the specified key, value argument.
 func (node *GoValueNode) SetMapValueAt(index, newValue reflect.Value) (err error) {
 	if node.IsMap() {
 		defer func() {
@@ -213,7 +213,7 @@ func (node *GoValueNode) GetChildNodeBySelector(index reflect.Value) (ValueNode,
 	return node.ContinueWithValue(val, fmt.Sprintf("[%s->%s]", index.Type().String(), index.String())), nil
 }
 
-// IsObject will check if the underlying value is a struct or pointer to a struct
+// IsObject will check if the underlying value is a struct or pointer to a struct.
 func (node *GoValueNode) IsObject() bool {
 	if node.thisValue.IsValid() {
 		typ := node.thisValue.Type()
@@ -225,7 +225,7 @@ func (node *GoValueNode) IsObject() bool {
 	return false
 }
 
-// GetObjectValueByField will return underlying value's field
+// GetObjectValueByField will return underlying value's field.
 func (node *GoValueNode) GetObjectValueByField(field string) (reflect.Value, error) {
 	if node.IsObject() {
 		var val reflect.Value
@@ -243,7 +243,7 @@ func (node *GoValueNode) GetObjectValueByField(field string) (reflect.Value, err
 	return reflect.Value{}, fmt.Errorf("this node identified as \"%s\" is not referencing to an object", node.IdentifiedAs())
 }
 
-// GetObjectTypeByField will return underlying type of the value's field
+// GetObjectTypeByField will return underlying type of the value's field.
 func (node *GoValueNode) GetObjectTypeByField(field string) (typ reflect.Type, err error) {
 	if node.IsObject() {
 		defer func() {
@@ -438,12 +438,12 @@ func (node *GoValueNode) GetChildNodeByField(field string) (ValueNode, error) {
 	return node.ContinueWithValue(val, field), nil
 }
 
-// IsTime will check if the underlying value is a time.Time
+// IsTime will check if the underlying value is a time.Time.
 func (node *GoValueNode) IsTime() bool {
 	return node.thisValue.Type().String() == "time.Time"
 }
 
-// IsInteger will check if the underlying value is a type of int, or uint
+// IsInteger will check if the underlying value is a type of int, or uint.
 func (node *GoValueNode) IsInteger() bool {
 	kind := pkg.GetBaseKind(node.thisValue)
 	return kind == reflect.Int64 || kind == reflect.Uint64
@@ -460,7 +460,7 @@ func (node *GoValueNode) IsBool() bool {
 	return node.thisValue.Kind() == reflect.Bool
 }
 
-// IsString will check if the underlying value is a type of string
+// IsString will check if the underlying value is a type of string.
 func (node *GoValueNode) IsString() bool {
 	return node.thisValue.Kind() == reflect.String
 }

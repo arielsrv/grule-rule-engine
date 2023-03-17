@@ -18,46 +18,47 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"reflect"
+
+	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
 const (
-	// OpMul Multiplication operator
+	// OpMul Multiplication operator.
 	OpMul int = iota
-	// OpDiv Divisioon operator
+	// OpDiv Divisioon operator.
 	OpDiv
-	// OpMod Modulus operator
+	// OpMod Modulus operator.
 	OpMod
-	// OpAdd Addition operator
+	// OpAdd Addition operator.
 	OpAdd
-	// OpSub Substraction operator
+	// OpSub Substraction operator.
 	OpSub
-	// OpBitAnd Bitwise And operator
+	// OpBitAnd Bitwise And operator.
 	OpBitAnd
-	// OpBitOr Bitwise Or operator
+	// OpBitOr Bitwise Or operator.
 	OpBitOr
-	// OpGT Greater Than operator
+	// OpGT Greater Than operator.
 	OpGT
-	// OpLT Lesser Than operator
+	// OpLT Lesser Than operator.
 	OpLT
-	// OpGTE Greater Than or Equal operator
+	// OpGTE Greater Than or Equal operator.
 	OpGTE
-	// OpLTE Lesser Than or Equal operator
+	// OpLTE Lesser Than or Equal operator.
 	OpLTE
-	// OpEq Equals operator
+	// OpEq Equals operator.
 	OpEq
-	// OpNEq Not Equals operator
+	// OpNEq Not Equals operator.
 	OpNEq
-	// OpAnd Logical And operator
+	// OpAnd Logical And operator.
 	OpAnd
-	// OpOr Logical Or operator
+	// OpOr Logical Or operator.
 	OpOr
 )
 
-// NewExpression creates new Expression instance
+// NewExpression creates new Expression instance.
 func NewExpression() *Expression {
 	return &Expression{
 		AstID:    unique.NewID(),
@@ -65,7 +66,7 @@ func NewExpression() *Expression {
 	}
 }
 
-// Expression AST Graph node
+// Expression AST Graph node.
 type Expression struct {
 	AstID   string
 	GrlText string
@@ -112,7 +113,7 @@ func (e *Expression) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// Clone will clone this Expression. The new clone will have an identical structure
+// Clone will clone this Expression. The new clone will have an identical structure.
 func (e *Expression) Clone(cloneTable *pkg.CloneTable) *Expression {
 	clone := &Expression{
 		AstID:    unique.NewID(),
@@ -165,7 +166,7 @@ func (e *Expression) Clone(cloneTable *pkg.CloneTable) *Expression {
 	return clone
 }
 
-// AcceptExpression will accept an Expression AST graph into this ast graph
+// AcceptExpression will accept an Expression AST graph into this ast graph.
 func (e *Expression) AcceptExpression(exp *Expression) error {
 	if e.SingleExpression == nil && e.LeftExpression == nil {
 		e.SingleExpression = exp
@@ -179,28 +180,28 @@ func (e *Expression) AcceptExpression(exp *Expression) error {
 	return nil
 }
 
-// ExpressionReceiver contains function to be implemented by other AST graph to receive an Expression AST graph
+// ExpressionReceiver contains function to be implemented by other AST graph to receive an Expression AST graph.
 type ExpressionReceiver interface {
 	AcceptExpression(exp *Expression) error
 }
 
-// AcceptExpressionAtom will accept ExpressionAtom into this Expression
+// AcceptExpressionAtom will accept ExpressionAtom into this Expression.
 func (e *Expression) AcceptExpressionAtom(atom *ExpressionAtom) error {
 	e.ExpressionAtom = atom
 	return nil
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *Expression) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *Expression) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *Expression) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(EXPRESSION)
@@ -270,7 +271,7 @@ func (e *Expression) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// Evaluate will evaluate this AST graph for when scope evaluation
+// Evaluate will evaluate this AST graph for when scope evaluation.
 func (e *Expression) Evaluate(dataContext IDataContext, memory *WorkingMemory) (reflect.Value, error) {
 	if e.Evaluated == true {
 		return e.Value, nil

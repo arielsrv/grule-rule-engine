@@ -15,10 +15,11 @@
 package model
 
 import (
-	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 type Person struct {
@@ -246,7 +247,6 @@ func TestGoValueNode_Array_Set(t *testing.T) {
 	val, err = interest1Node.GetValue()
 	assert.NoError(t, err)
 	assert.Equal(t, "Diving", val.String())
-
 }
 
 func TestGoValueNodeSetValues(t *testing.T) {
@@ -348,7 +348,6 @@ func TestGoValueNode(t *testing.T) {
 	assert.False(t, actorGraduationNode.IsBool())
 	assert.False(t, actorGraduationNode.IsReal())
 	assert.True(t, actorGraduationNode.IsTime())
-
 }
 
 func TestConstantFunctionCalls(t *testing.T) {

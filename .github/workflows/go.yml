@@ -1,0 +1,39 @@
+name: Go
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: 'go.mod'
+          check-latest: true
+          cache: true
+          cache-dependency-path: go.sum
+
+      - name: arduino/setup-task
+        uses: arduino/setup-task@v1.0.3
+
+      - name: Build
+        run: task build
+
+      - name: Test
+        run: task test
+
+      - name: Coverage
+        run: task coverage
+
+      - name: Go Coverage Badge  # Pass the `coverage.out` output to this action
+        uses: tj-actions/coverage-badge-go@v2
+        with:
+          filename: coverage.out

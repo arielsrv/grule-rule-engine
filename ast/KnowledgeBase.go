@@ -17,17 +17,18 @@ package ast
 import (
 	"bytes"
 	"fmt"
-	"github.com/google/uuid"
-	"github.com/sirupsen/logrus"
 	"io"
 	"sort"
 	"strings"
 	"sync"
 
+	"github.com/google/uuid"
+	"github.com/sirupsen/logrus"
+
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewKnowledgeLibrary create a new instance KnowledgeLibrary
+// NewKnowledgeLibrary create a new instance KnowledgeLibrary.
 func NewKnowledgeLibrary() *KnowledgeLibrary {
 	return &KnowledgeLibrary{
 		Library: make(map[string]*KnowledgeBase),
@@ -41,7 +42,7 @@ type KnowledgeLibrary struct {
 
 // GetKnowledgeBase will get the actual KnowledgeBase blue print that will be used to create instances.
 // Although this KnowledgeBase blueprint works, It SHOULD NOT be used directly in the engine.
-// You should obtain KnowledgeBase instance by calling NewKnowledgeBaseInstance
+// You should obtain KnowledgeBase instance by calling NewKnowledgeBaseInstance.
 func (lib *KnowledgeLibrary) GetKnowledgeBase(name, version string) *KnowledgeBase {
 	kb, ok := lib.Library[fmt.Sprintf("%s:%s", name, version)]
 	if ok {
@@ -57,7 +58,7 @@ func (lib *KnowledgeLibrary) GetKnowledgeBase(name, version string) *KnowledgeBa
 	return kb
 }
 
-// RemoveRuleEntry mark the rule entry as deleted
+// RemoveRuleEntry mark the rule entry as deleted.
 func (lib *KnowledgeLibrary) RemoveRuleEntry(ruleName, name string, version string) {
 	nameVersion := fmt.Sprintf("%s:%s", name, version)
 	_, ok := lib.Library[nameVersion]
@@ -118,7 +119,7 @@ func (lib *KnowledgeLibrary) StoreKnowledgeBaseToWriter(writer io.Writer, name, 
 }
 
 // NewKnowledgeBaseInstance will create a new instance based on KnowledgeBase blue print
-// identified by its name and version
+// identified by its name and version.
 func (lib *KnowledgeLibrary) NewKnowledgeBaseInstance(name, version string) *KnowledgeBase {
 	kb, ok := lib.Library[fmt.Sprintf("%s:%s", name, version)]
 	if ok {
@@ -174,7 +175,7 @@ func (e *KnowledgeBase) IsIdentical(that *KnowledgeBase) bool {
 	return e.GetSnapshot() == that.GetSnapshot()
 }
 
-// GetSnapshot will create this knowledge base signature
+// GetSnapshot will create this knowledge base signature.
 func (e *KnowledgeBase) GetSnapshot() string {
 	var buffer bytes.Buffer
 	buffer.WriteString(fmt.Sprintf("%s:%s[", e.Name, e.Version))
@@ -237,7 +238,7 @@ func (e *KnowledgeBase) ContainsRuleEntry(name string) bool {
 	return ok
 }
 
-// RemoveRuleEntry mark the rule entry as deleted
+// RemoveRuleEntry mark the rule entry as deleted.
 func (e *KnowledgeBase) RemoveRuleEntry(name string) {
 	e.lock.Lock()
 	defer e.lock.Unlock()
@@ -266,7 +267,7 @@ func (e *KnowledgeBase) RetractRule(ruleName string) {
 	}
 }
 
-// IsRuleRetracted will check if a certain rule denoted by its rule name is currently retracted
+// IsRuleRetracted will check if a certain rule denoted by its rule name is currently retracted.
 func (e *KnowledgeBase) IsRuleRetracted(ruleName string) bool {
 	for _, re := range e.RuleEntries {
 		if re.RuleName == ruleName {
@@ -276,7 +277,7 @@ func (e *KnowledgeBase) IsRuleRetracted(ruleName string) bool {
 	return false
 }
 
-// Reset will restore all rule in the knowledge
+// Reset will restore all rule in the knowledge.
 func (e *KnowledgeBase) Reset() {
 	for _, re := range e.RuleEntries {
 		if re.Retracted {

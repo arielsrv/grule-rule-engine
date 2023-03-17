@@ -22,7 +22,7 @@ import (
 	"github.com/hyperjumptech/grule-rule-engine/logger"
 )
 
-// GetFunctionList get list of functions in a struct instance
+// GetFunctionList get list of functions in a struct instance.
 func GetFunctionList(obj reflect.Value) ([]string, error) {
 	if !IsStruct(obj) {
 		return nil, fmt.Errorf("GetFunctionList : param is not a struct")
@@ -36,7 +36,7 @@ func GetFunctionList(obj reflect.Value) ([]string, error) {
 	return ret, nil
 }
 
-// GetFunctionParameterTypes get list of parameter types of specific function in a struct instance
+// GetFunctionParameterTypes get list of parameter types of specific function in a struct instance.
 func GetFunctionParameterTypes(obj reflect.Value, methodName string) ([]reflect.Type, bool, error) {
 	if !IsStruct(obj) {
 		return nil, false, fmt.Errorf("GetFunctionParameterTypes : param is not a struct")
@@ -55,7 +55,7 @@ func GetFunctionParameterTypes(obj reflect.Value, methodName string) ([]reflect.
 	return nil, false, fmt.Errorf("function %s not found", methodName)
 }
 
-// GetFunctionReturnTypes get list of return types of specific function in a struct instance
+// GetFunctionReturnTypes get list of return types of specific function in a struct instance.
 func GetFunctionReturnTypes(obj reflect.Value, methodName string) ([]reflect.Type, error) {
 	if !IsStruct(obj) {
 		return nil, fmt.Errorf("GetFunctionReturnTypes : param is not a struct")
@@ -75,7 +75,7 @@ func GetFunctionReturnTypes(obj reflect.Value, methodName string) ([]reflect.Typ
 	return ret, nil
 }
 
-// InvokeFunction invokes a specific function in a struct instance, using parameters array
+// InvokeFunction invokes a specific function in a struct instance, using parameters array.
 func InvokeFunction(obj reflect.Value, methodName string, param []reflect.Value) (retval []reflect.Value, err error) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -95,7 +95,7 @@ func InvokeFunction(obj reflect.Value, methodName string, param []reflect.Value)
 	return retVals, nil
 }
 
-// IsValidField validates if an instance struct have a field with such name
+// IsValidField validates if an instance struct have a field with such name.
 func IsValidField(objVal reflect.Value, fieldName string) bool {
 	if !IsStruct(objVal) {
 		return false
@@ -112,7 +112,7 @@ func IsValidField(objVal reflect.Value, fieldName string) bool {
 	}
 }
 
-// IsStruct validates if an instance is struct or pointer to struct
+// IsStruct validates if an instance is struct or pointer to struct.
 func IsStruct(val reflect.Value) bool {
 	if val.IsValid() {
 		typ := val.Type()
@@ -212,7 +212,7 @@ func GetAttributeInterface(obj reflect.Value, fieldName string) (interface{}, er
 	return ValueToInterface(val), nil
 }
 
-// GetAttributeType will return the type of a specific member variable
+// GetAttributeType will return the type of a specific member variable.
 func GetAttributeType(obj reflect.Value, fieldName string) (reflect.Type, error) {
 	if !IsStruct(obj) {
 		return nil, fmt.Errorf("GetAttributeType : param is not a struct")
@@ -337,7 +337,7 @@ func SetAttributeValue(objVal reflect.Value, fieldName string, value reflect.Val
 	return nil
 }
 
-// SetAttributeInterface will try to set a member variable value with a value from an interface
+// SetAttributeInterface will try to set a member variable value with a value from an interface.
 func SetAttributeInterface(obj reflect.Value, fieldName string, value interface{}) error {
 	if !IsStruct(obj) {
 		return fmt.Errorf("SetAttributeInterface : param is not a struct")
@@ -361,7 +361,7 @@ func IsAttributeArray(objVal reflect.Value, fieldName string) (bool, error) {
 	return fieldVal.Type().Kind() == reflect.Array || fieldVal.Type().Kind() == reflect.Slice, nil
 }
 
-// SetMapArrayValue will set a value into map array indicated by a selector
+// SetMapArrayValue will set a value into map array indicated by a selector.
 func SetMapArrayValue(mapArray, selector reflect.Value, newValue reflect.Value) (err error) {
 	objVal := mapArray
 	if objVal.Type().Kind() == reflect.Map {
@@ -394,7 +394,7 @@ func SetMapArrayValue(mapArray, selector reflect.Value, newValue reflect.Value) 
 	return fmt.Errorf("argument is not an array, slice nor map")
 }
 
-// GetMapArrayValue get value of map, array atau slice by its selector value
+// GetMapArrayValue get value of map, array atau slice by its selector value.
 func GetMapArrayValue(mapArray, selector interface{}) (ret interface{}, err error) {
 	if mapArray == nil {
 		return nil, fmt.Errorf("nil map, array or slice")
@@ -551,7 +551,7 @@ func GetBaseKind(val reflect.Value) reflect.Kind {
 	}
 }
 
-// IsNumber will check a value if its a number eg, int,uint or float
+// IsNumber will check a value if its a number eg, int,uint or float.
 func IsNumber(val reflect.Value) bool {
 	switch GetBaseKind(val) {
 	case reflect.Int64, reflect.Uint64, reflect.Float64:
@@ -560,7 +560,7 @@ func IsNumber(val reflect.Value) bool {
 	return false
 }
 
-// GetValueElem will return the value val contains if val is of Kind Interface or Pointer
+// GetValueElem will return the value val contains if val is of Kind Interface or Pointer.
 func GetValueElem(val reflect.Value) reflect.Value {
 	if val.Kind() == reflect.Pointer || val.Kind() == reflect.Interface {
 		return GetValueElem(val.Elem())

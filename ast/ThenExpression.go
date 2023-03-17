@@ -16,18 +16,19 @@ package ast
 
 import (
 	"bytes"
+
 	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewThenExpression create new instance of ThenExpression
+// NewThenExpression create new instance of ThenExpression.
 func NewThenExpression() *ThenExpression {
 	return &ThenExpression{
 		AstID: unique.NewID(),
 	}
 }
 
-// ThenExpression AST graph node
+// ThenExpression AST graph node.
 type ThenExpression struct {
 	AstID   string
 	GrlText string
@@ -36,7 +37,7 @@ type ThenExpression struct {
 	ExpressionAtom *ExpressionAtom
 }
 
-// MakeCatalog create a catalog entry for this AST Node
+// MakeCatalog create a catalog entry for this AST Node.
 func (e *ThenExpression) MakeCatalog(cat *Catalog) {
 	meta := &ThenExpressionMeta{
 		NodeMeta: NodeMeta{
@@ -57,12 +58,12 @@ func (e *ThenExpression) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// ThenExpressionReceiver must be implemented by any AST object that will store a Then expression
+// ThenExpressionReceiver must be implemented by any AST object that will store a Then expression.
 type ThenExpressionReceiver interface {
 	AcceptThenExpression(expr *ThenExpression) error
 }
 
-// Clone will clone this ThenExpression. The new clone will have an identical structure
+// Clone will clone this ThenExpression. The new clone will have an identical structure.
 func (e *ThenExpression) Clone(cloneTable *pkg.CloneTable) *ThenExpression {
 	clone := &ThenExpression{
 		AstID:   unique.NewID(),
@@ -92,29 +93,29 @@ func (e *ThenExpression) Clone(cloneTable *pkg.CloneTable) *ThenExpression {
 	return clone
 }
 
-// AcceptAssignment will accept Assignment AST graph into this Then ast graph
+// AcceptAssignment will accept Assignment AST graph into this Then ast graph.
 func (e *ThenExpression) AcceptAssignment(assignment *Assignment) error {
 	e.Assignment = assignment
 	return nil
 }
 
-// AcceptExpressionAtom will accept an AcceptExpressionAtom AST graph into this ast graph
+// AcceptExpressionAtom will accept an AcceptExpressionAtom AST graph into this ast graph.
 func (e *ThenExpression) AcceptExpressionAtom(exp *ExpressionAtom) error {
 	e.ExpressionAtom = exp
 	return nil
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *ThenExpression) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *ThenExpression) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *ThenExpression) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(THENEXPRESSION)
@@ -135,7 +136,7 @@ func (e *ThenExpression) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// Execute will execute this graph in the Then scope
+// Execute will execute this graph in the Then scope.
 func (e *ThenExpression) Execute(dataContext IDataContext, memory *WorkingMemory) error {
 	if e.Assignment != nil {
 		err := e.Assignment.Execute(dataContext, memory)

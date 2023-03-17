@@ -1,3 +1,4 @@
+//go:build go1.11
 // +build go1.11
 
 package pkg
@@ -12,7 +13,7 @@ import (
 	"gopkg.in/src-d/go-git.v4/storage/memory"
 )
 
-// Load will load the file from your git repository
+// Load will load the file from your git repository.
 func (bundle *GITResourceBundle) Load() ([]Resource, error) {
 	fs := memfs.New()
 	CloneOpts := &git.CloneOptions{}

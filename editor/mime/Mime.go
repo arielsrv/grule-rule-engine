@@ -721,7 +721,7 @@ var (
 	}
 )
 
-// MimeForFileName utility mimetype lokup
+// MimeForFileName utility mimetype lokup.
 func MimeForFileName(filename string) (string, error) {
 	reg := regexp.MustCompile(`[a-zA-Z0-9]+$`)
 	if reg.MatchString(filename) {
@@ -732,7 +732,7 @@ func MimeForFileName(filename string) (string, error) {
 	}
 }
 
-// IsPrintableChar checks if a type is printable
+// IsPrintableChar checks if a type is printable.
 func IsPrintableChar(char byte) bool {
 	if char&0x80 == 0x80 {
 		return false
@@ -743,7 +743,7 @@ func IsPrintableChar(char byte) bool {
 	}
 }
 
-// IsAllPrintableChar checks for the printable chars
+// IsAllPrintableChar checks for the printable chars.
 func IsAllPrintableChar(bytes []byte) bool {
 	nonprintable := 0
 	for _, b := range bytes {
@@ -754,7 +754,7 @@ func IsAllPrintableChar(bytes []byte) bool {
 	return float64(nonprintable)/float64(len(bytes)) < 0.03
 }
 
-// MimeForExtension lookup short code to string extensions
+// MimeForExtension lookup short code to string extensions.
 func MimeForExtension(extension string) (string, error) {
 	ex := strings.ToLower(extension)
 	if typ, ok := mimeMap[ex]; ok {

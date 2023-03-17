@@ -17,19 +17,20 @@ package ast
 import (
 	"bytes"
 	"fmt"
+	"reflect"
+
 	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
-	"reflect"
 )
 
-// NewArrayMapSelector create a new array selector graph
+// NewArrayMapSelector create a new array selector graph.
 func NewArrayMapSelector() *ArrayMapSelector {
 	return &ArrayMapSelector{
 		AstID: unique.NewID(),
 	}
 }
 
-// ArrayMapSelector an array selector graph containing an expression that act ass array or map selector
+// ArrayMapSelector an array selector graph containing an expression that act ass array or map selector.
 type ArrayMapSelector struct {
 	AstID   string
 	GrlText string
@@ -56,12 +57,12 @@ func (e *ArrayMapSelector) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// ArrayMapSelectorReceiver must be implemented by all other ast graph that uses map/array selector
+// ArrayMapSelectorReceiver must be implemented by all other ast graph that uses map/array selector.
 type ArrayMapSelectorReceiver interface {
 	AcceptArrayMapSelector(sel *ArrayMapSelector) error
 }
 
-// Clone will clone this ArgumentList. The new clone will have an identical structure
+// Clone will clone this ArgumentList. The new clone will have an identical structure.
 func (e *ArrayMapSelector) Clone(cloneTable *pkg.CloneTable) *ArrayMapSelector {
 	clone := &ArrayMapSelector{
 		AstID:   unique.NewID(),
@@ -79,7 +80,7 @@ func (e *ArrayMapSelector) Clone(cloneTable *pkg.CloneTable) *ArrayMapSelector {
 	return clone
 }
 
-// AcceptExpression will accept Expression AST graph node into this node
+// AcceptExpression will accept Expression AST graph node into this node.
 func (e *ArrayMapSelector) AcceptExpression(exp *Expression) error {
 	if e.Expression == nil {
 		e.Expression = exp
@@ -88,17 +89,17 @@ func (e *ArrayMapSelector) AcceptExpression(exp *Expression) error {
 	return fmt.Errorf("expression for when scope already assigned")
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *ArrayMapSelector) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *ArrayMapSelector) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *ArrayMapSelector) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(MAPARRAYSELECTOR)
@@ -116,7 +117,7 @@ func (e *ArrayMapSelector) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// Evaluate will evaluate this AST graph for when scope evaluation
+// Evaluate will evaluate this AST graph for when scope evaluation.
 func (e *ArrayMapSelector) Evaluate(dataContext IDataContext, memory *WorkingMemory) (reflect.Value, error) {
 	if e.Expression != nil {
 		val, err := e.Expression.Evaluate(dataContext, memory)

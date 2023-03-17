@@ -17,11 +17,12 @@ package ast
 //go:generate mockgen -destination=../mocks/ast/DataContext.go -package=mocksAst . IDataContext
 
 import (
-	"github.com/hyperjumptech/grule-rule-engine/model"
 	"reflect"
+
+	"github.com/hyperjumptech/grule-rule-engine/model"
 )
 
-// NewDataContext will create a new DataContext instance
+// NewDataContext will create a new DataContext instance.
 func NewDataContext() IDataContext {
 	return &DataContext{
 		ObjectStore: make(map[string]model.ValueNode),
@@ -50,12 +51,12 @@ func (ctx *DataContext) GetKeys() []string {
 	return ret
 }
 
-// Complete marks the DataContext as completed, telling the engine to stop processing rules
+// Complete marks the DataContext as completed, telling the engine to stop processing rules.
 func (ctx *DataContext) Complete() {
 	ctx.complete = true
 }
 
-// IsComplete checks whether the DataContext has been completed
+// IsComplete checks whether the DataContext has been completed.
 func (ctx *DataContext) IsComplete() bool {
 	return ctx.complete
 }
@@ -79,28 +80,28 @@ type IDataContext interface {
 	Reset()
 }
 
-// ResetVariableChangeCount will reset the variable change count
+// ResetVariableChangeCount will reset the variable change count.
 func (ctx *DataContext) ResetVariableChangeCount() {
 	ctx.variableChangeCount = 0
 }
 
-// IncrementVariableChangeCount will increment the variable change count
+// IncrementVariableChangeCount will increment the variable change count.
 func (ctx *DataContext) IncrementVariableChangeCount() {
 	ctx.variableChangeCount++
 }
 
-// HasVariableChange returns true if there are variable changes
+// HasVariableChange returns true if there are variable changes.
 func (ctx *DataContext) HasVariableChange() bool {
 	return ctx.variableChangeCount > 0
 }
 
-// Add will add struct instance into rule execution context
+// Add will add struct instance into rule execution context.
 func (ctx *DataContext) Add(key string, obj interface{}) error {
 	ctx.ObjectStore[key] = model.NewGoValueNode(reflect.ValueOf(obj), key)
 	return nil
 }
 
-// AddJSON will add struct instance into rule execution context
+// AddJSON will add struct instance into rule execution context.
 func (ctx *DataContext) AddJSON(key string, JSON []byte) error {
 	vn, err := model.NewJSONValueNode(string(JSON), key)
 	if err != nil {
@@ -110,7 +111,7 @@ func (ctx *DataContext) AddJSON(key string, JSON []byte) error {
 	return nil
 }
 
-// Get will extract the struct instance
+// Get will extract the struct instance.
 func (ctx *DataContext) Get(key string) model.ValueNode {
 	if v, ok := ctx.ObjectStore[key]; ok {
 		return v

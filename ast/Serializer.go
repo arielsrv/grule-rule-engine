@@ -18,57 +18,58 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
-	"github.com/sirupsen/logrus"
 	"io"
 	"math"
 	"reflect"
+
+	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
+	"github.com/sirupsen/logrus"
 )
 
-// NodeType is to label a Meta information within catalog
+// NodeType is to label a Meta information within catalog.
 type NodeType int
 
-// ValueType will label the datatype when a constant its saved as binary
+// ValueType will label the datatype when a constant its saved as binary.
 type ValueType int
 
 const (
-	// TypeArgumentList meta type of ArgumentList
+	// TypeArgumentList meta type of ArgumentList.
 	TypeArgumentList NodeType = iota
-	// TypeArrayMapSelector meta type of ArrayMapSelector
+	// TypeArrayMapSelector meta type of ArrayMapSelector.
 	TypeArrayMapSelector
-	// TypeAssignment meta type of Assigment
+	// TypeAssignment meta type of Assigment.
 	TypeAssignment
-	// TypeExpression meta type of Expression
+	// TypeExpression meta type of Expression.
 	TypeExpression
-	// TypeConstant meta type of Constant
+	// TypeConstant meta type of Constant.
 	TypeConstant
-	// TypeExpressionAtom meta type of ExpressionAtom
+	// TypeExpressionAtom meta type of ExpressionAtom.
 	TypeExpressionAtom
-	// TypeFunctionCall meta type of FunctionCall
+	// TypeFunctionCall meta type of FunctionCall.
 	TypeFunctionCall
-	// TypeRuleEntry meta type of RuleEntry
+	// TypeRuleEntry meta type of RuleEntry.
 	TypeRuleEntry
-	// TypeThenExpression meta type of ThenExpression
+	// TypeThenExpression meta type of ThenExpression.
 	TypeThenExpression
-	// TypeThenExpressionList meta type of ThenExpressionList
+	// TypeThenExpressionList meta type of ThenExpressionList.
 	TypeThenExpressionList
-	// TypeThenScope meta type of ThenScope
+	// TypeThenScope meta type of ThenScope.
 	TypeThenScope
-	// TypeVariable meta type of Variable
+	// TypeVariable meta type of Variable.
 	TypeVariable
-	// TypeWhenScope meta type of WhenScope
+	// TypeWhenScope meta type of WhenScope.
 	TypeWhenScope
 
-	// TypeString variable type string label
+	// TypeString variable type string label.
 	TypeString ValueType = iota
-	// TypeInteger variable type integer label
+	// TypeInteger variable type integer label.
 	TypeInteger
-	// TypeFloat variable type float label
+	// TypeFloat variable type float label.
 	TypeFloat
-	// TypeBoolean variable type boolean label
+	// TypeBoolean variable type boolean label.
 	TypeBoolean
 
-	// Version will be written to the stream and used for compatibility check
+	// Version will be written to the stream and used for compatibility check.
 	Version = "1.8"
 )
 
@@ -84,7 +85,7 @@ const (
 // This capability alone supposed to store and load huge ruleset
 // fast without having to read the rule set from their origin GRL which
 // some how a bit expensive due to string parsing and pattern operation
-// by ANTLR4
+// by ANTLR4.
 type Catalog struct {
 	KnowledgeBaseName               string
 	KnowledgeBaseVersion            string
@@ -537,7 +538,6 @@ func (cat *Catalog) Equals(that *Catalog) bool {
 		}
 	}
 	return true
-
 }
 
 // ReadCatalogFromReader would read a byte stream from reader
@@ -778,7 +778,6 @@ func (cat *Catalog) WriteCatalogToWriter(w io.Writer) error {
 
 	// For each meta.. write them down
 	for k, v := range cat.Data {
-
 		// Write the AST ID
 		err = WriteStringToWriter(w, k)
 		if err != nil {
@@ -905,7 +904,7 @@ func (cat *Catalog) WriteCatalogToWriter(w io.Writer) error {
 }
 
 // AddMeta will add AST Node meta information.
-// it will reject duplicated AST ID
+// it will reject duplicated AST ID.
 func (cat *Catalog) AddMeta(astID string, meta Meta) bool {
 	if cat.Data == nil {
 		cat.Data = make(map[string]Meta)
@@ -928,20 +927,20 @@ type Meta interface {
 	Equals(that Meta) bool
 }
 
-// NodeMeta is a base struct for all ASTNode meta
+// NodeMeta is a base struct for all ASTNode meta.
 type NodeMeta struct {
 	AstID    string
 	GrlText  string
 	Snapshot string
 }
 
-// GetAstID return the node AST ID
+// GetAstID return the node AST ID.
 func (meta *NodeMeta) GetAstID() string {
 	return meta.AstID
 }
 
 // GetGrlText return the node original GRLText, this might not be needed
-// but useful for debuging future GRL issue
+// but useful for debuging future GRL issue.
 func (meta *NodeMeta) GetGrlText() string {
 	return meta.GrlText
 }
@@ -1000,7 +999,7 @@ func (meta *NodeMeta) ReadMetaFrom(reader io.Reader) error {
 	return nil
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *NodeMeta) Equals(that Meta) bool {
 	if meta.GetAstID() != that.GetAstID() {
 		return false
@@ -1014,13 +1013,13 @@ func (meta *NodeMeta) Equals(that Meta) bool {
 	return true
 }
 
-// ArgumentListMeta meta data for an ArgumentList node
+// ArgumentListMeta meta data for an ArgumentList node.
 type ArgumentListMeta struct {
 	NodeMeta
 	ArgumentASTIDs []string
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *ArgumentListMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*ArgumentListMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -1039,7 +1038,7 @@ func (meta *ArgumentListMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *ArgumentListMeta) GetASTType() NodeType {
 	return TypeArgumentList
 }
@@ -1096,13 +1095,13 @@ func (meta *ArgumentListMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// ArrayMapSelectorMeta meta data for an ArrayMapSelector node
+// ArrayMapSelectorMeta meta data for an ArrayMapSelector node.
 type ArrayMapSelectorMeta struct {
 	NodeMeta
 	ExpressionID string
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *ArrayMapSelectorMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*ArrayMapSelectorMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -1116,7 +1115,7 @@ func (meta *ArrayMapSelectorMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *ArrayMapSelectorMeta) GetASTType() NodeType {
 	return TypeArrayMapSelector
 }
@@ -1152,7 +1151,7 @@ func (meta *ArrayMapSelectorMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// AssigmentMeta meta data for an Assigment node
+// AssigmentMeta meta data for an Assigment node.
 type AssigmentMeta struct {
 	NodeMeta
 	VariableID    string
@@ -1164,7 +1163,7 @@ type AssigmentMeta struct {
 	IsMulAssign   bool
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *AssigmentMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*AssigmentMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -1196,7 +1195,7 @@ func (meta *AssigmentMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *AssigmentMeta) GetASTType() NodeType {
 	return TypeAssignment
 }
@@ -1296,7 +1295,7 @@ func (meta *AssigmentMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// ConstantMeta meta data for an Constant node
+// ConstantMeta meta data for an Constant node.
 type ConstantMeta struct {
 	NodeMeta
 
@@ -1305,7 +1304,7 @@ type ConstantMeta struct {
 	IsNil      bool
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *ConstantMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*ConstantMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -1330,7 +1329,7 @@ func (meta *ConstantMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *ConstantMeta) GetASTType() NodeType {
 	return TypeConstant
 }
@@ -1397,7 +1396,7 @@ func (meta *ConstantMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// ExpressionMeta meta data for an Expression node
+// ExpressionMeta meta data for an Expression node.
 type ExpressionMeta struct {
 	NodeMeta
 	LeftExpressionID   string
@@ -1408,7 +1407,7 @@ type ExpressionMeta struct {
 	Negated            bool
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *ExpressionMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*ExpressionMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -1437,7 +1436,7 @@ func (meta *ExpressionMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *ExpressionMeta) GetASTType() NodeType {
 	return TypeExpression
 }
@@ -1519,7 +1518,7 @@ func (meta *ExpressionMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// ExpressionAtomMeta meta data for an ExpressionAtom node
+// ExpressionAtomMeta meta data for an ExpressionAtom node.
 type ExpressionAtomMeta struct {
 	NodeMeta
 	VariableName       string
@@ -1531,7 +1530,7 @@ type ExpressionAtomMeta struct {
 	ArrayMapSelectorID string
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *ExpressionAtomMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*ExpressionAtomMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -1563,7 +1562,7 @@ func (meta *ExpressionAtomMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *ExpressionAtomMeta) GetASTType() NodeType {
 	return TypeExpressionAtom
 }
@@ -1654,14 +1653,14 @@ func (meta *ExpressionAtomMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// FunctionCallMeta meta data for an FunctionCall node
+// FunctionCallMeta meta data for an FunctionCall node.
 type FunctionCallMeta struct {
 	NodeMeta
 	FunctionName   string
 	ArgumentListID string
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *FunctionCallMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*FunctionCallMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -1678,7 +1677,7 @@ func (meta *FunctionCallMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *FunctionCallMeta) GetASTType() NodeType {
 	return TypeFunctionCall
 }
@@ -1724,7 +1723,7 @@ func (meta *FunctionCallMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// RuleEntryMeta meta data for an RuleEntry node
+// RuleEntryMeta meta data for an RuleEntry node.
 type RuleEntryMeta struct {
 	NodeMeta
 
@@ -1735,7 +1734,7 @@ type RuleEntryMeta struct {
 	ThenScopeID     string
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *RuleEntryMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*RuleEntryMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -1761,7 +1760,7 @@ func (meta *RuleEntryMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *RuleEntryMeta) GetASTType() NodeType {
 	return TypeRuleEntry
 }
@@ -1834,7 +1833,7 @@ func (meta *RuleEntryMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// ThenExpressionMeta meta data for an ThenExpression node
+// ThenExpressionMeta meta data for an ThenExpression node.
 type ThenExpressionMeta struct {
 	NodeMeta
 
@@ -1842,7 +1841,7 @@ type ThenExpressionMeta struct {
 	ExpressionAtomID string
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *ThenExpressionMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*ThenExpressionMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -1859,7 +1858,7 @@ func (meta *ThenExpressionMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *ThenExpressionMeta) GetASTType() NodeType {
 	return TypeThenExpression
 }
@@ -1905,14 +1904,14 @@ func (meta *ThenExpressionMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// ThenExpressionListMeta meta data for an ThenExpressionList node
+// ThenExpressionListMeta meta data for an ThenExpressionList node.
 type ThenExpressionListMeta struct {
 	NodeMeta
 
 	ThenExpressionIDs []string
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *ThenExpressionListMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*ThenExpressionListMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -1931,7 +1930,7 @@ func (meta *ThenExpressionListMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *ThenExpressionListMeta) GetASTType() NodeType {
 	return TypeThenExpressionList
 }
@@ -1986,13 +1985,13 @@ func (meta *ThenExpressionListMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// ThenScopeMeta meta data for an ThenScope node
+// ThenScopeMeta meta data for an ThenScope node.
 type ThenScopeMeta struct {
 	NodeMeta
 	ThenExpressionListID string
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *ThenScopeMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*ThenScopeMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -2006,7 +2005,7 @@ func (meta *ThenScopeMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *ThenScopeMeta) GetASTType() NodeType {
 	return TypeThenScope
 }
@@ -2043,7 +2042,7 @@ func (meta *ThenScopeMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// VariableMeta meta data for an Variable node
+// VariableMeta meta data for an Variable node.
 type VariableMeta struct {
 	NodeMeta
 
@@ -2052,7 +2051,7 @@ type VariableMeta struct {
 	ArrayMapSelectorID string
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *VariableMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*VariableMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -2072,7 +2071,7 @@ func (meta *VariableMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *VariableMeta) GetASTType() NodeType {
 	return TypeVariable
 }
@@ -2127,13 +2126,13 @@ func (meta *VariableMeta) ReadMetaFrom(r io.Reader) error {
 	return nil
 }
 
-// WhenScopeMeta meta data for an WhenScope node
+// WhenScopeMeta meta data for an WhenScope node.
 type WhenScopeMeta struct {
 	NodeMeta
 	ExpressionID string
 }
 
-// Equals basic function to test equality of two MetaNode
+// Equals basic function to test equality of two MetaNode.
 func (meta *WhenScopeMeta) Equals(that Meta) bool {
 	if ins, ok := that.(*WhenScopeMeta); ok {
 		if !meta.NodeMeta.Equals(that) {
@@ -2147,7 +2146,7 @@ func (meta *WhenScopeMeta) Equals(that Meta) bool {
 	return false
 }
 
-// GetASTType returns the meta type of this AST Node
+// GetASTType returns the meta type of this AST Node.
 func (meta *WhenScopeMeta) GetASTType() NodeType {
 	return TypeWhenScope
 }
@@ -2185,17 +2184,17 @@ func (meta *WhenScopeMeta) ReadMetaFrom(r io.Reader) error {
 }
 
 var (
-	// TotalRead counter to track total byte read
+	// TotalRead counter to track total byte read.
 	TotalRead = uint64(0)
-	// TotalWrite counter to track total bytes written
+	// TotalWrite counter to track total bytes written.
 	TotalWrite = uint64(0)
-	// ReadCount read counter
+	// ReadCount read counter.
 	ReadCount = 0
-	// WriteCount write counter
+	// WriteCount write counter.
 	WriteCount = 0
 )
 
-// WriteFull will ensure that a byte array is fully written into writer
+// WriteFull will ensure that a byte array is fully written into writer.
 func WriteFull(w io.Writer, bytes []byte) (int, error) {
 	toWrite := len(bytes)
 	written := 0
@@ -2271,7 +2270,7 @@ func ReadIntFromReader(r io.Reader) (uint64, error) {
 	return i, nil
 }
 
-// WriteBoolToWriter writes a simple boolean into writer
+// WriteBoolToWriter writes a simple boolean into writer.
 func WriteBoolToWriter(w io.Writer, b bool) error {
 	data := make([]byte, 1)
 	if b {
@@ -2284,7 +2283,7 @@ func WriteBoolToWriter(w io.Writer, b bool) error {
 	return err
 }
 
-// ReadBoolFromReader reads a simple boolean from writer
+// ReadBoolFromReader reads a simple boolean from writer.
 func ReadBoolFromReader(r io.Reader) (bool, error) {
 	byteArray := make([]byte, 1)
 	c, err := io.ReadFull(r, byteArray)
@@ -2295,7 +2294,7 @@ func ReadBoolFromReader(r io.Reader) (bool, error) {
 	return byteArray[0] == 1, nil
 }
 
-// WriteFloatToWriter write a 64bit float into writer
+// WriteFloatToWriter write a 64bit float into writer.
 func WriteFloatToWriter(w io.Writer, f float64) error {
 	data := make([]byte, 8)
 	binary.LittleEndian.PutUint64(data, math.Float64bits(f))
@@ -2305,7 +2304,7 @@ func WriteFloatToWriter(w io.Writer, f float64) error {
 	return err
 }
 
-// ReadFloatFromReader reads a 64bit float from reader
+// ReadFloatFromReader reads a 64bit float from reader.
 func ReadFloatFromReader(r io.Reader) (float64, error) {
 	byteArray := make([]byte, 8)
 	c, err := io.ReadFull(r, byteArray)

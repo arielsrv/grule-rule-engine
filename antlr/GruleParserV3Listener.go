@@ -16,10 +16,11 @@ package antlr
 
 import (
 	"fmt"
-	"github.com/sirupsen/logrus"
-	"go.uber.org/zap"
 	"strconv"
 	"strings"
+
+	"github.com/sirupsen/logrus"
+	"go.uber.org/zap"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/hyperjumptech/grule-rule-engine/antlr/parser/grulev3"
@@ -29,17 +30,17 @@ import (
 )
 
 var (
-	// loggerV3Fields default fields for grule
+	// loggerV3Fields default fields for grule.
 	loggerV3Fields = logger.Fields{
 		"lib":    "grule",
 		"struct": "GruleParserV3Listener",
 	}
 
-	// LoggerV3 is a logger instance twith default fields for grule
+	// LoggerV3 is a logger instance twith default fields for grule.
 	LoggerV3 = logger.Log.WithFields(loggerV3Fields)
 )
 
-// SetLogger changes default logger on external
+// SetLogger changes default logger on external.
 func SetLogger(log interface{}) {
 	var entry logger.LogEntry
 
@@ -63,7 +64,7 @@ func SetLogger(log interface{}) {
 	LoggerV3 = entry.WithFields(loggerV3Fields)
 }
 
-// NewGruleV3ParserListener create new instance of GruleV3ParserListener
+// NewGruleV3ParserListener create new instance of GruleV3ParserListener.
 func NewGruleV3ParserListener(KnowledgeBase *ast.KnowledgeBase, errorCallBack *pkg.GruleErrorReporter) *GruleV3ParserListener {
 	return &GruleV3ParserListener{
 		PreviousNode:  make([]string, 0),
@@ -775,7 +776,6 @@ func (s *GruleV3ParserListener) ExitBooleanLiteral(ctx *grulev3.BooleanLiteralCo
 		lit.Boolean = false
 	}
 	receiver.AcceptBooleanLiteral(lit)
-
 }
 
 // EnterIntegerLiteral is called when production integerLiteral is entered.

@@ -18,21 +18,22 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"math"
 	"reflect"
+
+	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewConstant will create new instance of Constant
+// NewConstant will create new instance of Constant.
 func NewConstant() *Constant {
 	return &Constant{
 		AstID: unique.NewID(),
 	}
 }
 
-// Constant AST node that stores AST graph for Constants
+// Constant AST node that stores AST graph for Constants.
 type Constant struct {
 	AstID         string
 	GrlText       string
@@ -85,7 +86,7 @@ func (e *Constant) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// Clone will clone this Constant. The new clone will have an identical structure
+// Clone will clone this Constant. The new clone will have an identical structure.
 func (e *Constant) Clone(cloneTable *pkg.CloneTable) *Constant {
 	clone := &Constant{
 		AstID:   unique.NewID(),
@@ -101,17 +102,17 @@ type ConstantReceiver interface {
 	AcceptConstant(con *Constant) error
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *Constant) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *Constant) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *Constant) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(CONSTANT)
@@ -140,27 +141,27 @@ func (e *Constant) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// AcceptIntegerLiteral will accept integer literal
+// AcceptIntegerLiteral will accept integer literal.
 func (e *Constant) AcceptIntegerLiteral(fun *IntegerLiteral) {
 	e.Value = reflect.ValueOf(fun.Integer)
 }
 
-// AcceptStringLiteral will accept string literal
+// AcceptStringLiteral will accept string literal.
 func (e *Constant) AcceptStringLiteral(fun *StringLiteral) {
 	e.Value = reflect.ValueOf(fun.String)
 }
 
-// AcceptFloatLiteral will accept float literal
+// AcceptFloatLiteral will accept float literal.
 func (e *Constant) AcceptFloatLiteral(fun *FloatLiteral) {
 	e.Value = reflect.ValueOf(fun.Float)
 }
 
-// AcceptBooleanLiteral will accept boolean literal
+// AcceptBooleanLiteral will accept boolean literal.
 func (e *Constant) AcceptBooleanLiteral(fun *BooleanLiteral) {
 	e.Value = reflect.ValueOf(fun.Boolean)
 }
 
-// Evaluate will evaluate this AST graph for when scope evaluation
+// Evaluate will evaluate this AST graph for when scope evaluation.
 func (e *Constant) Evaluate(dataContext IDataContext, memory *WorkingMemory) (reflect.Value, error) {
 	if e.IsNil {
 		return reflect.ValueOf(nil), nil

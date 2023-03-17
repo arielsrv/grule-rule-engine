@@ -17,21 +17,22 @@ package ast
 import (
 	"bytes"
 	"fmt"
+	"reflect"
+
 	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"github.com/hyperjumptech/grule-rule-engine/model"
-	"reflect"
 
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewVariable create new instance of Variable
+// NewVariable create new instance of Variable.
 func NewVariable() *Variable {
 	return &Variable{
 		AstID: unique.NewID(),
 	}
 }
 
-// Variable AST graph node
+// Variable AST graph node.
 type Variable struct {
 	AstID   string
 	GrlText string
@@ -44,7 +45,7 @@ type Variable struct {
 	Value     reflect.Value
 }
 
-// MakeCatalog create a catalog entry for this AST Node
+// MakeCatalog create a catalog entry for this AST Node.
 func (e *Variable) MakeCatalog(cat *Catalog) {
 	meta := &VariableMeta{
 		NodeMeta: NodeMeta{
@@ -66,7 +67,7 @@ func (e *Variable) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// Clone will clone this Variable. The new clone will have an identical structure
+// Clone will clone this Variable. The new clone will have an identical structure.
 func (e *Variable) Clone(cloneTable *pkg.CloneTable) *Variable {
 	clone := &Variable{
 		AstID:   unique.NewID(),
@@ -96,7 +97,7 @@ func (e *Variable) Clone(cloneTable *pkg.CloneTable) *Variable {
 	return clone
 }
 
-// VariableReceiver should be implemented by AST graph node to receive Variable AST graph node
+// VariableReceiver should be implemented by AST graph node to receive Variable AST graph node.
 type VariableReceiver interface {
 	AcceptVariable(exp *Variable) error
 }
@@ -106,34 +107,34 @@ type MemberVariableReceiver interface {
 	AcceptMemberVariable(name string)
 }
 
-// AcceptMemberVariable accept a member variable information into this Variable graph
+// AcceptMemberVariable accept a member variable information into this Variable graph.
 func (e *Variable) AcceptMemberVariable(name string) {
 	e.Name = name
 }
 
-// AcceptVariable accept a variable AST graph into this Variable graph
+// AcceptVariable accept a variable AST graph into this Variable graph.
 func (e *Variable) AcceptVariable(vari *Variable) error {
 	e.Variable = vari
 	return nil
 }
 
-// AcceptArrayMapSelector accept an array map selector into this variable graph
+// AcceptArrayMapSelector accept an array map selector into this variable graph.
 func (e *Variable) AcceptArrayMapSelector(sel *ArrayMapSelector) error {
 	e.ArrayMapSelector = sel
 	return nil
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *Variable) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *Variable) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *Variable) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(VARIABLE)
@@ -156,7 +157,7 @@ func (e *Variable) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// Assign will assign the specified value to the variable
+// Assign will assign the specified value to the variable.
 func (e *Variable) Assign(newVal reflect.Value, dataContext IDataContext, memory *WorkingMemory) error {
 	if len(e.Name) > 0 && e.Variable == nil {
 		err := dataContext.Add(e.Name, pkg.ValueToInterface(newVal))
@@ -204,7 +205,7 @@ func (e *Variable) Assign(newVal reflect.Value, dataContext IDataContext, memory
 	return fmt.Errorf("this code part should not be reached")
 }
 
-// Evaluate will evaluate this AST graph for when scope evaluation
+// Evaluate will evaluate this AST graph for when scope evaluation.
 func (e *Variable) Evaluate(dataContext IDataContext, memory *WorkingMemory) (reflect.Value, error) {
 	if len(e.Name) > 0 && e.Variable == nil {
 		valueNode := dataContext.Get(e.Name)

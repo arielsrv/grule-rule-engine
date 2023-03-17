@@ -16,11 +16,12 @@ package builder
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/hyperjumptech/grule-rule-engine/ast"
 	"github.com/hyperjumptech/grule-rule-engine/logger"
 	"github.com/sirupsen/logrus"
 	"go.uber.org/zap"
-	"time"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	antlr2 "github.com/hyperjumptech/grule-rule-engine/antlr"
@@ -29,16 +30,16 @@ import (
 )
 
 var (
-	// builderLogFields default fields for grule
+	// builderLogFields default fields for grule.
 	builderLogFields = logger.Fields{
 		"package": "builder",
 	}
 
-	// BuilderLog is a logger instance twith default fields for grule
+	// BuilderLog is a logger instance twith default fields for grule.
 	BuilderLog = logger.Log.WithFields(builderLogFields)
 )
 
-// SetLogger changes default logger on external
+// SetLogger changes default logger on external.
 func SetLogger(log interface{}) {
 	var entry logger.LogEntry
 
@@ -69,7 +70,7 @@ func NewRuleBuilder(KnowledgeLibrary *ast.KnowledgeLibrary) *RuleBuilder {
 	}
 }
 
-// RuleBuilder builds rule from GRL script into contained KnowledgeBase
+// RuleBuilder builds rule from GRL script into contained KnowledgeBase.
 type RuleBuilder struct {
 	KnowledgeLibrary *ast.KnowledgeLibrary
 }
@@ -100,7 +101,7 @@ func (builder *RuleBuilder) BuildRulesFromBundle(name, version string, bundle pk
 	return builder.BuildRuleFromResources(name, version, bundles)
 }
 
-// MustBuildRulesFromBundle is the same with BuildRulesFromBundle but it will panic if any error arises during loading resource and inserting it to knowledgebase
+// MustBuildRulesFromBundle is the same with BuildRulesFromBundle but it will panic if any error arises during loading resource and inserting it to knowledgebase.
 func (builder *RuleBuilder) MustBuildRulesFromBundle(name, version string, bundle pkg.ResourceBundle) {
 	builder.MustBuildRuleFromResources(name, version, bundle.MustLoad())
 }

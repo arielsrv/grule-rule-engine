@@ -22,7 +22,7 @@ type CloneRecord struct {
 	CloneInstance  interface{}
 }
 
-// NewCloneTable create new instance of CloneTable
+// NewCloneTable create new instance of CloneTable.
 func NewCloneTable() *CloneTable {
 	return &CloneTable{Records: make(map[string]*CloneRecord)}
 }
@@ -38,7 +38,7 @@ func (tab *CloneTable) IsCloned(astID string) bool {
 	return ok
 }
 
-// MarkCloned will record that an Ast object are now been cloned, so all other cloned object should reference to the newly cloned Ast object
+// MarkCloned will record that an Ast object are now been cloned, so all other cloned object should reference to the newly cloned Ast object.
 func (tab *CloneTable) MarkCloned(originAst, cloneAst string, origin, clone interface{}) {
 	tab.Records[originAst] = &CloneRecord{
 		OriginAstID:    originAst,

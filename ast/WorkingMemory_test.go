@@ -15,12 +15,12 @@
 package ast
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestWorkingMemory_Add(t *testing.T) {
-
 	a := &Variable{GrlText: "a", Name: "a"}
 	b := &Variable{GrlText: "b", Name: "b"}
 	aa := &Variable{GrlText: "a", Name: "a"}

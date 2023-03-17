@@ -19,7 +19,7 @@ import (
 	"go.uber.org/zap"
 )
 
-// Level type
+// Level type.
 type Level uint32
 
 const (
@@ -89,7 +89,7 @@ func init() {
 	}
 }
 
-// SetLogger changes default logger on external
+// SetLogger changes default logger on external.
 func SetLogger(externalLog interface{}) {
 	switch externalLog.(type) {
 	case *zap.Logger:
@@ -109,7 +109,7 @@ func SetLogger(externalLog interface{}) {
 	}
 }
 
-// SetLogLevel will set the logger log level
+// SetLogLevel will set the logger log level.
 func SetLogLevel(lvl Level) {
 	Log.Level = lvl
 }

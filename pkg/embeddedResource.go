@@ -1,3 +1,4 @@
+//go:build go1.16
 // +build go1.16
 
 //  Copyright hyperjumptech/grule-rule-engine Authors
@@ -26,7 +27,7 @@ import (
 )
 
 // EmbeddedResource is a struct that will load an embedded file from an embed.FS struct.
-// Note: EmbeddedResource is only available when using Go 1.16 or above
+// Note: EmbeddedResource is only available when using Go 1.16 or above.
 type EmbeddedResource struct {
 	Path   string
 	Source embed.FS
@@ -93,7 +94,7 @@ func (bundle *EmbeddedResourceBundle) Load() ([]Resource, error) {
 	return bundle.loadPath(bundle.BasePath)
 }
 
-// MustLoad function is the same as Load with difference that it will panic if any error is raised
+// MustLoad function is the same as Load with difference that it will panic if any error is raised.
 func (bundle *EmbeddedResourceBundle) MustLoad() []Resource {
 	resources, err := bundle.Load()
 	if err != nil {

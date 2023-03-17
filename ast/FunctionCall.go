@@ -17,12 +17,13 @@ package ast
 import (
 	"bytes"
 	"fmt"
+	"reflect"
+
 	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
-	"reflect"
 )
 
-// NewFunctionCall creates new instance of FunctionCall
+// NewFunctionCall creates new instance of FunctionCall.
 func NewFunctionCall() *FunctionCall {
 	return &FunctionCall{
 		AstID:        unique.NewID(),
@@ -30,7 +31,7 @@ func NewFunctionCall() *FunctionCall {
 	}
 }
 
-// FunctionCall AST graph node
+// FunctionCall AST graph node.
 type FunctionCall struct {
 	AstID   string
 	GrlText string
@@ -58,7 +59,7 @@ func (e *FunctionCall) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// Clone will clone this FunctionCall. The new clone will have an identical structure
+// Clone will clone this FunctionCall. The new clone will have an identical structure.
 func (e *FunctionCall) Clone(cloneTable *pkg.CloneTable) *FunctionCall {
 	clone := &FunctionCall{
 		AstID:        unique.NewID(),
@@ -78,22 +79,22 @@ func (e *FunctionCall) Clone(cloneTable *pkg.CloneTable) *FunctionCall {
 	return clone
 }
 
-// FunctionCallReceiver should be implemented bu AST graph node to receive a FunctionCall AST graph mode
+// FunctionCallReceiver should be implemented bu AST graph node to receive a FunctionCall AST graph mode.
 type FunctionCallReceiver interface {
 	AcceptFunctionCall(fun *FunctionCall) error
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *FunctionCall) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *FunctionCall) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *FunctionCall) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(FUNCTIONCALL)
@@ -112,7 +113,7 @@ func (e *FunctionCall) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// AcceptArgumentList will accept an ArgumentList AST graph into this ast graph
+// AcceptArgumentList will accept an ArgumentList AST graph into this ast graph.
 func (e *FunctionCall) AcceptArgumentList(argList *ArgumentList) error {
 	AstLog.Tracef("Method received argument list")
 	e.ArgumentList = argList

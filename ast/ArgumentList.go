@@ -16,13 +16,14 @@ package ast
 
 import (
 	"bytes"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"reflect"
+
+	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewArgumentList create a new instance of ArgumentList
+// NewArgumentList create a new instance of ArgumentList.
 func NewArgumentList() *ArgumentList {
 	return &ArgumentList{
 		AstID:     unique.NewID(),
@@ -59,7 +60,7 @@ func (e *ArgumentList) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// Clone will clone this ArgumentList. The new clone will have an identical structure
+// Clone will clone this ArgumentList. The new clone will have an identical structure.
 func (e *ArgumentList) Clone(cloneTable *pkg.CloneTable) *ArgumentList {
 	clone := &ArgumentList{
 		AstID:   unique.NewID(),
@@ -80,7 +81,7 @@ func (e *ArgumentList) Clone(cloneTable *pkg.CloneTable) *ArgumentList {
 	return clone
 }
 
-// AcceptExpression will accept an expression AST graph into this ast graph
+// AcceptExpression will accept an expression AST graph into this ast graph.
 func (e *ArgumentList) AcceptExpression(exp *Expression) error {
 	if e.Arguments == nil {
 		e.Arguments = make([]*Expression, 0)
@@ -89,17 +90,17 @@ func (e *ArgumentList) AcceptExpression(exp *Expression) error {
 	return nil
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *ArgumentList) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *ArgumentList) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *ArgumentList) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(ARGUMENTLIST)
@@ -120,12 +121,12 @@ func (e *ArgumentList) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// ArgumentListReceiver will accept an ArgumentList AST graph into this ast graph
+// ArgumentListReceiver will accept an ArgumentList AST graph into this ast graph.
 type ArgumentListReceiver interface {
 	AcceptArgumentList(argList *ArgumentList) error
 }
 
-// Evaluate will evaluate this AST graph for when scope evaluation
+// Evaluate will evaluate this AST graph for when scope evaluation.
 func (e *ArgumentList) Evaluate(dataContext IDataContext, memory *WorkingMemory) ([]reflect.Value, error) {
 	values := make([]reflect.Value, len(e.Arguments))
 	for i, exp := range e.Arguments {

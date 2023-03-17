@@ -16,14 +16,15 @@ package ast
 
 import (
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"github.com/hyperjumptech/grule-rule-engine/logger"
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
-	"strings"
-	"time"
 )
 
-// NewWorkingMemory create new instance of WorkingMemory
+// NewWorkingMemory create new instance of WorkingMemory.
 func NewWorkingMemory(name, version string) *WorkingMemory {
 	return &WorkingMemory{
 		Name:                      name,
@@ -37,7 +38,7 @@ func NewWorkingMemory(name, version string) *WorkingMemory {
 	}
 }
 
-// WorkingMemory handles states of expression evaluation status
+// WorkingMemory handles states of expression evaluation status.
 type WorkingMemory struct {
 	Name                      string
 	Version                   string
@@ -49,7 +50,7 @@ type WorkingMemory struct {
 	ID                        string
 }
 
-// MakeCatalog create a catalog entry of this working memory
+// MakeCatalog create a catalog entry of this working memory.
 func (e *WorkingMemory) MakeCatalog(cat *Catalog) {
 	cat.MemoryName = e.Name
 	cat.MemoryVersion = e.Version
@@ -81,7 +82,7 @@ func (e *WorkingMemory) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// DebugContent will shows the working memory mapping content
+// DebugContent will shows the working memory mapping content.
 func (e *WorkingMemory) DebugContent() {
 	if AstLog.Level <= logger.DebugLevel {
 		for varName, vari := range e.variableSnapshotMap {
@@ -107,7 +108,7 @@ func (e *WorkingMemory) DebugContent() {
 	}
 }
 
-// Equals shallowly equals check this Working Memory against other working memory
+// Equals shallowly equals check this Working Memory against other working memory.
 func (e *WorkingMemory) Equals(that *WorkingMemory) bool {
 	if e.Name != that.Name {
 		return false
@@ -133,7 +134,7 @@ func (e *WorkingMemory) Equals(that *WorkingMemory) bool {
 	return true
 }
 
-// Clone will clone this WorkingMemory. The new clone will have an identical structure
+// Clone will clone this WorkingMemory. The new clone will have an identical structure.
 func (e *WorkingMemory) Clone(cloneTable *pkg.CloneTable) *WorkingMemory {
 	AstLog.Debugf("Cloning working memory %s:%s", e.Name, e.Version)
 	clone := NewWorkingMemory(e.Name, e.Version)
@@ -216,7 +217,7 @@ func (e *WorkingMemory) Clone(cloneTable *pkg.CloneTable) *WorkingMemory {
 	panic("Clone not equals the origin.")
 }
 
-// IndexVariables will index all expression and expression atoms that contains a speciffic variable name
+// IndexVariables will index all expression and expression atoms that contains a speciffic variable name.
 func (e *WorkingMemory) IndexVariables() {
 	if AstLog.Level <= logger.DebugLevel {
 		AstLog.Debugf("Indexing %d expressions, %d expression atoms and %d variables.", len(e.expressionSnapshotMap), len(e.expressionAtomSnapshotMap), len(e.variableSnapshotMap))
@@ -250,7 +251,6 @@ func (e *WorkingMemory) IndexVariables() {
 	}
 
 	e.DebugContent()
-
 }
 
 // AddExpression will add expression into its map if the expression signature is unique
@@ -293,7 +293,7 @@ func (e *WorkingMemory) AddVariable(vari *Variable) *Variable {
 }
 
 // Reset will reset the evaluated status of a specific variable if its contains a variable name in its signature.
-// Returns true if any expression was reset, false if otherwise
+// Returns true if any expression was reset, false if otherwise.
 func (e *WorkingMemory) Reset(name string) bool {
 	AstLog.Tracef("------- resetting  %s", name)
 	for _, vari := range e.variableSnapshotMap {
@@ -315,7 +315,7 @@ func (e *WorkingMemory) Reset(name string) bool {
 }
 
 // ResetVariable will reset the evaluated status of a specific expression if its contains a variable name in its signature.
-// Returns true if any expression was reset, false if otherwise
+// Returns true if any expression was reset, false if otherwise.
 func (e *WorkingMemory) ResetVariable(variable *Variable) bool {
 	AstLog.Tracef("------- resetting variable %s : %s", variable.GrlText, variable.AstID)
 	if AstLog.Level == logger.TraceLevel {
@@ -344,7 +344,7 @@ func (e *WorkingMemory) ResetVariable(variable *Variable) bool {
 }
 
 // ResetAll sets all expression evaluated status to false.
-// Returns true if any expression was reset, false if otherwise
+// Returns true if any expression was reset, false if otherwise.
 func (e *WorkingMemory) ResetAll() bool {
 	reseted := false
 	for _, expr := range e.expressionSnapshotMap {

@@ -16,18 +16,19 @@ package ast
 
 import (
 	"bytes"
+
 	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewThenScope will create new instance of ThenScope
+// NewThenScope will create new instance of ThenScope.
 func NewThenScope() *ThenScope {
 	return &ThenScope{
 		AstID: unique.NewID(),
 	}
 }
 
-// ThenScope AST graph node
+// ThenScope AST graph node.
 type ThenScope struct {
 	AstID   string
 	GrlText string
@@ -35,7 +36,7 @@ type ThenScope struct {
 	ThenExpressionList *ThenExpressionList
 }
 
-// MakeCatalog create a catalog entry for this AST Node
+// MakeCatalog create a catalog entry for this AST Node.
 func (e *ThenScope) MakeCatalog(cat *Catalog) {
 	meta := &ThenScopeMeta{
 		NodeMeta: NodeMeta{
@@ -52,12 +53,12 @@ func (e *ThenScope) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// ThenScopeReceiver must be implemented by any AST object that will hold a ThenScope
+// ThenScopeReceiver must be implemented by any AST object that will hold a ThenScope.
 type ThenScopeReceiver interface {
 	AcceptThenScope(thenScope *ThenScope) error
 }
 
-// Clone will clone this ThenScope. The new clone will have an identical structure
+// Clone will clone this ThenScope. The new clone will have an identical structure.
 func (e *ThenScope) Clone(cloneTable *pkg.CloneTable) *ThenScope {
 	clone := &ThenScope{
 		AstID:   unique.NewID(),
@@ -77,23 +78,23 @@ func (e *ThenScope) Clone(cloneTable *pkg.CloneTable) *ThenScope {
 	return clone
 }
 
-// AcceptThenExpressionList will accept ThenExpressionList graph into this ThenScope
+// AcceptThenExpressionList will accept ThenExpressionList graph into this ThenScope.
 func (e *ThenScope) AcceptThenExpressionList(list *ThenExpressionList) error {
 	e.ThenExpressionList = list
 	return nil
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *ThenScope) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *ThenScope) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *ThenScope) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(THENSCOPE)
@@ -111,7 +112,7 @@ func (e *ThenScope) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// Execute will execute this graph in the Then scope
+// Execute will execute this graph in the Then scope.
 func (e *ThenScope) Execute(dataContext IDataContext, memory *WorkingMemory) error {
 	if e.ThenExpressionList == nil {
 		AstLog.Warnf("Can not execute nil expression list")

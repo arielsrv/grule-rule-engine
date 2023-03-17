@@ -15,10 +15,11 @@
 package model
 
 import (
-	"github.com/stretchr/testify/assert"
 	"reflect"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestArrMapLen(t *testing.T) {
@@ -182,7 +183,6 @@ func TestStrIn_Accepts_Empty_Arguments(t *testing.T) {
 	_, err := StrIn(b, []reflect.Value{})
 	assert.NoError(t, err)
 }
-
 
 func TestStrMatchRegexPattern_Valid_Regex_Pattern(t *testing.T) {
 	regex := "p([a-z]+)ch"

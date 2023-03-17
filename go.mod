@@ -3,13 +3,13 @@ module github.com/hyperjumptech/grule-rule-engine
 go 1.19
 
 require (
-	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220527190237-ee62e23da966
-	github.com/bmatcuk/doublestar v1.3.2
-	github.com/google/uuid v1.1.1
+	github.com/antlr/antlr4/runtime/Go/antlr v1.4.10
+	github.com/bmatcuk/doublestar v1.3.4
+	github.com/google/uuid v1.3.0
 	github.com/hyperjumptech/hyper-mux v1.1.0
-	github.com/sirupsen/logrus v1.8.1
-	github.com/stretchr/testify v1.7.0
-	go.uber.org/zap v1.21.0
+	github.com/sirupsen/logrus v1.9.0
+	github.com/stretchr/testify v1.8.2
+	go.uber.org/zap v1.24.0
 	gopkg.in/src-d/go-billy.v4 v4.3.2
 	gopkg.in/src-d/go-git.v4 v4.13.1
 )
@@ -25,6 +25,7 @@ require (
 	github.com/rs/cors v1.8.0 // indirect
 	github.com/sergi/go-diff v1.0.0 // indirect
 	github.com/src-d/gcfg v1.4.0 // indirect
+	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/xanzy/ssh-agent v0.2.1 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
@@ -32,5 +33,5 @@ require (
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

@@ -124,7 +124,6 @@ func TestV3Lexer(t *testing.T) {
 			}
 		}
 	}
-
 }
 
 func TestV3Parser(t *testing.T) {
@@ -428,7 +427,6 @@ rule RuleOne "RuleOneDesc" salience 123 {
 	assert.True(t, ret.IsValid())
 	assert.Equal(t, reflect.Bool, ret.Kind())
 	assert.False(t, ret.Bool())
-
 }
 
 func TestV3ParserGarbageInput(t *testing.T) {

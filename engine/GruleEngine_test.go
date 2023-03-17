@@ -234,7 +234,6 @@ const complexRule2 = `rule ComplexRule "test complex rule" salience 10 {
 }`
 
 func TestEngine_ComplexRule2(t *testing.T) {
-
 	ts := &TestStruct{
 		Param1: false,
 		Param2: false,
@@ -270,7 +269,6 @@ const complexRule3 = `rule ComplexRule "test complex rule" salience 10 {
 }`
 
 func TestEngine_ComplexRule3(t *testing.T) {
-
 	ts := &TestStruct{
 		Param1: false,
 		Param2: false,
@@ -307,7 +305,6 @@ const complexRule4 = `rule ComplexRule "test complex rule" salience 10 {
 }`
 
 func TestEngine_ComplexRule4(t *testing.T) {
-
 	ts := &TestStruct{
 		Param1: true,
 		Param2: false,
@@ -341,7 +338,6 @@ const OpPresedenceRule = `rule OpPresedenceRule "test operator presedence" salie
 }`
 
 func TestEngine_OperatorPrecedence(t *testing.T) {
-
 	ts := &TestStruct{}
 
 	dctx := ast.NewDataContext()
@@ -613,7 +609,7 @@ func TestGruleEngine_FetchMatchingRules_Having_Diff_Salience(t *testing.T) {
 	assert.Equal(t, 5, ruleEntries[3].Salience)
 }
 
-//This TestCase is to test whether grule-rule-engine follows logical operator precedence
+// This TestCase is to test whether grule-rule-engine follows logical operator precedence
 // ! - Highest Priority
 // && - Medium Priority
 // || - Lowest Priority
@@ -628,13 +624,15 @@ Then
    Complete();
 }`
 
-/**
+/*
+*
 Evaluation must be done below way if you follow logical operator precedence (identify parentheses arrangement)
 (Fact.Distance > 5000  ||   Fact.Duration > 120 || (Fact.RideType == "On-Demand" && Fact.IsFrequentCustomer == true))
 Result:
 Logical Operator Precedence: true
 No precedence: false
-**/
+*.
+*/
 type LogicalOperatorRuleFact struct {
 	Distance           int32
 	Duration           int32

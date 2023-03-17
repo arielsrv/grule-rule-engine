@@ -17,20 +17,21 @@ package ast
 import (
 	"bytes"
 	"errors"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 	"reflect"
+
+	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
 
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 )
 
-// NewWhenScope creates new instance of WhenScope
+// NewWhenScope creates new instance of WhenScope.
 func NewWhenScope() *WhenScope {
 	return &WhenScope{
 		AstID: unique.NewID(),
 	}
 }
 
-// WhenScope AST graph node
+// WhenScope AST graph node.
 type WhenScope struct {
 	AstID   string
 	GrlText string
@@ -38,7 +39,7 @@ type WhenScope struct {
 	Expression *Expression
 }
 
-// MakeCatalog create a catalog entry for this AST Node
+// MakeCatalog create a catalog entry for this AST Node.
 func (e *WhenScope) MakeCatalog(cat *Catalog) {
 	meta := &WhenScopeMeta{
 		NodeMeta: NodeMeta{
@@ -55,12 +56,12 @@ func (e *WhenScope) MakeCatalog(cat *Catalog) {
 	}
 }
 
-// WhenScopeReceiver must be implemented by AST object that stores WhenScope
+// WhenScopeReceiver must be implemented by AST object that stores WhenScope.
 type WhenScopeReceiver interface {
 	AcceptWhenScope(whenScope *WhenScope) error
 }
 
-// Clone will clone this Clone. The new clone will have an identical structure
+// Clone will clone this Clone. The new clone will have an identical structure.
 func (e *WhenScope) Clone(cloneTable *pkg.CloneTable) *WhenScope {
 	clone := &WhenScope{
 		AstID:   unique.NewID(),
@@ -80,7 +81,7 @@ func (e *WhenScope) Clone(cloneTable *pkg.CloneTable) *WhenScope {
 	return clone
 }
 
-// AcceptExpression will accept Expression AST graph node into this node
+// AcceptExpression will accept Expression AST graph node into this node.
 func (e *WhenScope) AcceptExpression(exp *Expression) error {
 	if e.Expression == nil {
 		e.Expression = exp
@@ -89,17 +90,17 @@ func (e *WhenScope) AcceptExpression(exp *Expression) error {
 	return errors.New("expression for when scope already assigned")
 }
 
-// GetAstID get the UUID asigned for this AST graph node
+// GetAstID get the UUID asigned for this AST graph node.
 func (e *WhenScope) GetAstID() string {
 	return e.AstID
 }
 
-// GetGrlText get the expression syntax related to this graph when it wast constructed
+// GetGrlText get the expression syntax related to this graph when it wast constructed.
 func (e *WhenScope) GetGrlText() string {
 	return e.GrlText
 }
 
-// GetSnapshot will create a structure signature or AST graph
+// GetSnapshot will create a structure signature or AST graph.
 func (e *WhenScope) GetSnapshot() string {
 	var buff bytes.Buffer
 	buff.WriteString(WHENSCOPE)
@@ -117,7 +118,7 @@ func (e *WhenScope) SetGrlText(grlText string) {
 	e.GrlText = grlText
 }
 
-// Evaluate will evaluate this AST graph for when scope evaluation
+// Evaluate will evaluate this AST graph for when scope evaluation.
 func (e *WhenScope) Evaluate(dataContext IDataContext, memory *WorkingMemory) (reflect.Value, error) {
 	return e.Expression.Evaluate(dataContext, memory)
 }
