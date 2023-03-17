@@ -4,9 +4,9 @@ Status : DRAFT
 
 Decision table is one of the Rule Engine modeling approach. With decision table approach
 its easy to model rule criteria in evaluating facts and also easy to define
-action when a fact matched the criteria. 
+action when a fact matched the criteria.
 
-With decision table approach, we can create a simple user-interface to be used by 
+With decision table approach, we can create a simple user-interface to be used by
 end user to create and modify rules as needed. It also can serve as a template rule model
 which later can be translated into a more elaborated, fine-grained and flexible rule definition
 like a GRL.
@@ -15,12 +15,12 @@ in-fact, this is the proposed approach as a step before running the
 decision table in Grule engine as depicted in the following flow.
 
 ```text
-+-------------------+ 
++-------------------+
 | Rule Table Editor |
 +-------------------|
-   |             ^                                                         ( Fact )
-  save         load                                                            |
-   V             |                                                             V
+|             ^                                                         ( Fact )
+save         load                                                            |
+V             |                                                             V
 +-------------------+              +------------+         +------------------------+
 |  Grule DMN JSON   |--translate-->| GRL script |--load-->| Grule Engine & Execute |
 +-------------------+              +------------+         +------------------------+
@@ -28,7 +28,7 @@ decision table in Grule engine as depicted in the following flow.
 
 ## Standards and Roadmap
 
-This document should adhere to implementing the [DMN 1.3 standard](https://www.omg.org/spec/DMN/1.3/PDF) whenever appropriate, doable and 
+This document should adhere to implementing the [DMN 1.3 standard](https://www.omg.org/spec/DMN/1.3/PDF) whenever appropriate, doable and
 compatible with GRL Engine. Because of the wide coverage of aspect in Decision Model, not all of the
 specification described there in, this DMN implementation in Grule Engine will not implemented all points in DMN 1.3 specification.
 
@@ -61,7 +61,7 @@ The Grule implementation for DMN 1.3 will always have the _Rule-as-Row_ orientat
 
 #### hitPolicy
 
-The Grule implementation for DMN 1.3 in this document will have a _RULE ORDER_ policy. 
+The Grule implementation for DMN 1.3 in this document will have a _RULE ORDER_ policy.
 But this capability may be expanded into other hitpolicy capability.
 
 #### inputExpression
@@ -93,19 +93,19 @@ Its a straight forward rule to decide, if a good if of type "X" than it should b
 The "any" keyword specified in the input expression means that the input should be ignored in the evaluation. Thus
 in the matching algorithm, the variable will be ignored during evaluation.
 
-The "any" keyword specified in the output expression means that the output value should be equals to the default value. 
+The "any" keyword specified in the output expression means that the output value should be equals to the default value.
 
 The use of "any" must be used alone in the expression. (e.g. `any > 200` is not allowed)
 
-### name 
+### name
 
-This is a fact's name property, accessible by the rule engine. 
+This is a fact's name property, accessible by the rule engine.
 For example, consider the following JSON fact :
 
 ```json
 {
-  "type": "value 1",
-  "grade": ""
+"type": "value 1",
+"grade": ""
 }
 ```
 
@@ -122,8 +122,8 @@ The table define this using the `name` definition
 
 ### function
 
-"function" specifies if a certain variable is used in the rule evaluation "when" scope, or to be 
-assigned when the rule match (to be changed in the "then" scope). 
+"function" specifies if a certain variable is used in the rule evaluation "when" scope, or to be
+assigned when the rule match (to be changed in the "then" scope).
 
 For example
 
@@ -139,15 +139,15 @@ Then the GRL would look something as follows:
 ```
 rule Rule_1 "Electronic and machinery are all A grade" salience 1 {
 when
-    type.In("electronic","machine")
+type.In("electronic","machine")
 then
-    grade = "A";
-    Complete();
+grade = "A";
+Complete();
 }
 ```
 
 As you can see, `type` is the fact name to be used in evaluation `when` scope and
-`grade` to be assigned in the `then` scope. 
+`grade` to be assigned in the `then` scope.
 
 ### type
 
@@ -162,7 +162,7 @@ the fact. For example:
 Here you can see that the fact `type` have variable type of `string`. The same with
 fact `grade` which also a `string`.
 
-The valid datatype supported for Decision table would be `string`, `datetime`, `int`, `float`, `bool` 
+The valid datatype supported for Decision table would be `string`, `datetime`, `int`, `float`, `bool`
 
 ### label
 
@@ -188,7 +188,7 @@ The same with `grade` which can only have one of "A", "B","C" or "D"
 In the input type information item, the use of `any` keyword is used to accept any input
 as long as the data value type equals to required input type.
 
-In the output type information item, the user of `any` keyword is used to signify that 
+In the output type information item, the user of `any` keyword is used to signify that
 it would returned what ever the default value is specified.
 
 **Set of possible values**
@@ -246,7 +246,7 @@ it can accept any input as long as the type is correct.
 ### Rule Order / Hit Order - Salience
 
 Within the table, you will see evaluation order. This is a positive integer value and it started from number 1.
-The value denotes evaluation order of the rule row. 
+The value denotes evaluation order of the rule row.
 
 "hit policy (H) and rule numbers as indicated in Figure 8-5, Figure 8-7 and
 Figure 8-9. Rule numbers are consecutive natural numbers starting at 1. Rule numbering is required for tables
@@ -275,7 +275,7 @@ in the `when` scope, and the outputs are variables to be set in the `then` scope
 | -  | _type_ | int  | string    | string|
 | -  | _labels_ | "Applicant Age"  |  "Medical History"         | "Applicant Risk Rating" |
 | -  | _allowed values_ |  0..200  | "good", "bad" | "high", "medium", "low" |
-| -  | _default values_ | 30  |  "good"  | "medium" | 
+| -  | _default values_ | 30  |  "good"  | "medium" |
 | 1  | Old man with good medical history | &gt; 60      | "good"  | "medium"          |
 | 2  | Old man with bad medical history  | &gt; 60      | "bad"   | "high"            |
 | 3  | Adult productive age | [25..60]     | any   | "medium"               |
@@ -302,7 +302,7 @@ in the `when` scope, and the outputs are variables to be set in the `then` scope
 | -  | _type_ | int  | int |
 | -  | _labels_ | "Water Intake L/s"  |  "Water Througput"         |
 | -  | _allowed values_ |  any  | any |
-| -  | _default values_ |  30   | any | 
+| -  | _default values_ |  30   | any |
 | 1  | Under flow | &lt; 20      | 0      |
 | 2  | Normal flow  | [20..80]   | intake |
 | 3  | Over flow    | &gt; 80    | 80     |
@@ -386,7 +386,7 @@ in the `when` scope, and the outputs are variables to be set in the `then` scope
 | -  | _type_ | string  | int    | bool | float |
 | -  | _labels_ | "Grade"  |  "Amount of Loan"         | "Insurance Required" | "Insurance Rate |
 | -  | _allowed values_ |  "A", "B","C","D"  | 0..999999999 | true, false | 0..1.0
-| -  | _default values_ | any  |  0  | true | 0.002 | 
+| -  | _default values_ | any  |  0  | true | 0.002 |
 | 1  | Anything bellow 100000 do not need insurance  | any      | &lt; 100000                 | false              | 0              |
 | 2  | Grade A with price between 100000 to 300000 will have 0.001 insurance rate | A        | [100000..299999]   | true               | 0.001          |
 | 3  | Grade A with price between 300000 to 600000 will have 0.003 insurance rate | A        | [300000..599999]   | true               | 0.003          |
@@ -395,116 +395,116 @@ in the `when` scope, and the outputs are variables to be set in the `then` scope
 
 ```json
 {
-  "table_version": "1.0",
-  "name": "InsuranceAmountRule",
-  "description": "Insurance Based on Goods Grade and Price",
-  "version": "1.2.3",
-  "items": [
-    {
-      "name": "grade",
-      "function": "input",
-      "label": "Grade",
-      "type": "string",
-      "allowed": [
-        {
-          "set": [
-            "A",
-            "B",
-            "C",
-            "D"
-          ]
-        }
-      ],
-      "default": "any"
-    },{
-      "name": "amount",
-      "function": "input",
-      "label": "Loan Amount",
-      "type": "int",
-      "allowed": {
-          "ranges": [
-            {
-              "min": 0,
-              "max": 999999999
-            }
-          ]
-        },
-      "default": 0
-    },{
-      "name": "insurance",
-      "function": "output",
-      "label": "Insurance Required",
-      "type": "bool",
-      "default": false
-    },{
-      "name": "rate",
-      "function": "output",
-      "label": "Insurance Rate",
-      "type": "float",
-      "allowed": {
-        "ranges": [
-          {
-            "min": 0.0,
-            "max": 1.0
-          }
-        ]
-      },
-      "default": 0.0
-    }
-  ],
-  "decision_rows": [
-    {
-      "hit": 1,
-      "description": "Anything bellow 100000 do not need insurance",
-      "input" : {
-        "grade": "any",
-        "amount": "< 100000"
-      }
-    }, {
-      "hit": 2,
-      "description": "Grade A with price between 100000 to 300000 will have 0.001 insurance rate",
-      "input" : {
-        "grade": "A",
-        "amount": "100000..299999"
-      },
-      "output" : {
-        "insurance": true,
-        "rate": 0.001
-      }
-    }, {
-      "hit": 3,
-      "description": "Grade A with price between 300000 to 600000 will have 0.003 insurance rate",
-      "input" : {
-        "grade":  "A",
-        "amount": "[300000..599999]"
-      },
-      "output" : {
-        "insurance": true,
-        "rate": 0.003
-      }
-    }, {
-      "hit": 4,
-      "description": "Any other grade between 100000 to 600000 will have 0.002 insurance rate",
-      "input" : {
-        "grade": "any",
-        "amount": "[100000..599999]"
-      },
-      "output" : {
-        "insurance": true,
-        "rate": 0.002
-      }
-    }, {
-      "hit": 5,
-      "description": "Price above 600000 will have 0.005 insurance rate flat",
-      "input" : {
-        "grade":"any",
-        "amount": ">=600000"
-      },
-      "output" : {
-        "insurance": true,
-        "rate": 0.003
-      }
-    }
-  ]
+"table_version": "1.0",
+"name": "InsuranceAmountRule",
+"description": "Insurance Based on Goods Grade and Price",
+"version": "1.2.3",
+"items": [
+{
+"name": "grade",
+"function": "input",
+"label": "Grade",
+"type": "string",
+"allowed": [
+{
+"set": [
+"A",
+"B",
+"C",
+"D"
+]
+}
+],
+"default": "any"
+},{
+"name": "amount",
+"function": "input",
+"label": "Loan Amount",
+"type": "int",
+"allowed": {
+"ranges": [
+{
+"min": 0,
+"max": 999999999
+}
+]
+},
+"default": 0
+},{
+"name": "insurance",
+"function": "output",
+"label": "Insurance Required",
+"type": "bool",
+"default": false
+},{
+"name": "rate",
+"function": "output",
+"label": "Insurance Rate",
+"type": "float",
+"allowed": {
+"ranges": [
+{
+"min": 0.0,
+"max": 1.0
+}
+]
+},
+"default": 0.0
+}
+],
+"decision_rows": [
+{
+"hit": 1,
+"description": "Anything bellow 100000 do not need insurance",
+"input" : {
+"grade": "any",
+"amount": "< 100000"
+}
+}, {
+"hit": 2,
+"description": "Grade A with price between 100000 to 300000 will have 0.001 insurance rate",
+"input" : {
+"grade": "A",
+"amount": "100000..299999"
+},
+"output" : {
+"insurance": true,
+"rate": 0.001
+}
+}, {
+"hit": 3,
+"description": "Grade A with price between 300000 to 600000 will have 0.003 insurance rate",
+"input" : {
+"grade":  "A",
+"amount": "[300000..599999]"
+},
+"output" : {
+"insurance": true,
+"rate": 0.003
+}
+}, {
+"hit": 4,
+"description": "Any other grade between 100000 to 600000 will have 0.002 insurance rate",
+"input" : {
+"grade": "any",
+"amount": "[100000..599999]"
+},
+"output" : {
+"insurance": true,
+"rate": 0.002
+}
+}, {
+"hit": 5,
+"description": "Price above 600000 will have 0.005 insurance rate flat",
+"input" : {
+"grade":"any",
+"amount": ">=600000"
+},
+"output" : {
+"insurance": true,
+"rate": 0.003
+}
+}
+]
 }
 ```

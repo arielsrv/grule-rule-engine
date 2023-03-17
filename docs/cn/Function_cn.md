@@ -35,10 +35,10 @@
 
 ```Shell
 rule SetExpire "Set the expire date for Fact created before 2020" {
-    when
-       Fact.CreateTime < MakeTime(2020,1,1,0,0,0)
-    then
-       Fact.ExpireTime = MakeTime(2021,1,1,0,0,0);
+when
+Fact.CreateTime < MakeTime(2020,1,1,0,0,0)
+then
+Fact.ExpireTime = MakeTime(2021,1,1,0,0,0);
 }
 ```
 
@@ -54,11 +54,11 @@ rule SetExpire "Set the expire date for Fact created before 2020" {
 
 ```Shell
 rule SetExpire "Set new expire date" {
-    when
-        IsZero(Fact.ExpireTime)
-    then
-        Fact.CalculateExpire(); // this function will internally change the ExpireTime variable
-        Changed("Fact.ExpireTime")
+when
+IsZero(Fact.ExpireTime)
+then
+Fact.CalculateExpire(); // this function will internally change the ExpireTime variable
+Changed("Fact.ExpireTime")
 }
 ```
 
@@ -74,10 +74,10 @@ rule SetExpire "Set new expire date" {
 
 ```Shell
 rule ResetTime "Reset the lastUpdate time" {
-    when
-        Fact.LastUpdate < Now()
-    then
-        Fact.LastUpdate = Now();
+when
+Fact.LastUpdate < Now()
+then
+Fact.LastUpdate = Now();
 }
 ```
 
@@ -93,10 +93,10 @@ rule ResetTime "Reset the lastUpdate time" {
 
 ```Shell
 rule SomeRule "Log candidate name if he is below 17 years old" {
-    when
-        Candidate.Age < 17
-    then
-        Log("Under aged: " + Candidate.Name);
+when
+Candidate.Age < 17
+then
+Log("Under aged: " + Candidate.Name);
 }
 ```
 
@@ -117,11 +117,11 @@ rule SomeRule "Log candidate name if he is below 17 years old" {
 
 ```Shell
 rule CheckEducation "Check candidate's education fact" {
-    when
-        IsNil(Candidate.Education) == false &&
-        Candidate.Education.Grade == "PHD"
-    then
-        Candidate.Onboard = true;
+when
+IsNil(Candidate.Education) == false &&
+Candidate.Education.Grade == "PHD"
+then
+Candidate.Onboard = true;
 }
 ```
 
@@ -142,10 +142,10 @@ rule CheckEducation "Check candidate's education fact" {
 
 ```Shell
 rule CheckStartTime "Check device's starting time." {
-    when
-        IsZero(Device.StartTime) == true
-    then
-        Device.StartTime = Now();
+when
+IsZero(Device.StartTime) == true
+then
+Device.StartTime = Now();
 }
 ```
 
@@ -161,11 +161,11 @@ rule CheckStartTime "Check device's starting time." {
 
 ```Shell
 rule CheckStartTime "Check device's starting time." salience 1000 {
-    when
-        IsZero(Device.StartTime) == true
-    then
-        Device.StartTime = Now();
-        Retract("CheckStartTime");
+when
+IsZero(Device.StartTime) == true
+then
+Device.StartTime = Now();
+Retract("CheckStartTime");
 }
 ```
 
@@ -185,10 +185,10 @@ rule CheckStartTime "Check device's starting time." salience 1000 {
 
 ```Shell
 rule StartNewYearProcess "Check if it's a new year to restart new FinancialYear." salience 1000 {
-    when
-        GetTimeYear(Now()) != GL.FinancialYear
-    then
-        GL.CloseYear(GL.FinancialYear)
+when
+GetTimeYear(Now()) != GL.FinancialYear
+then
+GL.CloseYear(GL.FinancialYear)
 }
 ```
 
@@ -210,10 +210,10 @@ rule StartNewYearProcess "Check if it's a new year to restart new FinancialYear.
 // TODO: something's not right here. The description is copy/pasted from above
 // but the condition/action doesn't make sense to me
 rule StartNewYearProcess "Check if its a new year to restart new FinancialYear." salience 1000 {
-    when
-        isZero(Process.Month)
-    then
-        Process.Month = GetTimeMonth(Process.Month);
+when
+isZero(Process.Month)
+then
+Process.Month = GetTimeMonth(Process.Month);
 }
 ```
 
@@ -233,11 +233,11 @@ rule StartNewYearProcess "Check if its a new year to restart new FinancialYear."
 
 ```Shell
 rule GreetEveryDay "Log a greeting every day." salience 1000 {
-    when
-        Greeting.Day != GetTimeDay(Now())
-    then
-        Log("Its a new Day !!!")
-        Retract("GreetEveryDay")
+when
+Greeting.Day != GetTimeDay(Now())
+then
+Log("Its a new Day !!!")
+Retract("GreetEveryDay")
 }
 ```
 
@@ -257,11 +257,11 @@ rule GreetEveryDay "Log a greeting every day." salience 1000 {
 
 ```Shell
 rule DailyCheckBuild "Execute build every 6AM and 6PM." {
-    when
-        GetTimeHour(Now()) == 6 || GetTimeHour(Now()) == 18
-    then
-        CiCd.BuildDaily();
-        Retract("DailyCheckBuild");
+when
+GetTimeHour(Now()) == 6 || GetTimeHour(Now()) == 18
+then
+CiCd.BuildDaily();
+Retract("DailyCheckBuild");
 }
 ```
 
@@ -281,12 +281,12 @@ rule DailyCheckBuild "Execute build every 6AM and 6PM." {
 
 ```Shell
 rule DailyCheckBuild "Execute build every 6.30AM and 6.30PM." {
-    when
-        (GetTimeHour(Now()) == 6 || GetTimeHour(Now()) == 18) &&
-        GetTimeMinute(Now()) == 30
-    then
-        CiCd.BuildDaily();
-        Retract("DailyCheckBuild");
+when
+(GetTimeHour(Now()) == 6 || GetTimeHour(Now()) == 18) &&
+GetTimeMinute(Now()) == 30
+then
+CiCd.BuildDaily();
+Retract("DailyCheckBuild");
 }
 ```
 
@@ -306,12 +306,12 @@ rule DailyCheckBuild "Execute build every 6.30AM and 6.30PM." {
 
 ```Shell
 rule DailyCheckBuild "Execute build every 6.30AM and 6.30PM." {
-    when
-        (GetTimeHour(Now()) == 6 || GetTimeHour(Now()) == 18) &&
-        GetTimeMinute(Now()) == 30 && GetTimeSecond(Now()) == 0
-    then
-        CiCd.BuildDaily();
-        Retract("DailyCheckBuild");
+when
+(GetTimeHour(Now()) == 6 || GetTimeHour(Now()) == 18) &&
+GetTimeMinute(Now()) == 30 && GetTimeSecond(Now()) == 0
+then
+CiCd.BuildDaily();
+Retract("DailyCheckBuild");
 }
 ```
 
@@ -333,11 +333,11 @@ rule DailyCheckBuild "Execute build every 6.30AM and 6.30PM." {
 
 ```Shell
 rule PromotionExpireCheck "Apply a promotion if promotion hasn't yet expired." {
-    when
-        IsTimeBefore(Now(), Promotion.ExpireDateTime)
-    then
-        Promotion.Discount = 0.10;
-        Retract("PromotionExpireCheck");
+when
+IsTimeBefore(Now(), Promotion.ExpireDateTime)
+then
+Promotion.Discount = 0.10;
+Retract("PromotionExpireCheck");
 }
 ```
 
@@ -359,10 +359,10 @@ rule PromotionExpireCheck "Apply a promotion if promotion hasn't yet expired." {
 
 ```Shell
 rule AdditionalTax "Apply additional tax if new tax rules are in effect." {
-    when
-        IsTimeAfter(Purchase.TransactionTime, TaxRegulation.StartSince)
-    then
-        Purchase.Tax = Purchase.Tax + 0.01;
+when
+IsTimeAfter(Purchase.TransactionTime, TaxRegulation.StartSince)
+then
+Purchase.Tax = Purchase.Tax + 0.01;
 }
 ```
 
@@ -385,10 +385,10 @@ rule AdditionalTax "Apply additional tax if new tax rules are in effect." {
 
 ```Shell
 rule LogPurchaseDate "Log the purchase date." {
-    when
-        IsZero(Purchase.TransactionDate) == false
-    then
-        Log(TimeFormat(Purchase.TransactionDate, "2006-01-02T15:04:05-0700");
+when
+IsZero(Purchase.TransactionDate) == false
+then
+Log(TimeFormat(Purchase.TransactionDate, "2006-01-02T15:04:05-0700");
 }
 ```
 
@@ -400,12 +400,12 @@ rule LogPurchaseDate "Log the purchase date." {
 
 ```Shell
 rule DailyCheckBuild "Execute build at 6.30AM and 6.30PM." {
-    when
-        (GetTimeHour(Now()) == 6 || GetTimeHour(Now()) == 18) &&
-        GetTimeMinute(Now()) == 30 && GetTimeSecond(Now()) == 0
-    then
-        CiCd.BuildDaily();
-        Complete();
+when
+(GetTimeHour(Now()) == 6 || GetTimeHour(Now()) == 18) &&
+GetTimeMinute(Now()) == 30 && GetTimeSecond(Now()) == 0
+then
+CiCd.BuildDaily();
+Complete();
 }
 ```
 
@@ -417,66 +417,66 @@ rule DailyCheckBuild "Execute build at 6.30AM and 6.30PM." {
 .就像正常的内置函数一样使用他们
 
 ```go
-when 
-    Max(Fact.A, Fact.C, Fact.B) > 10
+when
+Max(Fact.A, Fact.C, Fact.B) > 10
 then
-    Fact.X = Acosh(Fact.C);
+Fact.X = Acosh(Fact.C);
 ```
 
-- Max(vals ...float64) float64 
-- Min(vals ...float64) float64 
-- Abs(x float64) float64 
-- Acos(x float64) float64 
-- Acosh(x float64) float64 
-- Asin(x float64) float64 
-- Asinh(x float64) float64 
-- Atan(x float64) float64 
-- Atan2(y, x float64) float64 
-- Atanh(x float64) float64 
-- Cbrt(x float64) float64 
-- Ceil(x float64) float64 
-- Copysign(x, y float64) float64 
-- Cos(x float64) float64 
-- Cosh(x float64) float64 
-- Dim(x, y float64) float64 
-- Erf(x float64) float64 
-- Erfc(x float64) float64 
-- Erfcinv(x float64) float64 
-- Erfinv(x float64) float64 
-- Exp(x float64) float64 
-- Exp2(x float64) float64 
-- Expm1(x float64) float64 
-- Float64bits(f float64) uint64 
-- Float64frombits(b uint64) float64 
-- Floor(x float64) float64 
-- Gamma(x float64) float64 
-- Hypot(p, q float64) float64 
-- Ilogb(x float64) int 
-- IsInf(f float64, sign int64) bool 
-- IsNaN(f float64) (is bool) 
-- J0(x float64) float64 
-- J1(x float64) float64 
-- Jn(n int64, x float64) float64 
-- Ldexp(frac float64, exp int64) float64 
-- MathLog(x float64) float64 
-- Log10(x float64) float64 
-- Log1p(x float64) float64 
-- Log2(x float64) float64 
-- Logb(x float64) float64 
-- Mod(x, y float64) float64 
-- NaN() float64 
-- Pow(x, y float64) float64 
-- Pow10(n int64) float64 
-- Remainder(x, y float64) float64 
-- Round(x float64) float64 
-- RoundToEven(x float64) float64 
-- Signbit(x float64) bool 
-- Sin(x float64) float64 
-- Sinh(x float64) float64 
-- Sqrt(x float64) float64 
-- Tan(x float64) float64 
-- Tanh(x float64) float64 
-- Trunc(x float64) float64 
+- Max(vals ...float64) float64
+- Min(vals ...float64) float64
+- Abs(x float64) float64
+- Acos(x float64) float64
+- Acosh(x float64) float64
+- Asin(x float64) float64
+- Asinh(x float64) float64
+- Atan(x float64) float64
+- Atan2(y, x float64) float64
+- Atanh(x float64) float64
+- Cbrt(x float64) float64
+- Ceil(x float64) float64
+- Copysign(x, y float64) float64
+- Cos(x float64) float64
+- Cosh(x float64) float64
+- Dim(x, y float64) float64
+- Erf(x float64) float64
+- Erfc(x float64) float64
+- Erfcinv(x float64) float64
+- Erfinv(x float64) float64
+- Exp(x float64) float64
+- Exp2(x float64) float64
+- Expm1(x float64) float64
+- Float64bits(f float64) uint64
+- Float64frombits(b uint64) float64
+- Floor(x float64) float64
+- Gamma(x float64) float64
+- Hypot(p, q float64) float64
+- Ilogb(x float64) int
+- IsInf(f float64, sign int64) bool
+- IsNaN(f float64) (is bool)
+- J0(x float64) float64
+- J1(x float64) float64
+- Jn(n int64, x float64) float64
+- Ldexp(frac float64, exp int64) float64
+- MathLog(x float64) float64
+- Log10(x float64) float64
+- Log1p(x float64) float64
+- Log2(x float64) float64
+- Logb(x float64) float64
+- Mod(x, y float64) float64
+- NaN() float64
+- Pow(x, y float64) float64
+- Pow10(n int64) float64
+- Remainder(x, y float64) float64
+- Round(x float64) float64
+- RoundToEven(x float64) float64
+- Signbit(x float64) bool
+- Sin(x float64) float64
+- Sinh(x float64) float64
+- Sqrt(x float64) float64
+- Tan(x float64) float64
+- Tanh(x float64) float64
+- Trunc(x float64) float64
 
 
 ## Constant Functions常量函数
@@ -495,10 +495,10 @@ then
 
 ```Shell
 rule DoSomething "Do something when string length is sufficient" {
-    when
-        Fact.Name.Len() > "ATextConstant".Len()
-    then
-        Fact.DoSomething();
+when
+Fact.Name.Len() > "ATextConstant".Len()
+then
+Fact.DoSomething();
 }
 ```
 
@@ -512,7 +512,7 @@ rule DoSomething "Do something when string length is sufficient" {
 
 #### 返回
 
-* `< 0` 如果接收者比参数小 
+* `< 0` 如果接收者比参数小
 * `0` 如果接收者和参数相同
 * `> 0` 如果接收者比参数大
 
@@ -520,10 +520,10 @@ rule DoSomething "Do something when string length is sufficient" {
 
 ```Shell
 rule CompareString "Do something when Fact.Text is greater than A" {
-    when
-        Fact.Text.Compare("A") > 0
-    then
-        Fact.DoSomething();
+when
+Fact.Text.Compare("A") > 0
+then
+Fact.DoSomething();
 }
 ```
 
@@ -544,10 +544,10 @@ rule CompareString "Do something when Fact.Text is greater than A" {
 
 ```Shell
 rule ContainString "Do something when Fact.Text is contains XXX" {
-    when
-        Fact.Text.Contains("XXX")
-    then
-        Fact.DoSomething();
+when
+Fact.Text.Contains("XXX")
+then
+Fact.DoSomething();
 }
 ```
 
@@ -567,10 +567,10 @@ rule ContainString "Do something when Fact.Text is contains XXX" {
 
 ```Shell
 rule CheckArgumentIn "Do something when Fact.Text is equals to 'ABC' or 'BCD' or 'CDE' " {
-    when
-        Fact.Text.In("ABC", "BCD", "CDE")
-    then
-        Fact.DoSomething();
+when
+Fact.Text.In("ABC", "BCD", "CDE")
+then
+Fact.DoSomething();
 }
 ```
 
@@ -590,10 +590,10 @@ rule CheckArgumentIn "Do something when Fact.Text is equals to 'ABC' or 'BCD' or
 
 ```Shell
 rule CountString "Do something when Fact.Text contains 3 occurrences of 'ABC'" {
-    when
-        Fact.Text.Count("ABC") == 3
-    then
-        Fact.DoSomething();
+when
+Fact.Text.Count("ABC") == 3
+then
+Fact.DoSomething();
 }
 ```
 
@@ -614,10 +614,10 @@ rule CountString "Do something when Fact.Text contains 3 occurrences of 'ABC'" {
 
 ```Shell
 rule IsPrefixed "Do something when Fact.Text started with PREF" {
-    when
-        Fact.Text.HasPrefix("PREF")
-    then
-        Fact.DoSomething();
+when
+Fact.Text.HasPrefix("PREF")
+then
+Fact.DoSomething();
 }
 ```
 
@@ -638,10 +638,10 @@ rule IsPrefixed "Do something when Fact.Text started with PREF" {
 
 ```Shell
 rule IsSuffixed "Do something when Fact.Text ends with SUFF" {
-    when
-        Fact.Text.HasSuffix("SUFF")
-    then
-        Fact.DoSomething();
+when
+Fact.Text.HasSuffix("SUFF")
+then
+Fact.DoSomething();
 }
 ```
 
@@ -661,10 +661,10 @@ rule IsSuffixed "Do something when Fact.Text ends with SUFF" {
 
 ```Shell
 rule IndexCheck "Do something when Fact.Text ABC occurs as specified" {
-    when
-        Fact.Text.Index("ABC") == "abABCabABC".Index("ABC")
-    then
-        Fact.DoSomething();
+when
+Fact.Text.Index("ABC") == "abABCabABC".Index("ABC")
+then
+Fact.DoSomething();
 }
 ```
 
@@ -684,10 +684,10 @@ rule IndexCheck "Do something when Fact.Text ABC occurs as specified" {
 
 ```Shell
 rule LastIndexCheck "Do something when Fact.Text ABC occurs in the last position as specified" {
-    when
-        Fact.Text.LastIndex("ABC") == "abABCabABC".LastIndex("ABC")
-    then
-        Fact.DoSomething();
+when
+Fact.Text.LastIndex("ABC") == "abABCabABC".LastIndex("ABC")
+then
+Fact.DoSomething();
 }
 ```
 
@@ -707,10 +707,10 @@ rule LastIndexCheck "Do something when Fact.Text ABC occurs in the last position
 
 ```Shell
 rule StringRepeat "Do something when Fact.Text contains ABCABCABC" {
-    when
-        Fact.Text == "ABC".Repeat(3)
-    then
-        Fact.DoSomething();
+when
+Fact.Text == "ABC".Repeat(3)
+then
+Fact.DoSomething();
 }
 ```
 
@@ -731,10 +731,10 @@ rule StringRepeat "Do something when Fact.Text contains ABCABCABC" {
 
 ```Shell
 rule ReplaceString "Do something when Fact.Text contains replaced string" {
-    when
-        Fact.Text == "ABC123ABC".Replace("123","ABC")
-    then
-        Fact.DoSomething();
+when
+Fact.Text == "ABC123ABC".Replace("123","ABC")
+then
+Fact.DoSomething();
 }
 ```
 
@@ -754,10 +754,10 @@ rule ReplaceString "Do something when Fact.Text contains replaced string" {
 
 ```Shell
 rule SplitString "Do something when Fact.Text is prefixed by 'ABC,'" {
-    when
-        Fact.Text.Split(",")[0] == "ABC"
-    then
-        Fact.DoSomething();
+when
+Fact.Text.Split(",")[0] == "ABC"
+then
+Fact.DoSomething();
 }
 ```
 
@@ -773,10 +773,10 @@ rule SplitString "Do something when Fact.Text is prefixed by 'ABC,'" {
 
 ```Shell
 rule LowerText "Do something when Fact.Text is equal to 'abc'" {
-    when
-        Fact.Text.ToLower() == "Abc".ToLower()
-    then
-        Fact.DoSomething();
+when
+Fact.Text.ToLower() == "Abc".ToLower()
+then
+Fact.DoSomething();
 }
 ```
 
@@ -792,10 +792,10 @@ rule LowerText "Do something when Fact.Text is equal to 'abc'" {
 
 ```Shell
 rule UpperText "Do something when Fact.Text is equal to 'ABC'" {
-    when
-        Fact.Text.ToUpper() == "Abc".ToUpper()
-    then
-        Fact.DoSomething();
+when
+Fact.Text.ToUpper() == "Abc".ToUpper()
+then
+Fact.DoSomething();
 }
 ```
 
@@ -811,10 +811,10 @@ rule UpperText "Do something when Fact.Text is equal to 'ABC'" {
 
 ```Shell
 rule TrimText "Do something when Fact.Text is 'ABC'" {
-    when
-        Fact.Text == "  Abc   ".Trim().ToUpper()
-    then
-        Fact.DoSomething();
+when
+Fact.Text == "  Abc   ".Trim().ToUpper()
+then
+Fact.DoSomething();
 }
 ```
 
@@ -832,10 +832,10 @@ rule TrimText "Do something when Fact.Text is 'ABC'" {
 
 ```Shell
 rule MatchStringText "Return true when regex pattern matches the string"  {
-	when
-	  Fact.Text.MatchString("B([a-z]+)ck")
-	then
-	  Fact.DoSomething();
+when
+Fact.Text.MatchString("B([a-z]+)ck")
+then
+Fact.DoSomething();
 }
 ```
 
@@ -851,14 +851,14 @@ rule MatchStringText "Return true when regex pattern matches the string"  {
 
 ```Shell
 rule DoSomething "Do something when array length is sufficient" {
-    when
-        Fact.ChildrenArray.Len() > 2
-    then
-        Fact.DoSomething();
+when
+Fact.ChildrenArray.Len() > 2
+then
+Fact.DoSomething();
 }
 ```
 
-### array.Append(val) 
+### array.Append(val)
 
 `Append` 添加 `val` 到接收者切片
 
@@ -870,10 +870,10 @@ rule DoSomething "Do something when array length is sufficient" {
 
 ```Shell
 rule DoSomething "Add a new child when the array has less than 2 children" {
-    when
-        Fact.ChildrenArray.Len() < 2
-    then
-        Fact.ChildrenArray.Append(Fact.NewChild());
+when
+Fact.ChildrenArray.Len() < 2
+then
+Fact.ChildrenArray.Append(Fact.NewChild());
 }
 ```
 
@@ -889,10 +889,10 @@ rule DoSomething "Add a new child when the array has less than 2 children" {
 
 ```Shell
 rule DoSomething "Do something when map length is sufficient" {
-   when
-       Fact.ChildrenMap.Len() > 2
-   then
-       Fact.DoSomething();
+when
+Fact.ChildrenMap.Len() > 2
+then
+Fact.DoSomething();
 }
 ```
 
@@ -909,11 +909,11 @@ type MyPoGo struct {
 }
 
 func (p *MyPoGo) GetStringLength(sarg string) int {
-    return len(sarg)
+return len(sarg)
 }
 
 func (p *MyPoGo) AppendString(aString, subString string) string {
-    return sprintf("%s%s", aString, subString)
+return sprintf("%s%s", aString, subString)
 }
 ```
 
@@ -924,10 +924,10 @@ dctx := grule.context.NewDataContext()
 dctx.Add("Pogo", &MyPoGo{})
 
 rule "If it's possible to Groool, Groool" {
-    when
-        Pogo.GetStringLength(some.variable) < 100
-    then
-        some.variable = Pogo.AppendString(some.variable, "Groooling");
+when
+Pogo.GetStringLength(some.variable) < 100
+then
+some.variable = Pogo.AppendString(some.variable, "Groooling");
 }
 ```
 
@@ -937,13 +937,13 @@ rule "If it's possible to Groool, Groool" {
 
 ```go
 func (p *MyPoGo) GetLongestString(strs... string) string {
-    var longestStr string
-    for _, s := range strs {
-        if len(s) > len(longestStr) {
-            longestStr = s
-        }
-    }
-    return longestStr
+var longestStr string
+for _, s := range strs {
+if len(s) > len(longestStr) {
+longestStr = s
+}
+}
+return longestStr
 }
 ```
 
@@ -951,35 +951,35 @@ func (p *MyPoGo) GetLongestString(strs... string) string {
 
 ```go
 when
-    Pogo.GetStringLength(some.variable) < 100
+Pogo.GetStringLength(some.variable) < 100
 then
-    some.longest = Pogo.GetLongestString(some.stringA, some.stringB, some.stringC);
+some.longest = Pogo.GetLongestString(some.stringA, some.stringB, some.stringC);
 ```
 
 因为在可变参数中可以提供0个值，你可以模拟optional参数。
 
 ```go
 func (p *MyPoGo) AddTax(cost int64, optionalTaxRate... float64) int64 {
-    var taxRate float64 = 0.2
-    if len(optionalTaxRate) > 0 {
-        taxRate = optionalTaxRate[0]
-    }
-    return cost * (1+taxRate)
+var taxRate float64 = 0.2
+if len(optionalTaxRate) > 0 {
+taxRate = optionalTaxRate[0]
+}
+return cost * (1+taxRate)
 }
 ```
 
 ```go
 when
-    Pogo.IsTaxApplied() == false
+Pogo.IsTaxApplied() == false
 then
-    some.cost = Pogo.AddTax(come.cost);
+some.cost = Pogo.AddTax(come.cost);
 
 //or
 
 when
-    Pogo.IsTaxApplied() == false
+Pogo.IsTaxApplied() == false
 then
-    some.cost = Pogo.AddTax(come.cost, 0.15);
+some.cost = Pogo.AddTax(come.cost, 0.15);
 ```
 
 ### Grule中的自定义函数法则

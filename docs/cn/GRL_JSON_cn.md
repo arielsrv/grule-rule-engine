@@ -16,13 +16,13 @@ JSON格式的规则的基本结构如下：
 
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we keep increase the speed.",
-    "salience": 10,
-    "when": ...,
-    "then": [
-        ...
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we keep increase the speed.",
+"salience": 10,
+"when": ...,
+"then": [
+...
+]
 }
 ```
 
@@ -72,7 +72,7 @@ JSON格式的规则的基本结构如下：
 
 ### 特殊的操作符
 
-下面的操作与标准的操作符有稍微的不同。 
+下面的操作与标准的操作符有稍微的不同。
 
 | Operator  | Description                                                  |
 | --------- | ------------------------------------------------------------ |
@@ -95,7 +95,7 @@ JSON格式的规则的基本结构如下：
 
 ## Then 操作
 
- `then` 操作组成方式跟条件对象相同。最主要的区别是每个`then`条件的根元素要么是`set`要么是`call`操作符。
+`then` 操作组成方式跟条件对象相同。最主要的区别是每个`then`条件的根元素要么是`set`要么是`call`操作符。
 
 # 示例
 
@@ -103,12 +103,12 @@ JSON格式的规则的基本结构如下：
 
 ```
 rule SpeedUp "When testcar is speeding up we increase the speed." salience 10 {
-    when
-        TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
-    then
-        TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
-        DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
-        Log("Speed increased");
+when
+TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
+then
+TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
+DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
+Log("Speed increased");
 }
 ```
 
@@ -118,15 +118,15 @@ rule SpeedUp "When testcar is speeding up we increase the speed." salience 10 {
 
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we increase the speed.",
-    "salience": 10,
-    "when": "TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed",
-    "then": [
-        "TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement",
-        "DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed",
-        "Log(\"Speed increased\")"
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we increase the speed.",
+"salience": 10,
+"when": "TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed",
+"then": [
+"TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement",
+"DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed",
+"Log(\"Speed increased\")"
+]
 }
 ```
 
@@ -138,20 +138,20 @@ rule SpeedUp "When testcar is speeding up we increase the speed." salience 10 {
 
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we increase the speed.",
-    "salience": 10,
-    "when": {
-       "and": [
-           {"eq": ["TestCar.SpeedUp", true]},
-           {"lt": ["TestCar.Speed", "TestCar.MaxSpeed"]}
-       ]
-    },
-    "then": [
-        {"set": ["TestCar.Speed", {"plus": ["TestCar.Speed", "TestCar.SpeedIncrement"]}]},
-        {"set": ["DistanceRecord.TotalDistance", {"plus": ["DistanceRecord.TotalDistance", "TestCar.Speed"]}]},
-        {"call": ["Log", {"const": "Speed increased"}]}
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we increase the speed.",
+"salience": 10,
+"when": {
+"and": [
+{"eq": ["TestCar.SpeedUp", true]},
+{"lt": ["TestCar.Speed", "TestCar.MaxSpeed"]}
+]
+},
+"then": [
+{"set": ["TestCar.Speed", {"plus": ["TestCar.Speed", "TestCar.SpeedIncrement"]}]},
+{"set": ["DistanceRecord.TotalDistance", {"plus": ["DistanceRecord.TotalDistance", "TestCar.Speed"]}]},
+{"call": ["Log", {"const": "Speed increased"}]}
+]
 }
 ```
 
@@ -183,20 +183,20 @@ rule SpeedUp "When testcar is speeding up we increase the speed." salience 10 {
 
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we increase the speed.",
-    "salience": 10,
-    "when": {
-       "and": [
-           {"eq": [{"obj": "TestCar.SpeedUp"}, {"const": true}]},
-           {"lt": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.MaxSpeed"}]}
-       ]
-    },
-    "then": [
-        {"set": [{"obj": "TestCar.Speed"}, {"plus": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.SpeedIncrement"}]}]},
-        {"set": [{"obj": "DistanceRecord.TotalDistance"}, {"plus": [{"obj": "DistanceRecord.TotalDistance"}, {"obj": "TestCar.Speed"}]}]},
-        {"call": ["Log", {"const": "Speed increased"}]}
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we increase the speed.",
+"salience": 10,
+"when": {
+"and": [
+{"eq": [{"obj": "TestCar.SpeedUp"}, {"const": true}]},
+{"lt": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.MaxSpeed"}]}
+]
+},
+"then": [
+{"set": [{"obj": "TestCar.Speed"}, {"plus": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.SpeedIncrement"}]}]},
+{"set": [{"obj": "DistanceRecord.TotalDistance"}, {"plus": [{"obj": "DistanceRecord.TotalDistance"}, {"obj": "TestCar.Speed"}]}]},
+{"call": ["Log", {"const": "Speed increased"}]}
+]
 }
 ```
 
@@ -207,7 +207,7 @@ rule SpeedUp "When testcar is speeding up we increase the speed." salience 10 {
 ```go
 f, err := os.Open("rules.json")
 if err != nil {
-    panic(err)
+panic(err)
 }
 underlying := pkg.NewReaderResource(f)
 resource := pkg.NewJSONResourceFromResource(underlying)
@@ -219,11 +219,11 @@ resource := pkg.NewJSONResourceFromResource(underlying)
 ```go
 jsonData, err := ioutil.ReadFile("rules.json")
 if err != nil {
-    panic(err)
+panic(err)
 }
 ruleset, err := pkg.ParseJSONRuleset(jsonData)
 if err != nil {
-    panic(err)
+panic(err)
 }
 fmt.Println("Parsed ruleset: ")
 fmt.Println(ruleset)

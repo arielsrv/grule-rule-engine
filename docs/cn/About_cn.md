@@ -4,7 +4,6 @@
 __"Gopher 遵守规则"__
 
 
-
 [![About_cn](https://github.com/yammadev/flag-icons/blob/master/png/CN.png?raw=true)](../cn/About_cn.md)
 [![About_de](https://github.com/yammadev/flag-icons/blob/master/png/DE.png?raw=true)](../de/About_de.md)
 [![About_en](https://github.com/yammadev/flag-icons/blob/master/png/GB.png?raw=true)](../en/About_en.md)
@@ -29,15 +28,15 @@ Drool的DRL如下：
 
 ```go
 rule "SpeedUp"
-    salience 10
-    when
-        $TestCar : TestCarClass( speedUp == true && speed < maxSpeed )
-        $DistanceRecord : DistanceRecordClass()
-    then
-        $TestCar.setSpeed($TestCar.Speed + $TestCar.SpeedIncrement);
-        update($TestCar);
-        $DistanceRecord.setTotalDistance($DistanceRecord.getTotalDistance() + $TestCar.Speed)
-        update($DistanceRecord)
+salience 10
+when
+$TestCar : TestCarClass( speedUp == true && speed < maxSpeed )
+$DistanceRecord : DistanceRecordClass()
+then
+$TestCar.setSpeed($TestCar.Speed + $TestCar.SpeedIncrement);
+update($TestCar);
+$DistanceRecord.setTotalDistance($DistanceRecord.getTotalDistance() + $TestCar.Speed)
+update($DistanceRecord)
 end
 ```
 
@@ -45,16 +44,15 @@ end
 
 ```go
 rule SpeedUp "When testcar is speeding up we increase the speed." salience 10  {
-    when
-        TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
-    then
-        TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
-        DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
+when
+TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
+then
+TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
+DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
 }
 ```
 
 # 什么是 RuleEngine
-
 
 
 对于 Martin Fowler的文章，这不是一个比较好的诠释。你可以看原文[RulesEngine by Martin Fowler](https://martinfowler.com/bliki/RulesEngine.html)。
@@ -77,39 +75,44 @@ rule SpeedUp "When testcar is speeding up we increase the speed." salience 10  {
 
 ```go
 When
-   <Condition is true>
-Then
-   <Take desired Action>
-```
+<Condition is true>
+    Then
+    <Take desired Action>
+        ```
 
-规则最重要的部分是`when`部分。如果`when`中的条件被满足了，则可以触发`then`操作。
+        规则最重要的部分是`when`部分。如果`when`中的条件被满足了，则可以触发`then`操作。
 
-```go
-rule  <rule_name> <rule_description>
-   <attribute> <value> {
-   when
-      <conditions>
+        ```go
+        rule
+        <rule_name>
+            <rule_description>
+                <attribute>
+                    <value> {
+                        when
+                        <conditions>
 
-   then
-      <actions>
-}
-```
+                            then
+                            <actions>
+                                }
+                                ```
 
-## 规则引擎的优势
+                                ## 规则引擎的优势
 
-### 声明式编程
+                                ### 声明式编程
 
-规则可以很容易地表达对困难问题的解决方案并获得验证。不像代码，规则可以使用不复杂的语言描述。业务分析师可以轻松阅读和验证一组规则。
+                                规则可以很容易地表达对困难问题的解决方案并获得验证。不像代码，规则可以使用不复杂的语言描述。业务分析师可以轻松阅读和验证一组规则。
 
-### 逻辑与数据分离
+                                ### 逻辑与数据分离
 
-数据驻留在域对象中，业务逻辑驻留在规则中。 根据项目的类型，这种分离可能非常有利。
+                                数据驻留在域对象中，业务逻辑驻留在规则中。 根据项目的类型，这种分离可能非常有利。
 
-### 知识集中化
+                                ### 知识集中化
 
-通过使用规则，您可以创建一个可执行的知识库（知识库）。 这是商业政策的一个真理。 理想情况下，规则具有可读性，它们也可以用作文档。
+                                通过使用规则，您可以创建一个可执行的知识库（知识库）。 这是商业政策的一个真理。
+                                理想情况下，规则具有可读性，它们也可以用作文档。
 
-### 变化敏捷
+                                ### 变化敏捷
 
-由于业务规则实际上被视为数据。 根据业务动态性质调整规则变得很容易。 无需像普通软件开发那样重新构建代码、部署，您只需要推出规则集并将它们应用到知识库中。
+                                由于业务规则实际上被视为数据。 根据业务动态性质调整规则变得很容易。
+                                无需像普通软件开发那样重新构建代码、部署，您只需要推出规则集并将它们应用到知识库中。
 

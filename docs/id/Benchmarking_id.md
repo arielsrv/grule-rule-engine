@@ -135,7 +135,6 @@ Benchmark_Grule_Execution_Engine/1000_rules#08-12           1851            5454
 Benchmark_Grule_Execution_Engine/1000_rules#09-12           1844            543697 ns/op          282657 B/op       3983 allocs/op
 
 
-
 ```
 
 Untuk menjalankan sebuah __fact__ terhadap `100` Grule Engine memerlukan `9697 ns/op` (mengambil nilai tertinggi) yang berarti mendekati `~0.009697ms` dan `3957 B/op`. Operasi ini terlihat cukup cepat.

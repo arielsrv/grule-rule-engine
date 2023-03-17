@@ -24,11 +24,11 @@ $ go get github.com/hyperjumptech/grule-rule-engine
 
 ```go
 import (
-	"github.com/hyperjumptech/grule-rule-engine/ast"
-	"github.com/hyperjumptech/grule-rule-engine/builder"
-	"github.com/hyperjumptech/grule-rule-engine/engine"
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
-) 
+"github.com/hyperjumptech/grule-rule-engine/ast"
+"github.com/hyperjumptech/grule-rule-engine/builder"
+"github.com/hyperjumptech/grule-rule-engine/engine"
+"github.com/hyperjumptech/grule-rule-engine/pkg"
+)
 ```
 
 ## 创建Fact结构体
@@ -37,12 +37,12 @@ import (
 
 ```go
 type MyFact struct {
-    IntAttribute       int64
-    StringAttribute    string
-    BooleanAttribute   bool
-    FloatAttribute     float64
-    TimeAttribute      time.Time
-    WhatToSay          string
+IntAttribute       int64
+StringAttribute    string
+BooleanAttribute   bool
+FloatAttribute     float64
+TimeAttribute      time.Time
+WhatToSay          string
 }
 ```
 
@@ -50,7 +50,7 @@ type MyFact struct {
 
 ```go
 func (mf *MyFact) GetWhatToSay(sentence string) string {
-    return fmt.Sprintf("Let say \"%s\"", sentence)
+return fmt.Sprintf("Let say \"%s\"", sentence)
 }
 ```
 
@@ -67,11 +67,11 @@ func (mf *MyFact) GetWhatToSay(sentence string) string {
 
 ```go
 myFact := &MyFact{
-    IntAttribute: 123,
-    StringAttribute: "Some string value",
-    BooleanAttribute: true,
-    FloatAttribute: 1.234,
-    TimeAttribute: time.Now(),
+IntAttribute: 123,
+StringAttribute: "Some string value",
+BooleanAttribute: true,
+FloatAttribute: 1.234,
+TimeAttribute: time.Now(),
 }
 ```
 
@@ -83,7 +83,7 @@ myFact := &MyFact{
 dataCtx := ast.NewDataContext()
 err := dataCtx.Add("MF", myFact)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -97,7 +97,7 @@ if err != nil {
 
 我们使用`RuleBuilder`去创建`KnowledgeBase`实例，然后添加到`KnowledgeLibrary`中。
 
- GRL 有很多来源:
+GRL 有很多来源:
 
 * 原始字符串
 * 文件内容
@@ -116,11 +116,11 @@ ruleBuilder := builder.NewRuleBuilder(knowledgeLibrary)
 // lets prepare a rule definition
 drls := `
 rule CheckValues "Check the default values" salience 10 {
-    when 
-        MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
-    then
-        MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
-        Retract("CheckValues");
+when
+MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
+then
+MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
+Retract("CheckValues");
 }
 `
 ```
@@ -132,11 +132,11 @@ rule CheckValues "Check the default values" salience 10 {
 bs := pkg.NewBytesResource([]byte(drls))
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", bs)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
- `KnowledgeLibrary` 现在包含了一个名字为`TutorialRules`的而且版本是`0.0.1`的`KnowledgeBase`。为了执行规则，我们需要从`KnowledgeLibrary`中获取一个实例，将在下面的章节阐述。
+`KnowledgeLibrary` 现在包含了一个名字为`TutorialRules`的而且版本是`0.0.1`的`KnowledgeBase`。为了执行规则，我们需要从`KnowledgeLibrary`中获取一个实例，将在下面的章节阐述。
 
 ## 执行 Grule 规则引擎
 
@@ -156,7 +156,7 @@ knowledgeBase := knowledgeLibrary.NewKnowledgeBaseInstance("TutorialRules", "0.0
 engine = engine.NewGruleEngine()
 err = engine.Execute(dataCtx, knowledgeBase)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -166,11 +166,11 @@ if err != nil {
 
 ```go
 rule CheckValues "Check the default values" salience 10 {
-    when 
-        MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
-    then
-        MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
-        Retract("CheckValues");
+when
+MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
+then
+MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
+Retract("CheckValues");
 }
 ```
 
@@ -196,7 +196,7 @@ GRLs 规则列表可以存储在外部文件中，有很多方式去获取、加
 fileRes := pkg.NewFileResource("/path/to/rules.grl")
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", fileRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -206,10 +206,10 @@ if err != nil {
 bundle := pkg.NewFileResourceBundle("/path/to/grls", "/path/to/grls/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
@@ -219,7 +219,7 @@ for _, res := range resources {
 bs := pkg.NewBytesResource([]byte(rules))
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", bs)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -229,7 +229,7 @@ if err != nil {
 urlRes := pkg.NewUrlResource("http://host.com/path/to/rule.grl")
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", urlRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -241,7 +241,7 @@ headers.Set("Authorization", "Basic YWxhZGRpbjpvcGVuc2VzYW1l")
 urlRes := pkg.NewURLResourceWithHeaders("http://host.com/path/to/rule.grl", headers)
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", urlRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -251,16 +251,16 @@ if err != nil {
 bundle := pkg.NewGITResourceBundle("https://github.com/hyperjumptech/grule-rule-engine.git", "/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
 ### 从 JSON获取
 
-你可以从JSON构建规则! [请阅读这里](GRL_JSON_cn.md) 
+你可以从JSON构建规则! [请阅读这里](GRL_JSON_cn.md)
 
 ## 编译 GRL 到 GRB
 

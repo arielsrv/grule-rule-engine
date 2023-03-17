@@ -15,13 +15,13 @@ Reguły Grule mogą być reprezentowane w formacie JSON i tłumaczone przez siln
 Podstawowa struktura reguły JSON jest następująca:
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we keep increase the speed.",
-    "salience": 10,
-    "when": ...,
-    "then": [
-        ...
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we keep increase the speed.",
+"salience": 10,
+"when": ...,
+"then": [
+...
+]
 }
 ```
 
@@ -102,12 +102,12 @@ Aby zademonstrować możliwości reprezentacji JSON, należy przekonwertować po
 
 ```
 rule SpeedUp "When testcar is speeding up we increase the speed." salience 10 {
-    when
-        TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
-    then
-        TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
-        DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
-        Log("Speed increased");
+when
+TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
+then
+TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
+DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
+Log("Speed increased");
 }
 ```
 
@@ -117,15 +117,15 @@ Najbardziej podstawowa reprezentacja tej reguły w JSON jest następująca:
 
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we increase the speed.",
-    "salience": 10,
-    "when": "TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed",
-    "then": [
-        "TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement",
-        "DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed",
-        "Log(\"Speed increased\")"
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we increase the speed.",
+"salience": 10,
+"when": "TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed",
+"then": [
+"TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement",
+"DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed",
+"Log(\"Speed increased\")"
+]
 }
 ```
 
@@ -137,20 +137,20 @@ Powyższa reguła może być również przedstawiona w bardziej jednoznacznym fo
 
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we increase the speed.",
-    "salience": 10,
-    "when": {
-       "and": [
-           {"eq": ["TestCar.SpeedUp", true]},
-           {"lt": ["TestCar.Speed", "TestCar.MaxSpeed"]}
-       ]
-    },
-    "then": [
-        {"set": ["TestCar.Speed", {"plus": ["TestCar.Speed", "TestCar.SpeedIncrement"]}]},
-        {"set": ["DistanceRecord.TotalDistance", {"plus": ["DistanceRecord.TotalDistance", "TestCar.Speed"]}]},
-        {"call": ["Log", {"const": "Speed increased"}]}
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we increase the speed.",
+"salience": 10,
+"when": {
+"and": [
+{"eq": ["TestCar.SpeedUp", true]},
+{"lt": ["TestCar.Speed", "TestCar.MaxSpeed"]}
+]
+},
+"then": [
+{"set": ["TestCar.Speed", {"plus": ["TestCar.Speed", "TestCar.SpeedIncrement"]}]},
+{"set": ["DistanceRecord.TotalDistance", {"plus": ["DistanceRecord.TotalDistance", "TestCar.Speed"]}]},
+{"call": ["Log", {"const": "Speed increased"}]}
+]
 }
 ```
 
@@ -182,20 +182,20 @@ Najbardziej dosłowna możliwa wersja przykładowej reguły w składni JSON wygl
 
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we increase the speed.",
-    "salience": 10,
-    "when": {
-       "and": [
-           {"eq": [{"obj": "TestCar.SpeedUp"}, {"const": true}]},
-           {"lt": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.MaxSpeed"}]}
-       ]
-    },
-    "then": [
-        {"set": [{"obj": "TestCar.Speed"}, {"plus": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.SpeedIncrement"}]}]},
-        {"set": [{"obj": "DistanceRecord.TotalDistance"}, {"plus": [{"obj": "DistanceRecord.TotalDistance"}, {"obj": "TestCar.Speed"}]}]},
-        {"call": ["Log", {"const": "Speed increased"}]}
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we increase the speed.",
+"salience": 10,
+"when": {
+"and": [
+{"eq": [{"obj": "TestCar.SpeedUp"}, {"const": true}]},
+{"lt": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.MaxSpeed"}]}
+]
+},
+"then": [
+{"set": [{"obj": "TestCar.Speed"}, {"plus": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.SpeedIncrement"}]}]},
+{"set": [{"obj": "DistanceRecord.TotalDistance"}, {"plus": [{"obj": "DistanceRecord.TotalDistance"}, {"obj": "TestCar.Speed"}]}]},
+{"call": ["Log", {"const": "Speed increased"}]}
+]
 }
 ```
 
@@ -206,7 +206,7 @@ Reguły JSON mogą być ładowane z bazowego dostawcy zasobów lub dostawcy Reso
 ```go
 f, err := os.Open("rules.json")
 if err != nil {
-    panic(err)
+panic(err)
 }
 underlying := pkg.NewReaderResource(f)
 resource := pkg.NewJSONResourceFromResource(underlying)
@@ -218,11 +218,11 @@ Możliwe jest również parsowanie tablicy bajtów zawierającej reguły JSON be
 ```go
 jsonData, err := ioutil.ReadFile("rules.json")
 if err != nil {
-    panic(err)
+panic(err)
 }
 ruleset, err := pkg.ParseJSONRuleset(jsonData)
 if err != nil {
-    panic(err)
+panic(err)
 }
 fmt.Println("Parsed ruleset: ")
 fmt.Println(ruleset)

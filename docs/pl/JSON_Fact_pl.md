@@ -18,18 +18,18 @@ Zakładając, że masz JSON w następującej postaci:
 
 ```json
 {
-  "name" : "John Doe",
-  "age" : 24,
-  "gender" : "M",
-  "height" : 74.8,
-  "married" : false,
-  "address" : {
-    "street" : "9886 2nd St.",
-    "city" : "Carpentersville",
-    "state" : "Illinois",
-    "postal" : 60110
-  },
-  "friends" : [ "Roth", "Jane", "Jake" ]
+"name" : "John Doe",
+"age" : 24,
+"gender" : "M",
+"height" : 74.8,
+"married" : false,
+"address" : {
+"street" : "9886 2nd St.",
+"city" : "Carpentersville",
+"state" : "Illinois",
+"postal" : 60110
+},
+"friends" : [ "Roth", "Jane", "Jake" ]
 }
 ```
 
@@ -52,69 +52,69 @@ err := dataContext.AddJSON("MyJSON", myJSON)
 Tak, możesz dodać tyle _faktów_ ile chcesz do kontekstu i możesz mieszać fakty JSON (używając `AddJSON`) z normalnymi faktami Go (używając `Add`)
 
 ## Ocenianie (odczytywanie) wartości faktów JSON w GRL
- 
+
 W skrypcie GRL, fakty są zawsze widoczne poprzez ich etykiety, które podajesz podczas dodawania do `DataContext`. Na przykład, poniższy kod dodaje twój JSON i będzie on używał etykiety `MyJSON`.
- 
- ```go
+
+```go
 err := dataContext.AddJSON("MyJSON", myJSON)
 ```
- 
+
 Tak, możesz użyć dowolnej etykiety, pod warunkiem że jest to pojedyncze słowo.
- 
+
 ### Przemieszczanie się po zmiennych członkowskich jak po normalnym obiekcie
- 
+
 Używając JSON pokazanego na początku, zakres GRL `when` może obliczyć twój
 json w następujący sposób.
- 
- ```text
-when
-    MyJSON.name == "John Doe"
-``` 
-
-lub 
 
 ```text
 when
-    MyJSON.address.city.StrContains("ville")
+MyJSON.name == "John Doe"
 ```
 
 lub
 
 ```text
 when
-    MyJSON.age > 30 && MyJSON.height < 60
+MyJSON.address.city.StrContains("ville")
+```
+
+lub
+
+```text
+when
+MyJSON.age > 30 && MyJSON.height < 60
 ```
 
 ### Przemierzanie zmiennych członkowskich jak mapa
 
 Możesz uzyskać dostęp do pól obiektu JSON używając `Map` jak selektora lub jak normalnego obiektu.
 
- ```text
-when
-    MyJSON["name"] == "John Doe"
-``` 
-
-lub 
-
 ```text
 when
-    MyJSON["address"].city.StrContains("ville")
+MyJSON["name"] == "John Doe"
 ```
 
 lub
 
 ```text
 when
-    MyJSON.age > 30 && MyJSON["HEIGHT".ToLower()] < 60
+MyJSON["address"].city.StrContains("ville")
+```
+
+lub
+
+```text
+when
+MyJSON.age > 30 && MyJSON["HEIGHT".ToLower()] < 60
 ```
 
 ### Przemierzanie zmiennej członkowskiej tablicy
 
 Element tablicy JSON można przeglądać tak samo jak zwykłą tablicę
 
- ```text
+```text
 when
-    MyJSON.friends[3] == "Jake"
+MyJSON.friends[3] == "Jake"
 ```
 
 ## Zapisywanie wartości do faktów JSON w GRL
@@ -122,114 +122,114 @@ when
 Tak, możesz zapisywać nowe wartości do faktów JSON w zakresie `then` swoich reguł. Te zmienione wartości będą wtedy dostępne w następnym cyklu oceny reguł. ALE, są pewne zastrzeżenia (przeczytaj "Rzeczy, które powinieneś wiedzieć" poniżej).
 
 ### Zapisywanie zmiennej członkowskiej jak normalnego obiektu
- 
-Używając JSON pokazanego na początku, twój GRL `then` może zmodyfikować twój json **fact** w następujący sposób.
- 
- ```text
-then
-    MyJSON.name = "Robert Woo";
-``` 
 
-lub 
+Używając JSON pokazanego na początku, twój GRL `then` może zmodyfikować twój json **fact** w następujący sposób.
 
 ```text
 then
-    MyJSON.address.city = "Corruscant";
+MyJSON.name = "Robert Woo";
 ```
 
 lub
 
 ```text
 then
-    MyJSON.age = 30;
+MyJSON.address.city = "Corruscant";
+```
+
+lub
+
+```text
+then
+MyJSON.age = 30;
 ```
 
 To dość proste. Ale są też pewne utrudnienia.
 
 1. Możesz modyfikować nie tylko wartość zmiennej członkowskiej obiektu JSON, możesz również zmienić jej `typ`.
-   Zakładając, że twoja reguła jest w stanie obsłużyć kolejny łańcuch ewaluacji dla nowego typu, możesz to zrobić, w przeciwnym razie **bardzo mocno odradzamy to**.
-   
-   Przykład:
-   
-   Zmodyfikowałeś `MyJSON.age` na string.
-   
-   ```text
-    then
-        MyJSON.age = "Thirty";
-   ```
-   
-   Ta zmiana sprawi, że silnik będzie wpadał w panikę podczas sprawdzania reguł typu:
-   
-   ```text
-    when
-        myJSON.age > 25
-   ```
-   
-2. Można przypisać wartość do nieistniejącej zmiennej członkowskiej.
- 
-   Przykład:
-   
-      ```text
-       then
-           MyJSON.category = "FAT";
-      ```
+Zakładając, że twoja reguła jest w stanie obsłużyć kolejny łańcuch ewaluacji dla nowego typu, możesz to zrobić, w przeciwnym razie **bardzo mocno odradzamy to**.
 
-    Gdzie element `category` nie istnieje w oryginalnym JSON.
-    
-### Zapisywanie zmiennej członkowskiej jak normalnej mapy
- 
-Używając JSON-a pokazanego na początku, twój GRL `then` może zmodyfikować twój json **fact** w następujący sposób.
- 
- ```text
-then
-    MyJSON["name"] = "Robert Woo";
-``` 
+Przykład:
 
-lub 
+Zmodyfikowałeś `MyJSON.age` na string.
 
 ```text
 then
-    MyJSON["address"]["city"] = "Corruscant";
+MyJSON.age = "Thirty";
+```
+
+Ta zmiana sprawi, że silnik będzie wpadał w panikę podczas sprawdzania reguł typu:
+
+```text
+when
+myJSON.age > 25
+```
+
+2. Można przypisać wartość do nieistniejącej zmiennej członkowskiej.
+
+Przykład:
+
+```text
+then
+MyJSON.category = "FAT";
+```
+
+Gdzie element `category` nie istnieje w oryginalnym JSON.
+
+### Zapisywanie zmiennej członkowskiej jak normalnej mapy
+
+Używając JSON-a pokazanego na początku, twój GRL `then` może zmodyfikować twój json **fact** w następujący sposób.
+
+```text
+then
+MyJSON["name"] = "Robert Woo";
 ```
 
 lub
 
 ```text
 then
-    MyJSON["age"] = 30;
+MyJSON["address"]["city"] = "Corruscant";
+```
+
+lub
+
+```text
+then
+MyJSON["age"] = 30;
 ```
 
 Podobnie jak w przypadku stylu obiektu, obowiązują te same zwroty.
 
 1. Możesz modyfikować nie tylko wartość zmiennej członkowskiej swojej mapy JSON, możesz również zmienić jej `typ`.
-   Zakładając, że Twoja reguła jest w stanie obsłużyć kolejny łańcuch ewaluacji dla nowego typu, możesz to zrobić, w przeciwnym razie **bardzo mocno odradzamy to**.
-   
-   Przykład:
-   
-   Zmodyfikowałeś `MyJSON.age` na string.
-   
-   ```text
-    then
-        MyJSON["age"] = "Thirty";
-   ```
-   
-   Ta zmiana sprawi, że silnik będzie wpadał w panikę podczas sprawdzania reguł typu:
-   
-   ```text
-    when
-        myJSON.age > 25
-   ```
-   
-2. Można przypisać wartość do nieistniejącej zmiennej członkowskiej
- 
-   Przykład:
-   
-      ```text
-       then
-           MyJSON["category"] = "FAT";
-      ```
+Zakładając, że Twoja reguła jest w stanie obsłużyć kolejny łańcuch ewaluacji dla nowego typu, możesz to zrobić, w przeciwnym razie **bardzo mocno odradzamy to**.
 
-    Gdy element `category` nie istnieje w oryginalnym JSON.
+Przykład:
+
+Zmodyfikowałeś `MyJSON.age` na string.
+
+```text
+then
+MyJSON["age"] = "Thirty";
+```
+
+Ta zmiana sprawi, że silnik będzie wpadał w panikę podczas sprawdzania reguł typu:
+
+```text
+when
+myJSON.age > 25
+```
+
+2. Można przypisać wartość do nieistniejącej zmiennej członkowskiej
+
+Przykład:
+
+```text
+then
+MyJSON["category"] = "FAT";
+```
+
+Gdy element `category` nie istnieje w oryginalnym JSON.
 
 ### Zapisywanie tablicy członków
 
@@ -237,7 +237,7 @@ Element tablicy można zastąpić, używając jego indeksu.
 
 ```text
 then
-   MyJSON.friends[3] == "Jake";
+MyJSON.friends[3] == "Jake";
 ```
 
 Podany indeks musi być poprawny. Grule wpadnie w panikę, jeśli indeks będzie poza granicami.
@@ -246,14 +246,14 @@ Zawsze można też sprawdzić długość tablicy.
 
 ```text
 when
-   MyJSON.friends.Length() > 4;
+MyJSON.friends.Length() > 4;
 ```
 
 Można również dołączać do tablicy za pomocą funkcji `Append`.  Append może również dołączać zmienną listę wartości argumentów do tablicy, używając różnych typów. (W przypadku zmiany typu danej wartości obowiązują te same zastrzeżenia).
 
 ```text
 then
-   MyJSON.friends.Append("Rubby", "Anderson", "Smith", 12.3);
+MyJSON.friends.Append("Rubby", "Anderson", "Smith", 12.3);
 ```
 
 **Znany problem**

@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Method invocation and tracer bug
 - Reflectools are now able to detect the object under reflection for its `value` vs `ptr to struct`
 - Function invocation now check if the argument is an Interface, it should accept any type of argument type values.
- 
+
 ### [1.0.1] - 2019-12-16
 
 #### Added
@@ -82,7 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for `escape` character in string literal
 - `RuleBuilder` is now to build rules in GRLs into `KnowledgeLibrary`
-- Now you should obtain a `KnowledgeBase` instance from `KnowledgeLibrary`. This enable concurrency model in Grule. See `examples/Concurrency_test.go` to know how it works. 
+- Now you should obtain a `KnowledgeBase` instance from `KnowledgeLibrary`. This enable concurrency model in Grule. See `examples/Concurrency_test.go` to know how it works.
 
 ### [1.5.0] - 2020-08-02
 
@@ -92,7 +92,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Engine support for `context.Context` using `ExecuteWithContext` function.
 
 ### [1.6.0] - 2020-09-01
- 
+
 #### Added
 
 - Enhancing in variable traversal, from previously using string tracing to struct-field lookup in reflect.Value
@@ -106,9 +106,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Grule Event Bus is removed from Grule as it seems too complicated and no one use them. They just expect grule to just works.
 
 ### [1.7.0] - 2020-11-06
- 
+
 #### Changes
- 
+
 - Change the Grule ANTLR4 grammar for better structure, tested with ANTLR4 hierarchy and AST Tree.
 - FunctionCall AST graph is now under ExpressionAtom instead of Variable
 
@@ -121,28 +121,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integer literal support Octal and Hexadecimal, Float literal support Hexadecimal.
 - Added more documentation about the new numbering literals and also re-arrange the menu in the documentation.
 - Support negation.
-  
+
 ### [1.7.1] - 2020-12-02
-  
+
 ##### Fix
- 
+
 - Fixed ANTLR4 grammar to enable function chaining in the THEN scope
 - Fixed ANTLR4 grammar error that makes array/slice/map cannot be chained with function
- 
+
 #### Change
- 
+
 - Built-in function `Changed` is renamed to `Forget` to clearly tell the engine to forget about variable values or function invocation to make sure the engine look again into the underlying data context on the next cycle.
 
 ### [1.7.2] - 2020-12-09
-  
+
 ##### Fix
 
 - Fixes the cloning problem where Expression do not clone the negation attribute
 - Added mutex for unique.NewID() to make sure that this function is thread/concurrent safe.
 
 ### [1.8.0] - 2020-12-19
-  
+
 #### Added
- 
+
 - Support for JSON as Fact
 - Support native type variable to be added straight into `DataContext` not only `struct`

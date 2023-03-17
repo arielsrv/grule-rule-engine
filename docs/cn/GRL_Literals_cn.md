@@ -34,7 +34,7 @@
 
 ```go
 "A quick brown fox
-    Jumps
+Jumps
 Over a lazy dog"
 ```
 
@@ -111,7 +111,7 @@ GRL中数字字面变量 跟Golang指定的尽可能相同。它可以理解各�
 16进制举例
 
 ```go
-0x1p-2 
+0x1p-2
 0x2.p10
 0x1.Fp+0
 0X.8p-0

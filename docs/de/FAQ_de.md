@@ -47,8 +47,8 @@ Consider this fact:
 
 ```go
 type Fact struct {
-   Payment int
-   Cashback int
+Payment int
+Cashback int
 }
 ```
 
@@ -56,17 +56,17 @@ And the following rules are defined:
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100
-    Then
-         F.Cashback = 10;
+When
+F.Payment > 100
+Then
+F.Cashback = 10;
 }
 
 rule LogCashback "Emit log if cashback is given" {
-    When 
-         F.Cashback > 5
-    Then
-         Log("Cashback given :" + F.Cashback);
+When
+F.Cashback > 5
+Then
+Log("Cashback given :" + F.Cashback);
 }
 ```
 
@@ -74,11 +74,11 @@ Executing these rules on the following fact instance...
 
 ```go
 &Fact {
-     Payment: 500,
+Payment: 500,
 }
 ```
 
-... never terminates. 
+... never terminates.
 
 ```
 Cycle 1: Execute "GiveCashback" .... because when F.Payment > 100 is a valid condition
@@ -97,11 +97,11 @@ like:
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100 &&
-         F.Cashback == 0
-    Then
-         F.Cashback = 10;
+When
+F.Payment > 100 &&
+F.Cashback == 0
+Then
+F.Cashback = 10;
 }
 ```
 
@@ -117,11 +117,11 @@ the following:
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100
-    Then
-         F.Cashback = 10;
-         Retract("GiveCashback");
+When
+F.Payment > 100
+Then
+F.Cashback = 10;
+Retract("GiveCashback");
 }
 ```
 
@@ -141,7 +141,7 @@ of database, Grule will not create any database adapter to automaticaly store
 and retrieve rules.  You can easily create such adapter yourself using the
 common interfaces on the Knowledgebase: *Reader*, *File*, *Byte Array*, *String*
 and *Git*. Strings can be easily inserted and selected from database, as you
-load them into Grule's knowledgebase. 
+load them into Grule's knowledgebase.
 
 We don't want to couple Grule to any particular database implementation.
 
@@ -172,46 +172,46 @@ least one minimum.
 **Answer**: The following cases are better solved with a rule-engine in my humble opinion.
 
 1. An expert system that must evaluate facts to provide some sort of real-world
-   conclusion. If not using a a RETE-style rule engine, one would code up a
-   cascading set of `if`/`else` statements and the permutations of the
-   combinations of how those might be evaluated would quickly become impossible
-   to manage.  A table-based rule engine might suffice but it is still more
-   brittle against change and is not terribly easy to code. A system like Grule
-   allows you to describe the rules and facts of your system, releasing you from
-   the need to describe how the rules are evaluated against those facts, hiding
-   the bulk of that complexity from you.
+conclusion. If not using a a RETE-style rule engine, one would code up a
+cascading set of `if`/`else` statements and the permutations of the
+combinations of how those might be evaluated would quickly become impossible
+to manage.  A table-based rule engine might suffice but it is still more
+brittle against change and is not terribly easy to code. A system like Grule
+allows you to describe the rules and facts of your system, releasing you from
+the need to describe how the rules are evaluated against those facts, hiding
+the bulk of that complexity from you.
 
 2. A rating system. For example, a bank system may want to create a "score" for
-   each customer based on the customer's transaction records (facts).  We could
-   see their score change based on how often they interact with the bank, how
-   much money they transfer in and out, how quickly they pay their bills, how
-   much interest they accrue earn for themselves or for the bank, and so on. A
-   rule engine is provided by the developer and the specification of the facts
-   and rules can then be supplied by subject matter experts in the bank's
-   customer business. Decoupling these different teams puts the responsbilities
-   where they should be.
+each customer based on the customer's transaction records (facts).  We could
+see their score change based on how often they interact with the bank, how
+much money they transfer in and out, how quickly they pay their bills, how
+much interest they accrue earn for themselves or for the bank, and so on. A
+rule engine is provided by the developer and the specification of the facts
+and rules can then be supplied by subject matter experts in the bank's
+customer business. Decoupling these different teams puts the responsbilities
+where they should be.
 
 3. Computer games. Player status, rewards, penalties, damage, scores and
-   probability systems are many different examples of where rule play a
-   significant part of nearly all computer games. These rules can interact in
-   very complex ways, often times in ways that the developer didn't imagine.
-   Coding these dynamic situations in a scripting language (e.g. LUA) can get
-   quite complex, and a rule engine can help simplify the work tremendously.
+probability systems are many different examples of where rule play a
+significant part of nearly all computer games. These rules can interact in
+very complex ways, often times in ways that the developer didn't imagine.
+Coding these dynamic situations in a scripting language (e.g. LUA) can get
+quite complex, and a rule engine can help simplify the work tremendously.
 
 4. Classification systems. This is actually a generalization of the rating
-   system described above.  Using a rule engine, we can classify things such as
-   credit eligibility, bio chemical identification, risk assessment for
-   insurance products, potential security threats, and many more.
+system described above.  Using a rule engine, we can classify things such as
+credit eligibility, bio chemical identification, risk assessment for
+insurance products, potential security threats, and many more.
 
 5. Advice/Suggestion system. A "rule" is simply another kind of data, which
-   makes it a prime candidate for definition by another program.  This program
-   can be another expert system or artificial intelligence.  Rules can be
-   manipulated by another system in order to deal with new types of facts or
-   newly discovered information about the domain which the rule set is intending
-   to model.
+makes it a prime candidate for definition by another program.  This program
+can be another expert system or artificial intelligence.  Rules can be
+manipulated by another system in order to deal with new types of facts or
+newly discovered information about the domain which the rule set is intending
+to model.
 
 There are so many other use-cases that would benefit from the use of
-Rule-Engine. The above cases represent only a small number of the potential. 
+Rule-Engine. The above cases represent only a small number of the potential.
 
 However it is important to state that a Rule-Engine not a silver bullet, of
 course.  Many alternatives exist to solve "knowledge" problems in software and
@@ -234,8 +234,8 @@ business complexity seems to be quite clear.
 
 ```go
 import (
-    "github.com/hyperjumptech/grule-rule-engine/logger"
-    "github.com/sirupsen/logrus"
+"github.com/hyperjumptech/grule-rule-engine/logger"
+"github.com/sirupsen/logrus"
 )
 ...
 ...

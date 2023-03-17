@@ -22,22 +22,22 @@ Po pierwsze, powinieneś mieć `KnowledgeLibrary` zawierającą `KnowledgeBase`,
 Zwykle ładuje się GRL do biblioteki w następujący sposób :
 
 ```go
-	lib := ast.NewKnowledgeLibrary()
-	rb := builder.NewRuleBuilder(lib)
-	err := rb.BuildRuleFromResource("HugeRuleSet", "0.0.1", pkg.NewFileResource("HugeRuleSet.grl"))
-	assert.NoError(t, err)
+lib := ast.NewKnowledgeLibrary()
+rb := builder.NewRuleBuilder(lib)
+err := rb.BuildRuleFromResource("HugeRuleSet", "0.0.1", pkg.NewFileResource("HugeRuleSet.grl"))
+assert.NoError(t, err)
 ```
 
 Po drugie, można teraz zapisać bazę wiedzy w GRB w następujący sposób:
 
 ```go
-	f, err := os.OpenFile("HugeRuleSet.grb", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	assert.Nil(t, err)
+f, err := os.OpenFile("HugeRuleSet.grb", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+assert.Nil(t, err)
 
-	// Save the knowledge base into the file and close it.
-	err = lib.StoreKnowledgeBaseToWriter(f, "HugeRuleSet", "0.0.1")
-	assert.Nil(t, err)
-	_ = f.Close()
+// Save the knowledge base into the file and close it.
+err = lib.StoreKnowledgeBaseToWriter(f, "HugeRuleSet", "0.0.1")
+assert.Nil(t, err)
+_ = f.Close()
 ```
 
 Plik GRB zawiera teraz wszystkie reguły z określonej bazy wiedzy i jest gotowy do załadowania w przyszłości.
@@ -49,23 +49,23 @@ Tak, rozmiar pliku GRB jest 10-krotnie większy niż GRL, ale najczęściej dzie
 Ładowanie GRB jest znacznie prostsze. Nie potrzeba konstruktora.
 
 ```go
-	lib := ast.NewKnowledgeLibrary()
+lib := ast.NewKnowledgeLibrary()
 
-	// Open the existing safe file
-	f, err := os.Open("HugeRuleSet.grb")
-	assert.Nil(t, err)
+// Open the existing safe file
+f, err := os.Open("HugeRuleSet.grb")
+assert.Nil(t, err)
 
-	// Load the file directly into the library and close the file
-	// btw, you should not use the blueprint_kb in your engine execution.
-	bluerint_kb, err := lib.LoadKnowledgeBaseFromReader(f2, true)
-	assert.Nil(t, err)
-	_ = f.Close()
+// Load the file directly into the library and close the file
+// btw, you should not use the blueprint_kb in your engine execution.
+bluerint_kb, err := lib.LoadKnowledgeBaseFromReader(f2, true)
+assert.Nil(t, err)
+_ = f.Close()
 ```
 
 Proszę bardzo!!!, GRB jest załadowana do `KnowledgeLibrary` Możesz normalnie uzyskać bazę wiedzy.
 
 ```go
-    kb := lib.NewKnowledgeBaseInstance("HugeRuleSet", "0.0.1")
+kb := lib.NewKnowledgeBaseInstance("HugeRuleSet", "0.0.1")
 ```
 
 Jedna rzecz, jeśli `KnowledgeLibrary` zawiera już taką samą bazę wiedzy jak ta w GRB, ta `KnowledgeBase` w bibliotece zostanie nadpisana.

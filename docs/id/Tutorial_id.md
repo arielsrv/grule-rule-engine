@@ -37,12 +37,12 @@ Dalam file `.go` anda,
 
 ```go
 import (
-	"github.com/hyperjumptech/grule-rule-engine/ast"
-	"github.com/hyperjumptech/grule-rule-engine/builder"
-	"github.com/hyperjumptech/grule-rule-engine/engine"
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
-) 
-``` 
+"github.com/hyperjumptech/grule-rule-engine/ast"
+"github.com/hyperjumptech/grule-rule-engine/builder"
+"github.com/hyperjumptech/grule-rule-engine/engine"
+"github.com/hyperjumptech/grule-rule-engine/pkg"
+)
+```
 
 ## Membuat struktur fakta
 
@@ -52,12 +52,12 @@ atau yang daldam dunia *OOP* disebut juga dengan `method`
 
 ```go
 type MyFact struct {
-    IntAttribute       int64
-    StringAttribute    string
-    BooleanAttribute   bool
-    FloatAttribute     float64
-    TimeAttribute      time.Time
-    WhatToSay          string
+IntAttribute       int64
+StringAttribute    string
+BooleanAttribute   bool
+FloatAttribute     float64
+TimeAttribute      time.Time
+WhatToSay          string
 }
 
 ```
@@ -69,7 +69,7 @@ Grule juga dapa memanggil fungsi-fungsi dalam fakta.
 
 ```go
 func (mf *MyFact) GetWhatToSay(sentence string) string {
-    return fmt.Sprintf("Let say \"%s\"", sentence)
+return fmt.Sprintf("Let say \"%s\"", sentence)
 }
 ```
 
@@ -86,11 +86,11 @@ Untui menambahkan fakta kedalam *DataContext* anda harus membuat sebuah *instanc
 
 ```go
 myFact := &MyFact{
-    IntAttribute: 123,
-    StringAttribute: "Some string value",
-    BooleanAttribute: true,
-    FloatAttribute: 1.234,
-    TimeAttribute: time.Now(),
+IntAttribute: 123,
+StringAttribute: "Some string value",
+BooleanAttribute: true,
+FloatAttribute: 1.234,
+TimeAttribute: time.Now(),
 }
 ```
 
@@ -102,7 +102,7 @@ Berikutnya, anda hendak menyiapkan `DataContext` dan menambahkan `instance` fakt
 dataCtx := ast.NewDataContext()
 err := dataCtx.Add("MF", myFact)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -129,11 +129,11 @@ Sekaran kita bisa menambahkan sebuah *rule* (didefinisikan dalam GRL)
 // mari kita siapkan sebuah definisi rule
 drls := `
 rule CheckValues "Check the default values" salience 10 {
-    when 
-        MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
-    then
-        MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
-        Retract("CheckValues);
+when
+MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
+then
+MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
+Retract("CheckValues);
 }
 `
 
@@ -141,7 +141,7 @@ rule CheckValues "Check the default values" salience 10 {
 byteArr := pkg.NewBytesResource([]byte(drls))
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", byteArr)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -155,7 +155,7 @@ Anda dapat memuat GRL dari berbagai dan banyak sumber.
 fileRes := pkg.NewFileResource("/path/to/rules.grl")
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", fileRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -165,10 +165,10 @@ atau jika anda inginkan anda bisa memuat dari sumber file dengan pola
 bundle := pkg.NewFileResourceBundle("/path/to/grls", "/path/to/grls/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
@@ -178,7 +178,7 @@ for _, res := range resources {
 byteArr := pkg.NewBytesResource([]byte(rules))
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", byteArr)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -188,7 +188,7 @@ if err != nil {
 urlRes := pkg.NewUrlResource("http://host.com/path/to/rule.grl")
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", urlRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -198,10 +198,10 @@ if err != nil {
 bundle := pkg.NewGITResourceBundle("https://github.com/hyperjumptech/grule-rule-engine.git", "/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
@@ -225,7 +225,7 @@ Ok, sekarang mari kita jalankan `KnowledgeBase` yang didapat dari `KnowlegeLibra
 engine = engine.NewGruleEngine()
 err = engine.Execute(dataCtx, knowledgeBase)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -235,11 +235,11 @@ Jika anda perhatikan, pada GRL diatas,
 
 ```go
 rule CheckValues "Check the default values" salience 10 {
-    when 
-        MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
-    then
-        MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
-        Retract("CheckValues");
+when
+MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
+then
+MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
+Retract("CheckValues");
 }
 ```
 
@@ -262,7 +262,7 @@ the contents of those files.
 fileRes := pkg.NewFileResource("/path/to/rules.grl")
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", fileRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -272,10 +272,10 @@ You can also load multiple files into a bundle with paths and glob patterns:
 bundle := pkg.NewFileResourceBundle("/path/to/grls", "/path/to/grls/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
@@ -285,7 +285,7 @@ for _, res := range resources {
 bs := pkg.NewBytesResource([]byte(rules))
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", bs)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -295,7 +295,7 @@ if err != nil {
 urlRes := pkg.NewUrlResource("http://host.com/path/to/rule.grl")
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", urlRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -307,7 +307,7 @@ headers.Set("Authorization", "Basic YWxhZGRpbjpvcGVuc2VzYW1l")
 urlRes := pkg.NewURLResourceWithHeaders("http://host.com/path/to/rule.grl", headers)
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", urlRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -317,16 +317,16 @@ if err != nil {
 bundle := pkg.NewGITResourceBundle("https://github.com/hyperjumptech/grule-rule-engine.git", "/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
 ### From JSON
 
-You can now build rules from JSON! [Read how it works](GRL_JSON_id.md) 
+You can now build rules from JSON! [Read how it works](GRL_JSON_id.md)
 
 ## Compile GRL into GRB
 

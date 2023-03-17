@@ -22,23 +22,23 @@ Dużym ułatwieniem może być przyjrzenie się przykładowi takiego faktu. Zał
 
 ```Text
 Purchase Transaction
-    Item Name     : Computer Monitor
-    Quantity      : 10
-    Purchase Date : 12 Dec 2019
-    Item Price    : 150 USD
-    Total Price   : 1500 USD
-    Tax           : ?
-    Discount      : ?
-    Final Price   : ?
+Item Name     : Computer Monitor
+Quantity      : 10
+Purchase Date : 12 Dec 2019
+Item Price    : 150 USD
+Total Price   : 1500 USD
+Tax           : ?
+Discount      : ?
+Final Price   : ?
 ```
 
-**Fact** to w zasadzie każda informacja lub zebrane dane. 
+**Fact** to w zasadzie każda informacja lub zebrane dane.
 
 Z tego przykładowego Faktu zakupu znamy wiele informacji: przedmiot zakupu, ilość, datę zakupu itd. Nie wiemy jednak, ile podatku należy przypisać do tego zakupu, jak dużego rabatu możemy udzielić oraz jaką cenę końcową powinien zapłacić kupujący.
 
 ## Reguła
 
-Reguła to specyfikacja określająca, jak należy oceniać **Fact**. Jeśli fakt spełni warunki reguły, to zostanie wybrana akcja, która zostanie wykonana w ramach reguły. Zdarza się, że wybieranych jest wiele reguł, ponieważ wszystkie ich specyfikacje dotyczą jednego faktu, co prowadzi do konfliktu. Zbiór wszystkich Reguł będących w konflikcie nazywamy **Conflict Set**. Aby rozwiązać ten zbiór, określamy *strategy* (opisaną w dalszej części instrukcji).  
+Reguła to specyfikacja określająca, jak należy oceniać **Fact**. Jeśli fakt spełni warunki reguły, to zostanie wybrana akcja, która zostanie wykonana w ramach reguły. Zdarza się, że wybieranych jest wiele reguł, ponieważ wszystkie ich specyfikacje dotyczą jednego faktu, co prowadzi do konfliktu. Zbiór wszystkich Reguł będących w konflikcie nazywamy **Conflict Set**. Aby rozwiązać ten zbiór, określamy *strategy* (opisaną w dalszej części instrukcji).
 
 Wracając do naszego przykładu prostego systemu zakupów: aby obliczyć ostateczną cenę, należy ustalić pewne Reguły biznesowe, prawdopodobnie najpierw obliczając podatek, a następnie rabat. Jeśli zarówno podatek, jak i rabat są znane, możemy wyświetlić cenę.
 
@@ -46,58 +46,58 @@ Określmy kilka reguł (w pseudokodzie).
 
 ```text
 Rule 1
-   IF
-   - the Item's Tax is not known AND
-   - the Item's Name is "Computer CPU"
-   THEN
-   - Item's Tax is 10%
+IF
+- the Item's Tax is not known AND
+- the Item's Name is "Computer CPU"
+THEN
+- Item's Tax is 10%
 
 Rule 2
-   IF
-   - the Item's Tax is not known AND
-   - the Item's Name is "Computer Monitor"
-   THEN
-   - Item's Tax is 7%
+IF
+- the Item's Tax is not known AND
+- the Item's Name is "Computer Monitor"
+THEN
+- Item's Tax is 7%
 
 Rule 3
-   IF
-   - the Item's Discount is not known AND
-   - the Item's Price After Tax is Less Than 1000 USD
-   THEN
-   - Item's Discount is 0%
+IF
+- the Item's Discount is not known AND
+- the Item's Price After Tax is Less Than 1000 USD
+THEN
+- Item's Discount is 0%
 
 Rule 4
-   IF
-   - the Item's Discount is not known AND
-   - the Item's Price After Tax is Less Than 1500 USD AND
-   - the Item's Price After Tax is Greater Than or Equal To 1000 USD
-   THEN
-   - Item's Discount is 3%
+IF
+- the Item's Discount is not known AND
+- the Item's Price After Tax is Less Than 1500 USD AND
+- the Item's Price After Tax is Greater Than or Equal To 1000 USD
+THEN
+- Item's Discount is 3%
 
 Rule 5
-   IF
-   - the Item's Discount is not known AND
-   - the Item's Price After Tax is Less Than 2000 USD AND
-   - the Item's Price After Tax is Greater Than or Equal To 1500 USD
-   THEN
-   - Item's Discount is 5%
+IF
+- the Item's Discount is not known AND
+- the Item's Price After Tax is Less Than 2000 USD AND
+- the Item's Price After Tax is Greater Than or Equal To 1500 USD
+THEN
+- Item's Discount is 5%
 
 Rule 6
-   IF
-   - the Item's Discount is not known AND
-   - the Item's Price After Tax is More Than 2000 USD
-   THEN
-   - Item's Discount is 10%
+IF
+- the Item's Discount is not known AND
+- the Item's Price After Tax is More Than 2000 USD
+THEN
+- Item's Discount is 10%
 
 Rule 7
-   IF
-   - the Item's Total Price is known AND
-   - the Item's Discount is known AND
-   - the Item's Tax is known AND
-   - the Item's Final Price is not known
-   THEN
-   - Item's Final Price is calculate price from Total Price
-     with given Tax and Discount
+IF
+- the Item's Total Price is known AND
+- the Item's Discount is known AND
+- the Item's Tax is known AND
+- the Item's Final Price is not known
+THEN
+- Item's Final Price is calculate price from Total Price
+with given Tax and Discount
 ```
 
 Jeśli przeanalizujesz powyższe Reguły, powinieneś łatwo zrozumieć koncepcję **Rules** dla silników reguł. Te zbiory reguł tworzą zestaw **Knowledge**. W tym przypadku tworzą one zestaw wiedzy o tym, jak **"how to calculate Item's final price"**.
@@ -106,7 +106,7 @@ Jeśli przeanalizujesz powyższe Reguły, powinieneś łatwo zrozumieć koncepcj
 
 Cykl oceny Reguły rozpoczyna się od oceny wymagań każdej z Reguł (**IFs**) w celu wybrania Reguł, które potencjalnie mogą zostać wykonane. Za każdym razem, gdy silnik znajduje spełnione wymaganie, zamiast wykonywać akcję spełnionej Reguły (**THEN**), dodaje tę Regułę do listy kandydatów na Regułę (zwanej Zbiorem Konfliktów).
 
-Czy po obliczeniu wszystkich wymagań Reguł silnik wykonuje akcje wybranych Reguł?  
+Czy po obliczeniu wszystkich wymagań Reguł silnik wykonuje akcje wybranych Reguł?
 To zależy od zawartości zbioru konfliktów:
 
 * Jeśli nie ma żadnej Reguły z pasującym warunkiem **IF**, wykonanie silnika może się natychmiast zakończyć.
@@ -120,29 +120,29 @@ Pseudokod dla tej strategii rozwiązywania konfliktów jest przedstawiony poniż
 ```text
 Start Engine With a FACT Using a KNOWLEDGE
 BEGIN
-    For Every RULE in KNOWLEDGE
-        Check if RULE's Requirement is Satisfied by FACT
-            If RULE's Requirement is Satisfied
-                Add RULE into CONFLICT SET
-            End If
-        End Check
-    End For
-    If CONFLICT SET is EMPTY
-        Finished
-        END
-    If CONFLICT SET Has 1 RULE
-        Execute the RULE's Action
-        Clear CONFLICT SET
-        Repeat Cycle from BEGIN
-    If CONFLICT SET has Many RULEs
-        Apply Conflict Resolution Strategy to Choose 1 RULE.
-        Execute the Chosen RULE's Action
-        Clear CONFLICT SET
-        Repeat Cycle from BEGIN
+For Every RULE in KNOWLEDGE
+Check if RULE's Requirement is Satisfied by FACT
+If RULE's Requirement is Satisfied
+Add RULE into CONFLICT SET
+End If
+End Check
+End For
+If CONFLICT SET is EMPTY
+Finished
+END
+If CONFLICT SET Has 1 RULE
+Execute the RULE's Action
+Clear CONFLICT SET
+Repeat Cycle from BEGIN
+If CONFLICT SET has Many RULEs
+Apply Conflict Resolution Strategy to Choose 1 RULE.
+Execute the Chosen RULE's Action
+Clear CONFLICT SET
+Repeat Cycle from BEGIN
 END
 ```
 
-Grule śledzi, ile cykli wykonuje podczas pojedynczej oceny zestawu reguł. 
+Grule śledzi, ile cykli wykonuje podczas pojedynczej oceny zestawu reguł.
 Jeśli ocena i wykonanie reguły zostaną powtórzone zbyt wiele razy, ponad ilość określoną przy tworzeniu instancji silnika Grule, silnik zakończy pracę i zostanie zwrócony błąd.
 
 ## Strategia rozwiązywania zbioru konfliktów
@@ -153,22 +153,22 @@ Jeśli w zestawie znajduje się wiele Reguł, mogą występować konflikty. Istn
 
 ```text
 Rule 1 - Priority 1
-   IF
-   - the Item's Tax is not known AND
-   - the Item's Name is "Computer CPU"
-   THEN
-   - Item's Tax is 10%
+IF
+- the Item's Tax is not known AND
+- the Item's Name is "Computer CPU"
+THEN
+- Item's Tax is 10%
 
 Rule 2 - Priority 10
-   IF
-   - the Item's Tax is not known AND
-   - the Item's Name is "Computer Monitor"
-   THEN
-   - Item's Tax is 7%
+IF
+- the Item's Tax is not known AND
+- the Item's Name is "Computer Monitor"
+THEN
+- Item's Tax is 7%
 ```
 
 Domyślnie, wszystkie Reguły mają przypisaną saliencję `0`.
 
-Ponieważ wszystkie nieokreślone Reguły mają wartość 0, silnik może łatwo wybrać, która z nich ma zostać wykonana, jeśli w zbiorze konfliktów znajduje się wiele Reguł. Jeśli istnieje wiele reguł o identycznych priorytetach, silnik wybierze pierwszą znalezioną. Ponieważ typy map Go nie gwarantują zachowania kolejności danych wejściowych, nie można bezpiecznie zakładać, że kolejność wykonywania reguł będzie zgodna z kolejnością dodawania reguł do instancji wiedzy Grule. 
+Ponieważ wszystkie nieokreślone Reguły mają wartość 0, silnik może łatwo wybrać, która z nich ma zostać wykonana, jeśli w zbiorze konfliktów znajduje się wiele Reguł. Jeśli istnieje wiele reguł o identycznych priorytetach, silnik wybierze pierwszą znalezioną. Ponieważ typy map Go nie gwarantują zachowania kolejności danych wejściowych, nie można bezpiecznie zakładać, że kolejność wykonywania reguł będzie zgodna z kolejnością dodawania reguł do instancji wiedzy Grule.
 
 Salience dla Reguł Go może mieć wartość poniżej zera (ujemną), aby zapewnić Regule jeszcze niższy priorytet niż domyślny. Zapewnia to, że działanie reguły zostanie wykonane jako ostatnie, po tym jak wszystkie inne reguły zostaną ocenione.

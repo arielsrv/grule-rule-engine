@@ -37,15 +37,15 @@ DRL dari Drools seperti :
 
 ```drool
 rule "SpeedUp"
-    salience 10
-    when
-        $TestCar : TestCarClass( speedUp == true && speed < maxSpeed )
-        $DistanceRecord : DistanceRecordClass()
-    then
-        $TestCar.setSpeed($TestCar.Speed + $TestCar.SpeedIncrement);
-        update($TestCar);
-        $DistanceRecord.setTotalDistance($DistanceRecord.getTotalDistance() + $TestCar.Speed)
-        update($DistanceRecord)
+salience 10
+when
+$TestCar : TestCarClass( speedUp == true && speed < maxSpeed )
+$DistanceRecord : DistanceRecordClass()
+then
+$TestCar.setSpeed($TestCar.Speed + $TestCar.SpeedIncrement);
+update($TestCar);
+$DistanceRecord.setTotalDistance($DistanceRecord.getTotalDistance() + $TestCar.Speed)
+update($DistanceRecord)
 end
 ```
 
@@ -53,11 +53,11 @@ Dan DRL dari Grule akan seperti :
 
 ```go
 rule SpeedUp "When testcar is speeding up we keep increase the speed." salience 10  {
-    when
-        TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
-    then
-        TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
-        DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
+when
+TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
+then
+TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
+DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
 }
 ```
 
@@ -85,38 +85,53 @@ Rules adalah sebuah pengetahuan yang ditulis dalam bentuk "Saat (when) sebuah ko
 
 ```grule
 When
-   <Condition is true>
-Then
-   <Take desired Action>
-```
+<Condition is true>
+    Then
+    <Take desired Action>
+        ```
 
-Bagian terpenting dalam sebuah Rule adalah pada bagian **when** nya. Jika bagian **when** terpenuhi, maka pagian **then** akan dieksekusi.
+        Bagian terpenting dalam sebuah Rule adalah pada bagian **when** nya. Jika bagian **when** terpenuhi, maka pagian
+        **then** akan dieksekusi.
 
-```grule
-rule  <rule_name> <rule_description>
-   <attribute> <value> {
-   when
-      <conditions>
+        ```grule
+        rule
+        <rule_name>
+            <rule_description>
+                <attribute>
+                    <value> {
+                        when
+                        <conditions>
 
-   then
-      <actions>
-}
-```
+                            then
+                            <actions>
+                                }
+                                ```
 
-## Keuntungan dari Rule Engine
+                                ## Keuntungan dari Rule Engine
 
-### Pemrograman Deklaratif
+                                ### Pemrograman Deklaratif
 
-*Rules* mempermudah untuk mengekspresikan sebuah solusi untuk permasalahan uyang sulit dan juga mendapakan verifikasinya. Berbeda dengan kode program, *Rule* ditulis menggunakan bahasa yang sederhana; Bisnis analis dapat dengan mudah membaca dan memverifikasi sekumpulan *Rule*
+                                *Rules* mempermudah untuk mengekspresikan sebuah solusi untuk permasalahan uyang sulit
+                                dan juga mendapakan verifikasinya. Berbeda dengan kode program, *Rule* ditulis
+                                menggunakan bahasa yang sederhana; Bisnis analis dapat dengan mudah membaca dan
+                                memverifikasi sekumpulan *Rule*
 
-### Pemisahan antara Logika dan Data
+                                ### Pemisahan antara Logika dan Data
 
-Data berada didalam *Domain Object* sementara logika bisnis akan berada didalam sekumpulan *Rule*. Tergantung dari jenis proyeknya, pemisahan ini akan sangat menguntungkan.
+                                Data berada didalam *Domain Object* sementara logika bisnis akan berada didalam
+                                sekumpulan *Rule*. Tergantung dari jenis proyeknya, pemisahan ini akan sangat
+                                menguntungkan.
 
-### Sentralisasi pengetahuan
+                                ### Sentralisasi pengetahuan
 
-Dengan menggunakan *Rule*, anda membuat sebuah penyimpanan pengetahuan (*knowledge base*). Penyimpanan ini menjadi sumber kebenaran atas aturan-aturan bisnis. Idealnya, aturan ini sangat mudah dibaca dan menjadikannya sebagai dokumentasi tersendiri.
+                                Dengan menggunakan *Rule*, anda membuat sebuah penyimpanan pengetahuan (*knowledge
+                                base*). Penyimpanan ini menjadi sumber kebenaran atas aturan-aturan bisnis. Idealnya,
+                                aturan ini sangat mudah dibaca dan menjadikannya sebagai dokumentasi tersendiri.
 
-### Kemudahan adaptasi terhadap perubahan
+                                ### Kemudahan adaptasi terhadap perubahan
 
-Karea aturan bisnis ini sebenarnya diperlakukan sebagai data. Mengubah aturan untuk menyusaikan dinamika bisnis menjadi mudah. Tidak perlu membangun ulang kode program atau melakukan *deployment* sebagaimana proses pembangunan perangkat lunak biasanya, yang perlu anda lakukan hanya melepas sekumpulan aturan dan memasukannya kedalam  penyimpanan *Rule*.
+                                Karea aturan bisnis ini sebenarnya diperlakukan sebagai data. Mengubah aturan untuk
+                                menyusaikan dinamika bisnis menjadi mudah. Tidak perlu membangun ulang kode program atau
+                                melakukan *deployment* sebagaimana proses pembangunan perangkat lunak biasanya, yang
+                                perlu anda lakukan hanya melepas sekumpulan aturan dan memasukannya kedalam penyimpanan
+                                *Rule*.

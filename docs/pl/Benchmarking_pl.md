@@ -17,14 +17,14 @@ Przeprowadziłem testy porównawcze dwóch rzeczy:
 * Wczytanie 100 i 1000 reguł do Bazy Wiedzy
 * Wykonywanie faktów w odniesieniu do 100 i 1000 reguł.
 
-Wszystkie testy będą uruchamiane wielokrotnie, aby sprawdzić, jak sobie radzą poprzez zmianę wartości N 
+Wszystkie testy będą uruchamiane wielokrotnie, aby sprawdzić, jak sobie radzą poprzez zmianę wartości N
 
 `N is b.N where b is an instance of *testing.B`
 
 ### Zasady:
 refer `100_rules.grl` and `1000_rules.grl` files under `examples/benchmark` directory
 
-Polecenie do uruchomienia: 
+Polecenie do uruchomienia:
 ---
 ```go
 > go test -bench=. -benchmem
@@ -65,7 +65,7 @@ Aby załadować `100` reguł do bazy wiedzy potrzeba było `22628754 ns/op` (naj
 Aby załadować `1000` reguł do bazy wiedzy potrzeba było `261857403 ns/op` (co stanowi najwyższą wartość), co jest równe `~261ms` i `88MB` pamięci na operację
 
 ### Test2 - Wykonywanie faktu w oparciu o reguły
-Polecenie do uruchomienia: 
+Polecenie do uruchomienia:
 ```go
 Load 100 and 1000 Rules into Grule rule Engine
 Benchmark_Grule_Load_Rules/100_rules-12                       12          96674568 ns/op        49297966 B/op     731119 allocs/op
@@ -121,7 +121,6 @@ Benchmark_Grule_Execution_Engine/1000_rules#06-12           1896            5309
 Benchmark_Grule_Execution_Engine/1000_rules#07-12           1939            522682 ns/op          269694 B/op       3790 allocs/op
 Benchmark_Grule_Execution_Engine/1000_rules#08-12           1851            545408 ns/op          281652 B/op       3968 allocs/op
 Benchmark_Grule_Execution_Engine/1000_rules#09-12           1844            543697 ns/op          282657 B/op       3983 allocs/op
-
 
 
 ```

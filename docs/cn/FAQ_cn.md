@@ -26,8 +26,8 @@ panic: GruleEngine successfully selected rule candidate for execution after 5000
 
 ```go
 type Fact struct {
-   Payment int
-   Cashback int
+Payment int
+Cashback int
 }
 ```
 
@@ -35,17 +35,17 @@ type Fact struct {
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100
-    Then
-         F.Cashback = 10;
+When
+F.Payment > 100
+Then
+F.Cashback = 10;
 }
 
 rule LogCashback "Emit log if cashback is given" {
-    When 
-         F.Cashback > 5
-    Then
-         Log("Cashback given :" + F.Cashback);
+When
+F.Cashback > 5
+Then
+Log("Cashback given :" + F.Cashback);
 }
 ```
 
@@ -53,11 +53,11 @@ rule LogCashback "Emit log if cashback is given" {
 
 ```go
 &Fact {
-     Payment: 500,
+Payment: 500,
 }
 ```
 
-将不会停止下来。 
+将不会停止下来。
 
 ```
 Cycle 1: Execute "GiveCashback" .... because when F.Payment > 100 is a valid condition
@@ -74,11 +74,11 @@ Grule会在同一个规则上一直执行，因为**When**条件将持续产生�
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100 &&
-         F.Cashback == 0
-    Then
-         F.Cashback = 10;
+When
+F.Payment > 100 &&
+F.Cashback == 0
+Then
+F.Cashback = 10;
 }
 ```
 
@@ -88,11 +88,11 @@ rule GiveCashback "Give cashback if payment is above 100" {
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100
-    Then
-         F.Cashback = 10;
-         Retract("GiveCashback");
+When
+F.Payment > 100
+Then
+F.Cashback = 10;
+Retract("GiveCashback");
 }
 ```
 
@@ -123,7 +123,7 @@ and *Git*。字符串也是很容易插入数据库和查询数据库，你可�
 
 **问题**: 给定facts，我怎么测试我的规则有效性?
 
-**回答**: 你可以使用 `engine.FetchMatchingRule` 函数. 更多信息参考[Matching Rules Doc](MatchingRules_cn.md) 
+**回答**: 你可以使用 `engine.FetchMatchingRule` 函数. 更多信息参考[Matching Rules Doc](MatchingRules_cn.md)
 
 ---
 
@@ -138,11 +138,11 @@ and *Git*。字符串也是很容易插入数据库和查询数据库，你可�
 3. 游戏。玩家的状态，酬金，处罚，伤害，分数和概率体统是几乎所有计算机游戏中规则发挥重要作用的不同例子。这些规则可以以一种复杂的方式相互影响，常常是开发者想象不到的方式。针对这种动态场景使用脚本语言（比如LUA）可能会变得特别复杂，规则引擎可以极大地有效简化这部分工作。
 4. 分类系统。这实际是上面介绍的投票系统的一般化。使用规则引擎，我们可以划分为信用资格，生物识别特征，保险产品的风险评估，潜在的安全威胁等等。
 5. Advice/Suggestion system. A "rule" is simply another kind of data, which
-   makes it a prime candidate for definition by another program.  This program
-   can be another expert system or artificial intelligence.  Rules can be
-   manipulated by another system in order to deal with new types of facts or
-   newly discovered information about the domain which the rule set is intending
-   to model.建议系统。一个”规则“是一个简单的其他类型的数据，可以作为其他程序的基本定义。这个程序可以是一个专家系统，也可以是人工智能。规则可以由另一个系统操纵，以便处理新类型的事实或新发现的有关规则集打算建模的域的信息。
+makes it a prime candidate for definition by another program.  This program
+can be another expert system or artificial intelligence.  Rules can be
+manipulated by another system in order to deal with new types of facts or
+newly discovered information about the domain which the rule set is intending
+to model.建议系统。一个”规则“是一个简单的其他类型的数据，可以作为其他程序的基本定义。这个程序可以是一个专家系统，也可以是人工智能。规则可以由另一个系统操纵，以便处理新类型的事实或新发现的有关规则集打算建模的域的信息。
 
 还有很多其他的可以从规则引擎中收益使用案例。上面的只是很少的一部分潜在代表。
 
@@ -160,8 +160,8 @@ and *Git*。字符串也是很容易插入数据库和查询数据库，你可�
 
 ```go
 import (
-    "github.com/hyperjumptech/grule-rule-engine/logger"
-    "github.com/sirupsen/logrus"
+"github.com/hyperjumptech/grule-rule-engine/logger"
+"github.com/sirupsen/logrus"
 )
 ...
 ...

@@ -34,15 +34,15 @@ function executeRule() {
     let grlB64 = btoa(grl);
     let jsonB64 = btoa(json);
 
-    $.post( "/evaluate", JSON.stringify({"grlText": grlB64, "jsonText": jsonB64})  , function( data, status ) {
-        $("#response").val(status + " : " + JSON.stringify(data) );
-    }, "json") .fail(function(data) {
-        $("#response").val( "Status " + data.status + " : " + data.statusText + ". ResponseText : " + data.responseText);
+    $.post("/evaluate", JSON.stringify({"grlText": grlB64, "jsonText": jsonB64}), function (data, status) {
+        $("#response").val(status + " : " + JSON.stringify(data));
+    }, "json").fail(function (data) {
+        $("#response").val("Status " + data.status + " : " + data.statusText + ". ResponseText : " + data.responseText);
     });
 }
 
 function MarkUp(src) {
-    let re =  /rule/gi;
+    let re = /rule/gi;
     let poses = src.match(re);
     let marks = []
     if (poses) {
@@ -50,8 +50,8 @@ function MarkUp(src) {
             marks.push(
                 {
                     start: match.index,
-                    end: match.index+4,
-                    text: src.substring(match.index,match.index+4),
+                    end: match.index + 4,
+                    text: src.substring(match.index, match.index + 4),
                     kind: "rule"
                 }
             );

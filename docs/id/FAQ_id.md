@@ -35,8 +35,8 @@ Asumsikan __fact__ berikut ini:
 
 ```go
 type Fact struct {
-   Payment int
-   Cashback int
+Payment int
+Cashback int
 }
 ```
 
@@ -44,17 +44,17 @@ Dan __rule-rule__ seperti berikut:
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100
-    Then
-         F.Cashback = 10;
+When
+F.Payment > 100
+Then
+F.Cashback = 10;
 }
 
 rule LogCashback "Emit log if cashback is given" {
-    When 
-         F.Cashback > 5
-    Then
-         Log("Cashback given :" + F.Cashback);
+When
+F.Cashback > 5
+Then
+Log("Cashback given :" + F.Cashback);
 }
 ```
 
@@ -62,7 +62,7 @@ Kita akan menjalankan __rule__ tadi pada sebuah turunan fakta ...
 
 ```go
 &Fact {
-     Payment: 500,
+Payment: 500,
 }
 ```
 
@@ -84,11 +84,11 @@ Satu cara untuk memecahkan masalah ini adalah merubah __rule__ "GiveCashback" me
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100 &&
-         F.Cashback == 0
-    Then
-         F.Cashback = 10;
+When
+F.Payment > 100 &&
+F.Cashback == 0
+Then
+F.Cashback = 10;
 }
 ```
 
@@ -104,11 +104,11 @@ Alternatif lain adalah untuk mengubah rule menjadi seperti berikut:
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100
-    Then
-         F.Cashback = 10;
-         Retract("GiveCashback");
+When
+F.Payment > 100
+Then
+F.Cashback = 10;
+Retract("GiveCashback");
 }
 ```
 
@@ -160,40 +160,40 @@ sebuah __knowledgebase__
 **Jawaban**: Berikut ini adalah contoh situasi yang sebaiknya diselesaikan menggunakan solusi __rule-engine__ menurut hemat kami.
 
 1. Sebuah sistem pakar yang harus mengevaluasi fakta-fakta guna memberikan sebuah kesimpulan yang nyata.
-   Jika tidak menggunakan model RETE dan __rule-engine__, seorang developer akan membuat kode program
-   yang berisi `if`/`else` yang beranak pinak dan permutasi terhadap kombinasi kondisi-kondisi yang ada
-   membuat manajemen kode menjadi mustahil. Pendekatan __rule engine__ menggunakan tabel mungkin bisa
-   memecahkan masalah, namun pendekatan ini menjadikan solusinya kaku dan tidak begitu mudah di
-   buat kode program nya. Sistem seperti Grule ini memudahkan anda untuk mendeskripsikan peraturan terhadap
-   data yang dipergunakan dalam sistem, dan melepaskan anda dari kebutuhan untuk mengimplementasi bagaimana
-   sebenarnya evaluasi logika peraturan itu terlaksana, menyebunyikan banyak kompleksitas dari anda.
+Jika tidak menggunakan model RETE dan __rule-engine__, seorang developer akan membuat kode program
+yang berisi `if`/`else` yang beranak pinak dan permutasi terhadap kombinasi kondisi-kondisi yang ada
+membuat manajemen kode menjadi mustahil. Pendekatan __rule engine__ menggunakan tabel mungkin bisa
+memecahkan masalah, namun pendekatan ini menjadikan solusinya kaku dan tidak begitu mudah di
+buat kode program nya. Sistem seperti Grule ini memudahkan anda untuk mendeskripsikan peraturan terhadap
+data yang dipergunakan dalam sistem, dan melepaskan anda dari kebutuhan untuk mengimplementasi bagaimana
+sebenarnya evaluasi logika peraturan itu terlaksana, menyebunyikan banyak kompleksitas dari anda.
 
 2. Sistem pemberian Rating atau Skor. Sebagai contoh, sebuah sistem perbankan ingin
-   memberikan "skor" untuk setiap nasabah berdasarkan rekam jejak transaksi nasabah tersebut (fakta).
-   Kita dapat melihat bagaimana skor nasabah berubah mengikuti seberapa sering mereka berinteraksi
-   dengan bank, berapa bayak dana yang keluar dan masuk kedalam akun nasabah, seberapa cepat dan rajin
-   seorang nasabah membayar tagihan hutang, total pendapatan nasabah dari bunga bank, dan seterusnya.
-   __Rule engine__ di siapkan oleh teknisi IT dan spesifikasi __rule__ dan data disediakan langsung
-   oleh mereka yang lebih mengerti mengenai sistem finansial dan analis keuangan para nasabah.
-   Dengan demikian, menempatkan keahlian dan disiplin ilmu pada orang yang tepat.
+memberikan "skor" untuk setiap nasabah berdasarkan rekam jejak transaksi nasabah tersebut (fakta).
+Kita dapat melihat bagaimana skor nasabah berubah mengikuti seberapa sering mereka berinteraksi
+dengan bank, berapa bayak dana yang keluar dan masuk kedalam akun nasabah, seberapa cepat dan rajin
+seorang nasabah membayar tagihan hutang, total pendapatan nasabah dari bunga bank, dan seterusnya.
+__Rule engine__ di siapkan oleh teknisi IT dan spesifikasi __rule__ dan data disediakan langsung
+oleh mereka yang lebih mengerti mengenai sistem finansial dan analis keuangan para nasabah.
+Dengan demikian, menempatkan keahlian dan disiplin ilmu pada orang yang tepat.
 
 3. Permainan Komputer (games). Status pemain, penghargaan, penalti, penilaian, kerusakan (damage)
-   dan penghitungan probabilitas adalah beberapa dari banyak contoh dimana sebuah sistem __rule__
-   sangat berperan penting pada hampir semua permainan komputer. __Rule-rule__ ini dapat menentukan
-   interaksi dengan mekanisme permainan dengan cara yang sangat rumit, bahkan terlalu rumit sampai diluar
-   imajinasi sang pembuatnya. Membuat peraturan-peraturan dalam permainan yang dinamis bisa saja di
-   lakuan pada pemrograman skrip seperti LUA, namun logika bisa menjadi sangat rumit dan kompleks,
-   dan dengan menggunakan sebuah __rule-engine__ dapat menurunkan kompleksitas cukup besar.
+dan penghitungan probabilitas adalah beberapa dari banyak contoh dimana sebuah sistem __rule__
+sangat berperan penting pada hampir semua permainan komputer. __Rule-rule__ ini dapat menentukan
+interaksi dengan mekanisme permainan dengan cara yang sangat rumit, bahkan terlalu rumit sampai diluar
+imajinasi sang pembuatnya. Membuat peraturan-peraturan dalam permainan yang dinamis bisa saja di
+lakuan pada pemrograman skrip seperti LUA, namun logika bisa menjadi sangat rumit dan kompleks,
+dan dengan menggunakan sebuah __rule-engine__ dapat menurunkan kompleksitas cukup besar.
 
 4. Sistem klasifikasi. Ini sebenarnya suatu bentuk umum dari sistem rating yang sudah dijelaskan sebelumnya.
-   Dengan menggunakan __rule-engine__, kita bisa melakukan kalsifikasi terhadap hak tanggungan kredit,
-   identifikasi kimia biologi, kategori resiko atas produk-produk asuransi, potensi resiko keamanan, dan
-   banyak lagi.
+Dengan menggunakan __rule-engine__, kita bisa melakukan kalsifikasi terhadap hak tanggungan kredit,
+identifikasi kimia biologi, kategori resiko atas produk-produk asuransi, potensi resiko keamanan, dan
+banyak lagi.
 
 5. Sistem pemberian saran. Sebuah "rule" sebenarnya adalah suatu bentuk data, dimana
-   sebagai data, ia sendiri bisa merupakan hasil dari program yang lain. Program tersebut bisa jadi sebuah
-   sistem pakar atau kecerdasan tiruan. __Rule__ bisa dibuat dan dimanipulasi oleh program lain
-   agar secara dinamis mengikuti kondisi-kondisi perubahan fakta yang bersifat dinamis.
+sebagai data, ia sendiri bisa merupakan hasil dari program yang lain. Program tersebut bisa jadi sebuah
+sistem pakar atau kecerdasan tiruan. __Rule__ bisa dibuat dan dimanipulasi oleh program lain
+agar secara dinamis mengikuti kondisi-kondisi perubahan fakta yang bersifat dinamis.
 
 Ada sangat banyak contoh __use-case__ yang lain, yang akan mendapat keuntungan dari penggunaan
 sebuah __Rule-Engine__. Contoh-contoh diatas hanya menunjukan sedikit potensi yang bisa didapat.
@@ -222,8 +222,8 @@ melunakkan kompleksitas bisnis itu sendiri.
 
 ```go
 import (
-    "github.com/hyperjumptech/grule-rule-engine/logger"
-    "github.com/sirupsen/logrus"
+"github.com/hyperjumptech/grule-rule-engine/logger"
+"github.com/sirupsen/logrus"
 )
 ...
 ...

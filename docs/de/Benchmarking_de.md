@@ -29,14 +29,14 @@ I have benchmarked two things:
 * Loading 100 and 1000 rules into KnowledgeBase
 * Executing a fact against rules against 100 and 1000 rules
 
-All the tests will run for multiple times to see how it is performing by changing the value of N 
+All the tests will run for multiple times to see how it is performing by changing the value of N
 
 `N is b.N where b is an instance of *testing.B`
 
 ### Rules:
 refer `100_rules.grl` and `1000_rules.grl` files under `examples/benchmark` directory
 
-Command to run: 
+Command to run:
 ---
 ```go
 > go test -bench=. -benchmem
@@ -77,7 +77,7 @@ To load `100` rules into knowledgeBase it took `22628754 ns/op` (took the highes
 To load `1000` rules into knowledgeBase it took `261857403 ns/op` (took the highest value) that is equal to `~261ms` and `88MB` memory per operation
 
 ### Test2 - Executing a fact against rules
-Command to run: 
+Command to run:
 ```go
 Load 100 and 1000 Rules into Grule rule Engine
 Benchmark_Grule_Load_Rules/100_rules-12                       12          96674568 ns/op        49297966 B/op     731119 allocs/op
@@ -133,7 +133,6 @@ Benchmark_Grule_Execution_Engine/1000_rules#06-12           1896            5309
 Benchmark_Grule_Execution_Engine/1000_rules#07-12           1939            522682 ns/op          269694 B/op       3790 allocs/op
 Benchmark_Grule_Execution_Engine/1000_rules#08-12           1851            545408 ns/op          281652 B/op       3968 allocs/op
 Benchmark_Grule_Execution_Engine/1000_rules#09-12           1844            543697 ns/op          282657 B/op       3983 allocs/op
-
 
 
 ```

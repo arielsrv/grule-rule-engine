@@ -37,15 +37,15 @@ Drools's DRL be like :
 
 ```go
 rule "SpeedUp"
-    salience 10
-    when
-        $TestCar : TestCarClass( speedUp == true && speed < maxSpeed )
-        $DistanceRecord : DistanceRecordClass()
-    then
-        $TestCar.setSpeed($TestCar.Speed + $TestCar.SpeedIncrement);
-        update($TestCar);
-        $DistanceRecord.setTotalDistance($DistanceRecord.getTotalDistance() + $TestCar.Speed)
-        update($DistanceRecord)
+salience 10
+when
+$TestCar : TestCarClass( speedUp == true && speed < maxSpeed )
+$DistanceRecord : DistanceRecordClass()
+then
+$TestCar.setSpeed($TestCar.Speed + $TestCar.SpeedIncrement);
+update($TestCar);
+$DistanceRecord.setTotalDistance($DistanceRecord.getTotalDistance() + $TestCar.Speed)
+update($DistanceRecord)
 end
 ```
 
@@ -53,11 +53,11 @@ And Grule's GRL be like :
 
 ```go
 rule SpeedUp "When testcar is speeding up we increase the speed." salience 10  {
-    when
-        TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
-    then
-        TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
-        DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
+when
+TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
+then
+TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
+DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
 }
 ```
 
@@ -85,39 +85,51 @@ Rules are pieces of knowledge often expressed as, "When some conditions occur, t
 
 ```go
 When
-   <Condition is true>
-Then
-   <Take desired Action>
-```
+<Condition is true>
+    Then
+    <Take desired Action>
+        ```
 
-The most important part of a Rule is its `when` part. If the **when** part is satisfied, the **then** part is triggered.
+        The most important part of a Rule is its `when` part. If the **when** part is satisfied, the **then** part is
+        triggered.
 
-```go
-rule  <rule_name> <rule_description>
-   <attribute> <value> {
-   when
-      <conditions>
+        ```go
+        rule
+        <rule_name>
+            <rule_description>
+                <attribute>
+                    <value> {
+                        when
+                        <conditions>
 
-   then
-      <actions>
-}
-```
+                            then
+                            <actions>
+                                }
+                                ```
 
-## Advantages of a Rule Engine
+                                ## Advantages of a Rule Engine
 
-### Declarative Programming
+                                ### Declarative Programming
 
-Rules make it easy to express solutions to difficult problems and get the verifications as well. Unlike codes, Rules are written with less complex language; Business Analysts can easily read and verify a set of rules.
+                                Rules make it easy to express solutions to difficult problems and get the verifications
+                                as well. Unlike codes, Rules are written with less complex language; Business Analysts
+                                can easily read and verify a set of rules.
 
-### Logic and Data Separation
+                                ### Logic and Data Separation
 
-The data resides in the Domain Objects and the business logic resides in the Rules. Depending upon the kind of project, this kind of separation can be very advantageous.
+                                The data resides in the Domain Objects and the business logic resides in the Rules.
+                                Depending upon the kind of project, this kind of separation can be very advantageous.
 
-### Centralization of Knowledge
+                                ### Centralization of Knowledge
 
-By using Rules, you create a repository of knowledge (a knowledge base) which is executable. It is a single point of truth for business policy. Ideally, Rules are so readable that they can also serve as documentation.
+                                By using Rules, you create a repository of knowledge (a knowledge base) which is
+                                executable. It is a single point of truth for business policy. Ideally, Rules are so
+                                readable that they can also serve as documentation.
 
-### Agility To Change
+                                ### Agility To Change
 
-Since business rules are actually treated as data. Adjusting the rule according to business dynamic nature become trivial. No need to re-build codes, deploy as normal software development do, you only need to roll out sets of rule and apply them to knowledge repository.
+                                Since business rules are actually treated as data. Adjusting the rule according to
+                                business dynamic nature become trivial. No need to re-build codes, deploy as normal
+                                software development do, you only need to roll out sets of rule and apply them to
+                                knowledge repository.
 

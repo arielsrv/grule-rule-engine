@@ -26,8 +26,8 @@ Rozważmy ten fakt:
 
 ```go
 type Fact struct {
-   Payment int
-   Cashback int
+Payment int
+Cashback int
 }
 ```
 
@@ -35,17 +35,17 @@ Zdefiniowane są następujące zasady:
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100
-    Then
-         F.Cashback = 10;
+When
+F.Payment > 100
+Then
+F.Cashback = 10;
 }
 
 rule LogCashback "Emit log if cashback is given" {
-    When 
-         F.Cashback > 5
-    Then
-         Log("Cashback given :" + F.Cashback);
+When
+F.Cashback > 5
+Then
+Log("Cashback given :" + F.Cashback);
 }
 ```
 
@@ -53,7 +53,7 @@ Wykonanie tych reguł na następującej instancji faktu...
 
 ```go
 &Fact {
-     Payment: 500,
+Payment: 500,
 }
 ```
 
@@ -74,11 +74,11 @@ Jednym ze sposobów rozwiązania tego problemu jest zmiana reguły "GiveCashback
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100 &&
-         F.Cashback == 0
-    Then
-         F.Cashback = 10;
+When
+F.Payment > 100 &&
+F.Cashback == 0
+Then
+F.Cashback = 10;
 }
 ```
 
@@ -88,11 +88,11 @@ Powyższa metoda jest w pewnym sensie "naturalna", gdyż to warunki reguł regul
 
 ```Shell
 rule GiveCashback "Give cashback if payment is above 100" {
-    When 
-         F.Payment > 100
-    Then
-         F.Cashback = 10;
-         Retract("GiveCashback");
+When
+F.Payment > 100
+Then
+F.Cashback = 10;
+Retract("GiveCashback");
 }
 ```
 
@@ -104,7 +104,7 @@ Funkcja `Retract` usuwa regułę "GiveCashback" z bazy wiedzy dla następnego cy
 
 **Pytanie**: Czy planowana jest integracja Grule z systemem przechowywania baz danych?
 
-**Odpowiedź**: Nie. Chociaż dobrym pomysłem jest przechowywanie reguł w jakiejś bazie danych, Grule nie stworzy adaptera do bazy danych, który automatycznie przechowywałby i pobierał reguły.  Możesz w prosty sposób stworzyć taki adapter samodzielnie, używając wspólnych interfejsów z bazy wiedzy: *Reader*, *File*, *Byte Array*, *String* i *Git*. Łańcuchy mogą być łatwo wstawiane i wybierane z bazy danych podczas ładowania ich do bazy wiedzy Grule'a. 
+**Odpowiedź**: Nie. Chociaż dobrym pomysłem jest przechowywanie reguł w jakiejś bazie danych, Grule nie stworzy adaptera do bazy danych, który automatycznie przechowywałby i pobierał reguły.  Możesz w prosty sposób stworzyć taki adapter samodzielnie, używając wspólnych interfejsów z bazy wiedzy: *Reader*, *File*, *Byte Array*, *String* i *Git*. Łańcuchy mogą być łatwo wstawiane i wybierane z bazy danych podczas ładowania ich do bazy wiedzy Grule'a.
 
 Nie chcemy przywiązywać Grule'a do żadnej konkretnej implementacji bazy danych.
 
@@ -143,7 +143,7 @@ Nie chcemy przywiązywać Grule'a do żadnej konkretnej implementacji bazy danyc
 
 5. System porad/sugestii. Reguła" to po prostu inny rodzaj danych, co czyni ją idealnym kandydatem do zdefiniowania przez inny program.  Programem tym może być inny system ekspercki lub sztuczna inteligencja.  Reguły mogą być manipulowane przez inny system w celu uwzględnienia nowych rodzajów faktów lub nowo odkrytych informacji o dziedzinie, którą zbiór reguł ma modelować.
 
-Istnieje wiele innych przypadków użycia, w których można by skorzystać z silnika reguł. Powyższe przypadki stanowią jedynie niewielką część potencjalnych możliwości. 
+Istnieje wiele innych przypadków użycia, w których można by skorzystać z silnika reguł. Powyższe przypadki stanowią jedynie niewielką część potencjalnych możliwości.
 
 Należy jednak podkreślić, że Rule-Engine nie jest oczywiście "srebrną kulą".  Istnieje wiele alternatywnych sposobów rozwiązywania problemów z "wiedzą" w oprogramowaniu i powinny one być stosowane wtedy, gdy są najbardziej odpowiednie. Nie stosuje się silnika reguł tam, gdzie wystarczyłaby na przykład prosta gałąź `if` / `else`.
 
@@ -159,8 +159,8 @@ Jest jeszcze jedna rzecz, na którą warto zwrócić uwagę: niektóre implement
 
 ```go
 import (
-    "github.com/hyperjumptech/grule-rule-engine/logger"
-    "github.com/sirupsen/logrus"
+"github.com/hyperjumptech/grule-rule-engine/logger"
+"github.com/sirupsen/logrus"
 )
 ...
 ...

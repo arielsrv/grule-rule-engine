@@ -22,9 +22,9 @@ Implementacja RETE w Grule nie posiada selektora `Klasa`, ponieważ jedno wyraż
 
 ```.go
 when
-    ClassA.attr == ClassB.attr + ClassC.AFunc()
+ClassA.attr == ClassB.attr + ClassC.AFunc()
 then
-    ...
+...
 ```
 
 Powyższe wyrażenie obejmuje porównywanie atrybutów i wyników wywołań funkcji oraz operacje matematyczne z trzech różnych klas. Utrudnia to stosowane przez RETE rozdzielanie tokenów wyrażeń na klasy.
@@ -33,7 +33,7 @@ O algorytmie RETE można przeczytać tutaj:
 
 * https://en.wikipedia.org/wiki/Rete_algorithm
 * https://www.drdobbs.com/architecture-and-design/the-rete-matching-algorithm/184405218
-* https://www.sparklinglogic.com/rete-algorithm-demystified-part-2/ 
+* https://www.sparklinglogic.com/rete-algorithm-demystified-part-2/
 
 ### Dlaczego algorytm Rete jest potrzebny
 
@@ -41,11 +41,11 @@ Załóżmy, że mamy pewien fakt.
 
 ```go
 type Fact struct {
-    StringValue string
+StringValue string
 }
 
 func (f *Fact) VeryHeavyAndLongFunction() bool {
-    ...
+...
 }
 ```
 
@@ -61,33 +61,33 @@ Mamy też GRL jak:
 
 ```go
 rule ... {
-    when
-        Fact.VeryHeavyAndLongFunction() && Fact.StringValue == "Fish"
-    then
-        ...
+when
+Fact.VeryHeavyAndLongFunction() && Fact.StringValue == "Fish"
+then
+...
 }
 
 rule ... {
-    when
-        Fact.VeryHeavyAndLongFunction() && Fact.StringValue == "Bird"
-    then
-        ...
+when
+Fact.VeryHeavyAndLongFunction() && Fact.StringValue == "Bird"
+then
+...
 }
 
 rule ... {
-    when
-        Fact.VeryHeavyAndLongFunction() && Fact.StringValue == "Mammal"
-    then
-        ...
+when
+Fact.VeryHeavyAndLongFunction() && Fact.StringValue == "Mammal"
+then
+...
 }
 
 // and many similar rules
 
 rule ... {
-    when
-        Fact.VeryHeavyAndLongFunction() && Fact.StringValue == "Insect"
-    then
-        ...
+when
+Fact.VeryHeavyAndLongFunction() && Fact.StringValue == "Insect"
+then
+...
 }
 ```
 
@@ -99,10 +99,10 @@ Podobnie jest z `Fact.StringValue`. Algorytm Rete wczyta wartość z instancji o
 
 ```go
 rule ... {
-    when
-        ...
-    then
-        Fact.StringValue = "something else";
+when
+...
+then
+Fact.StringValue = "something else";
 }
 ```
 
@@ -115,8 +115,8 @@ Po pierwsze, będzie się starał jak najlepiej upewnić się, że żaden z węz
 Po drugie, każdy z tych węzłów AST może być analizowany tylko raz, aż do momentu, gdy odpowiednia `zmienna` zostanie zmieniona. Na przykład:
 
 ```Shell
-    when
-        Fact.A == Fact.B + Fact.Func(Fact.C) - 20
+when
+Fact.A == Fact.B + Fact.Func(Fact.C) - 20
 ```
 
 Ten warunek zostanie podzielony na następujące `wyrażenia`.
@@ -136,8 +136,8 @@ Wynikowe wartości dla każdego z powyższych `wyrażeń` zostaną zapamiętane 
 Jeśli jedna z tych wartości zostanie zmieniona wewnątrz zakresu `then` reguły, na przykład...
 
 ```Shell
-    then
-        Fact.B = Fact.A * 20
+then
+Fact.B = Fact.A * 20
 ```
 
 ... to wszystkie Wyrażenia zawierające `Fact.B` zostaną usunięte z Pamięci roboczej:
@@ -145,7 +145,7 @@ Jeśli jedna z tych wartości zostanie zmieniona wewnątrz zakresu `then` reguł
 ```Shell
 Expression "Fact.B"
 Expression "Fact.B + Fact.Func(Fact.C)" --> A math operation contains 2 variable; Fact.B and Fact.C
-Expression "(Fact.B + Fact.Func(Fact.C))" - 20 -- A math operation also contains 2 variable. 
+Expression "(Fact.B + Fact.Func(Fact.C))" - 20 -- A math operation also contains 2 variable.
 ```
 
 Te `Expression` zostaną usunięte z pamięci roboczej, aby można je było ponownie ocenić w następnym cyklu.
@@ -158,11 +158,11 @@ Rozważmy następujący fakt:
 
 ```go
 type Fact struct {
-    StringValue string
+StringValue string
 }
 
 func (f *Fact) SetStringValue(newValue string) {
-    f.StringValue = newValue
+f.StringValue = newValue
 }
 ```
 
@@ -170,7 +170,7 @@ Następnie tworzy się instancję faktu i dodaje go do kontekstu danych:
 
 ```go
 f := &Fact{
-    StringValue: "One",
+StringValue: "One",
 }
 dctx := context.NewDataContext()
 err := dctx.Add("Fact", f)
@@ -180,21 +180,21 @@ W GRL należy wykonać następującą czynność
 
 ```go
 rule one "One" {
-    when
-        Fact.StringValue == "One"
-        // Here grule remembers that Fact.StringValue value is "One"
-    then
-        Fact.SetStringValue("Two");
-        // Here grule does not know that Fact.StringValue has changed inside the function.
-        // What grule know is Fact.StringValue is still "One".
+when
+Fact.StringValue == "One"
+// Here grule remembers that Fact.StringValue value is "One"
+then
+Fact.SetStringValue("Two");
+// Here grule does not know that Fact.StringValue has changed inside the function.
+// What grule know is Fact.StringValue is still "One".
 }
 
 rule two "Two" {
-    when
-        Fact.StringValue == "Two"
-        // Because of that, this will never evaluated true.
-    then
-        Fact.SetStringValue("Three");
+when
+Fact.StringValue == "Two"
+// Because of that, this will never evaluated true.
+then
+Fact.SetStringValue("Three");
 }
 ```
 
@@ -204,15 +204,15 @@ Aby temu zaradzić, należy powiedzieć grule, czy zmienna się zmieniła, używ
 
 ```go
 rule one "One" {
-    when 
-        Fact.StringValue == "One"
-        // here grule remember that Fact.StringValue value is "One"
-    then
-        Fact.SetStringValue("Two");
-        // here grule does not know if Fact.StringValue has changed inside the function.
-        // What grule know is Fact.StringValue is still "One"
+when
+Fact.StringValue == "One"
+// here grule remember that Fact.StringValue value is "One"
+then
+Fact.SetStringValue("Two");
+// here grule does not know if Fact.StringValue has changed inside the function.
+// What grule know is Fact.StringValue is still "One"
 
-        // We should tell Grule that the variable changed within the Fact
-        Changed("Fact.StringValue")
+// We should tell Grule that the variable changed within the Fact
+Changed("Fact.StringValue")
 }
 ```

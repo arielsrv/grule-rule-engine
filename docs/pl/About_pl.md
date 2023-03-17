@@ -27,15 +27,15 @@ Drools's DRL jest jak :
 
 ```go
 rule "SpeedUp"
-    salience 10
-    when
-        $TestCar : TestCarClass( speedUp == true && speed < maxSpeed )
-        $DistanceRecord : DistanceRecordClass()
-    then
-        $TestCar.setSpeed($TestCar.Speed + $TestCar.SpeedIncrement);
-        update($TestCar);
-        $DistanceRecord.setTotalDistance($DistanceRecord.getTotalDistance() + $TestCar.Speed)
-        update($DistanceRecord)
+salience 10
+when
+$TestCar : TestCarClass( speedUp == true && speed < maxSpeed )
+$DistanceRecord : DistanceRecordClass()
+then
+$TestCar.setSpeed($TestCar.Speed + $TestCar.SpeedIncrement);
+update($TestCar);
+$DistanceRecord.setTotalDistance($DistanceRecord.getTotalDistance() + $TestCar.Speed)
+update($DistanceRecord)
 end
 ```
 
@@ -43,11 +43,11 @@ A Grule's GRL jest jak :
 
 ```go
 rule SpeedUp "When testcar is speeding up we increase the speed." salience 10  {
-    when
-        TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
-    then
-        TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
-        DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
+when
+TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
+then
+TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
+DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
 }
 ```
 
@@ -75,38 +75,50 @@ Reguły to fragmenty wiedzy często wyrażane słowami: "Gdy wystąpią pewne wa
 
 ```go
 When
-   <Condition is true>
-Then
-   <Take desired Action>
-```
+<Condition is true>
+    Then
+    <Take desired Action>
+        ```
 
-Najważniejszą częścią Reguły jest jej część `when`. Jeśli część **when** jest spełniona, uruchamiana jest część **then**.
+        Najważniejszą częścią Reguły jest jej część `when`. Jeśli część **when** jest spełniona, uruchamiana jest część
+        **then**.
 
-```go
-rule  <rule_name> <rule_description>
-   <attribute> <value> {
-   when
-      <conditions>
+        ```go
+        rule
+        <rule_name>
+            <rule_description>
+                <attribute>
+                    <value> {
+                        when
+                        <conditions>
 
-   then
-      <actions>
-}
-```
+                            then
+                            <actions>
+                                }
+                                ```
 
-## Zalety silnika reguł
+                                ## Zalety silnika reguł
 
-### Programowanie deklaratywne
+                                ### Programowanie deklaratywne
 
-Reguły ułatwiają wyrażanie rozwiązań trudnych problemów, a także ich weryfikację. W przeciwieństwie do kodów, reguły są napisane mniej skomplikowanym językiem, dzięki czemu analitycy biznesowi mogą łatwo odczytać i zweryfikować zestaw reguł.
+                                Reguły ułatwiają wyrażanie rozwiązań trudnych problemów, a także ich weryfikację. W
+                                przeciwieństwie do kodów, reguły są napisane mniej skomplikowanym językiem, dzięki czemu
+                                analitycy biznesowi mogą łatwo odczytać i zweryfikować zestaw reguł.
 
-### Rozdzielenie logiki i danych
+                                ### Rozdzielenie logiki i danych
 
-Dane są przechowywane w obiektach domeny, a logika biznesowa w regułach. W zależności od rodzaju projektu taki podział może być bardzo korzystny.
+                                Dane są przechowywane w obiektach domeny, a logika biznesowa w regułach. W zależności od
+                                rodzaju projektu taki podział może być bardzo korzystny.
 
-### Centralizacja wiedzy
+                                ### Centralizacja wiedzy
 
-Używając reguł, tworzy się repozytorium wiedzy (bazę wiedzy), która jest wykonywalna. Jest to pojedynczy punkt prawdy dla polityki biznesowej. Najlepiej, jeśli Reguły są tak czytelne, że mogą służyć również jako dokumentacja.
+                                Używając reguł, tworzy się repozytorium wiedzy (bazę wiedzy), która jest wykonywalna.
+                                Jest to pojedynczy punkt prawdy dla polityki biznesowej. Najlepiej, jeśli Reguły są tak
+                                czytelne, że mogą służyć również jako dokumentacja.
 
-### Zdolność do zmian
+                                ### Zdolność do zmian
 
-Ponieważ reguły biznesowe są w rzeczywistości traktowane jak dane. Dostosowanie reguł do dynamicznej natury biznesu staje się banalnie proste. Nie ma potrzeby ponownego budowania kodu, wdrażania go tak, jak w przypadku normalnego tworzenia oprogramowania, wystarczy tylko opracować zestawy reguł i zastosować je w repozytorium wiedzy.
+                                Ponieważ reguły biznesowe są w rzeczywistości traktowane jak dane. Dostosowanie reguł do
+                                dynamicznej natury biznesu staje się banalnie proste. Nie ma potrzeby ponownego
+                                budowania kodu, wdrażania go tak, jak w przypadku normalnego tworzenia oprogramowania,
+                                wystarczy tylko opracować zestawy reguł i zastosować je w repozytorium wiedzy.

@@ -20,14 +20,14 @@
 
 ```Text
 Purchase Transaction
-    Item Name     : Computer Monitor
-    Quantity      : 10
-    Purchase Date : 12 Dec 2019
-    Item Price    : 150 USD
-    Total Price   : 1500 USD
-    Tax           : ?
-    Discount      : ?
-    Final Price   : ?
+Item Name     : Computer Monitor
+Quantity      : 10
+Purchase Date : 12 Dec 2019
+Item Price    : 150 USD
+Total Price   : 1500 USD
+Tax           : ?
+Discount      : ?
+Final Price   : ?
 ```
 
 事实基本上是任何信息或者收集的数据。
@@ -44,58 +44,58 @@ Purchase Transaction
 
 ```text
 Rule 1
-   IF
-   - the Item's Tax is not known AND
-   - the Item's Name is "Computer CPU"
-   THEN
-   - Item's Tax is 10%
+IF
+- the Item's Tax is not known AND
+- the Item's Name is "Computer CPU"
+THEN
+- Item's Tax is 10%
 
 Rule 2
-   IF
-   - the Item's Tax is not known AND
-   - the Item's Name is "Computer Monitor"
-   THEN
-   - Item's Tax is 7%
+IF
+- the Item's Tax is not known AND
+- the Item's Name is "Computer Monitor"
+THEN
+- Item's Tax is 7%
 
 Rule 3
-   IF
-   - the Item's Discount is not known AND
-   - the Item's Price After Tax is Less Than 1000 USD
-   THEN
-   - Item's Discount is 0%
+IF
+- the Item's Discount is not known AND
+- the Item's Price After Tax is Less Than 1000 USD
+THEN
+- Item's Discount is 0%
 
 Rule 4
-   IF
-   - the Item's Discount is not known AND
-   - the Item's Price After Tax is Less Than 1500 USD AND
-   - the Item's Price After Tax is Greater Than or Equal To 1000 USD
-   THEN
-   - Item's Discount is 3%
+IF
+- the Item's Discount is not known AND
+- the Item's Price After Tax is Less Than 1500 USD AND
+- the Item's Price After Tax is Greater Than or Equal To 1000 USD
+THEN
+- Item's Discount is 3%
 
 Rule 5
-   IF
-   - the Item's Discount is not known AND
-   - the Item's Price After Tax is Less Than 2000 USD AND
-   - the Item's Price After Tax is Greater Than or Equal To 1500 USD
-   THEN
-   - Item's Discount is 5%
+IF
+- the Item's Discount is not known AND
+- the Item's Price After Tax is Less Than 2000 USD AND
+- the Item's Price After Tax is Greater Than or Equal To 1500 USD
+THEN
+- Item's Discount is 5%
 
 Rule 6
-   IF
-   - the Item's Discount is not known AND
-   - the Item's Price After Tax is More Than 2000 USD
-   THEN
-   - Item's Discount is 10%
+IF
+- the Item's Discount is not known AND
+- the Item's Price After Tax is More Than 2000 USD
+THEN
+- Item's Discount is 10%
 
 Rule 7
-   IF
-   - the Item's Total Price is known AND
-   - the Item's Discount is known AND
-   - the Item's Tax is known AND
-   - the Item's Final Price is not known
-   THEN
-   - Item's Final Price is calculate price from Total Price
-     with given Tax and Discount
+IF
+- the Item's Total Price is known AND
+- the Item's Discount is known AND
+- the Item's Tax is known AND
+- the Item's Final Price is not known
+THEN
+- Item's Final Price is calculate price from Total Price
+with given Tax and Discount
 ```
 
 如果你仔细检查以上的规则，你可以轻松的理解规则引擎中的规则这个概念。这些规则集合将会组成知识。在这个案例中，就组成了一个知识集合叫做**如果计算商品的最终价格**。
@@ -117,25 +117,25 @@ Rule 7
 ```text
 Start Engine With a FACT Using a KNOWLEDGE
 BEGIN
-    For Every RULE in KNOWLEDGE
-        Check if RULE's Requirement is Satisfied by FACT
-            If RULE's Requirement is Satisfied
-                Add RULE into CONFLICT SET
-            End If
-        End Check
-    End For
-    If CONFLICT SET is EMPTY
-        Finished
-        END
-    If CONFLICT SET Has 1 RULE
-        Execute the RULE's Action
-        Clear CONFLICT SET
-        Repeat Cycle from BEGIN
-    If CONFLICT SET has Many RULEs
-        Apply Conflict Resolution Strategy to Choose 1 RULE.
-        Execute the Chosen RULE's Action
-        Clear CONFLICT SET
-        Repeat Cycle from BEGIN
+For Every RULE in KNOWLEDGE
+Check if RULE's Requirement is Satisfied by FACT
+If RULE's Requirement is Satisfied
+Add RULE into CONFLICT SET
+End If
+End Check
+End For
+If CONFLICT SET is EMPTY
+Finished
+END
+If CONFLICT SET Has 1 RULE
+Execute the RULE's Action
+Clear CONFLICT SET
+Repeat Cycle from BEGIN
+If CONFLICT SET has Many RULEs
+Apply Conflict Resolution Strategy to Choose 1 RULE.
+Execute the Chosen RULE's Action
+Clear CONFLICT SET
+Repeat Cycle from BEGIN
 END
 
 ```
@@ -152,18 +152,18 @@ Grule将会记录在一次评估中运行了多少个循环。如果一个规则
 
 ```text
 Rule 1 - Priority 1
-   IF
-   - the Item's Tax is not known AND
-   - the Item's Name is "Computer CPU"
-   THEN
-   - Item's Tax is 10%
+IF
+- the Item's Tax is not known AND
+- the Item's Name is "Computer CPU"
+THEN
+- Item's Tax is 10%
 
 Rule 2 - Priority 10
-   IF
-   - the Item's Tax is not known AND
-   - the Item's Name is "Computer Monitor"
-   THEN
-   - Item's Tax is 7%
+IF
+- the Item's Tax is not known AND
+- the Item's Name is "Computer Monitor"
+THEN
+- Item's Tax is 7%
 ```
 
 如果不指定，规则的优先级为0.

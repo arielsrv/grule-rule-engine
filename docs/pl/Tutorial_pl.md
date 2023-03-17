@@ -24,12 +24,12 @@ Z Twojego `go` możesz zaimportować Grule.
 
 ```go
 import (
-	"github.com/hyperjumptech/grule-rule-engine/ast"
-	"github.com/hyperjumptech/grule-rule-engine/builder"
-	"github.com/hyperjumptech/grule-rule-engine/engine"
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
-) 
-``` 
+"github.com/hyperjumptech/grule-rule-engine/ast"
+"github.com/hyperjumptech/grule-rule-engine/builder"
+"github.com/hyperjumptech/grule-rule-engine/engine"
+"github.com/hyperjumptech/grule-rule-engine/pkg"
+)
+```
 
 ## Tworzenie struktury faktów
 
@@ -37,12 +37,12 @@ A `fact` w grule to **pointer** na instancję `struktury`.  Struktura może zawi
 
 ```go
 type MyFact struct {
-    IntAttribute       int64
-    StringAttribute    string
-    BooleanAttribute   bool
-    FloatAttribute     float64
-    TimeAttribute      time.Time
-    WhatToSay          string
+IntAttribute       int64
+StringAttribute    string
+BooleanAttribute   bool
+FloatAttribute     float64
+TimeAttribute      time.Time
+WhatToSay          string
 }
 ```
 
@@ -50,7 +50,7 @@ Zgodnie z konwencją Golanga, Grule jest w stanie uzyskać dostęp tylko do tych
 
 ```go
 func (mf *MyFact) GetWhatToSay(sentence string) string {
-    return fmt.Sprintf("Let say \"%s\"", sentence)
+return fmt.Sprintf("Let say \"%s\"", sentence)
 }
 ```
 
@@ -67,11 +67,11 @@ Aby dodać fakt do `DataContext` musisz stworzyć instancję swojego `faktu`.
 
 ```go
 myFact := &MyFact{
-    IntAttribute: 123,
-    StringAttribute: "Some string value",
-    BooleanAttribute: true,
-    FloatAttribute: 1.234,
-    TimeAttribute: time.Now(),
+IntAttribute: 123,
+StringAttribute: "Some string value",
+BooleanAttribute: true,
+FloatAttribute: 1.234,
+TimeAttribute: time.Now(),
 }
 ```
 
@@ -83,7 +83,7 @@ Po utworzeniu faktów można dodać ich instancje do `DataContext`:
 dataCtx := ast.NewDataContext()
 err := dataCtx.Add("MF", myFact)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -114,11 +114,11 @@ Następnie możemy zdefiniować podstawową regułę jako nieprzetworzony łańc
 // lets prepare a rule definition
 drls := `
 rule CheckValues "Check the default values" salience 10 {
-    when 
-        MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
-    then
-        MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
-        Retract("CheckValues");
+when
+MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
+then
+MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
+Retract("CheckValues");
 }
 `
 ```
@@ -130,7 +130,7 @@ I wreszcie możemy użyć konstruktora, aby dodać definicję do `knowledgeLibra
 bs := pkg.NewBytesResource([]byte(drls))
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", bs)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -154,7 +154,7 @@ Teraz wykonajmy instancję `KnowledgeBase` używając przygotowanego `DataContex
 engine = engine.NewGruleEngine()
 err = engine.Execute(dataCtx, knowledgeBase)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -164,11 +164,11 @@ Oto reguła, którą zdefiniowaliśmy powyżej, tak dla porównania:
 
 ```go
 rule CheckValues "Check the default values" salience 10 {
-    when 
-        MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
-    then
-        MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
-        Retract("CheckValues");
+when
+MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
+then
+MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
+Retract("CheckValues");
 }
 ```
 
@@ -191,7 +191,7 @@ GRL mogą być przechowywane w zewnętrznych plikach i istnieje wiele sposobów,
 fileRes := pkg.NewFileResource("/path/to/rules.grl")
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", fileRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -201,10 +201,10 @@ Do pakietu można także wczytać wiele plików, używając ścieżek i wzorców
 bundle := pkg.NewFileResourceBundle("/path/to/grls", "/path/to/grls/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
@@ -214,7 +214,7 @@ for _, res := range resources {
 bs := pkg.NewBytesResource([]byte(rules))
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", bs)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -224,7 +224,7 @@ if err != nil {
 urlRes := pkg.NewUrlResource("http://host.com/path/to/rule.grl")
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", urlRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -236,7 +236,7 @@ headers.Set("Authorization", "Basic YWxhZGRpbjpvcGVuc2VzYW1l")
 urlRes := pkg.NewURLResourceWithHeaders("http://host.com/path/to/rule.grl", headers)
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", urlRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -246,16 +246,16 @@ if err != nil {
 bundle := pkg.NewGITResourceBundle("https://github.com/hyperjumptech/grule-rule-engine.git", "/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
 ### Z JSON
 
-Możesz teraz tworzyć reguły z JSON! [Przeczytaj, jak to działa](GRL_JSON_pl.md) 
+Możesz teraz tworzyć reguły z JSON! [Przeczytaj, jak to działa](GRL_JSON_pl.md)
 
 ## Skompiluj GRL do GRB
 

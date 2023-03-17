@@ -16,11 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Fetching dependencies
-        run : go get -v -t -d ./...
+        run: go get -v -t -d ./...
       - name: Install GoLint
-        run : |
+        run: |
           go get -d golang.org/x/lint/golint
           go install golang.org/x/lint/golint
           echo $GOBIN
       - name: Execute test
-        run : make test-short
+        run: make test-short

@@ -34,7 +34,7 @@ For example
 
 ```go
 "A quick brown fox
-    Jumps
+Jumps
 Over a lazy dog"
 ```
 
@@ -113,7 +113,7 @@ In Base 10 - For Example
 In Base 16 - For Example
 
 ```go
-0x1p-2 
+0x1p-2
 0x2.p10
 0x1.Fp+0
 0X.8p-0

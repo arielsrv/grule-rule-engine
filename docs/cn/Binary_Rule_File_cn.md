@@ -1,8 +1,6 @@
 # 恢复和加载 GRB 文件
 
 
-
-
 [![Binary_Rule_File_cn](https://github.com/yammadev/flag-icons/blob/master/png/CN.png?raw=true)](../cn/Binary_Rule_File_cn.md)
 [![Binary_Rule_File_de](https://github.com/yammadev/flag-icons/blob/master/png/DE.png?raw=true)](../de/Binary_Rule_File_de.md)
 [![Binary_Rule_File_en](https://github.com/yammadev/flag-icons/blob/master/png/GB.png?raw=true)](../en/Binary_Rule_File_en.md)
@@ -27,22 +25,22 @@ Normally you would load a GRL into your library as follows :
 首先你得有一个包含想要存储到GRB的`KnowledgeBase`的`KnowledgeLibrary`。如下，你可以正常加载GRL到你的知识库。
 
 ```go
-	lib := ast.NewKnowledgeLibrary()
-	rb := builder.NewRuleBuilder(lib)
-	err := rb.BuildRuleFromResource("HugeRuleSet", "0.0.1", pkg.NewFileResource("HugeRuleSet.grl"))
-	assert.NoError(t, err)
+lib := ast.NewKnowledgeLibrary()
+rb := builder.NewRuleBuilder(lib)
+err := rb.BuildRuleFromResource("HugeRuleSet", "0.0.1", pkg.NewFileResource("HugeRuleSet.grl"))
+assert.NoError(t, err)
 ```
 
 然后,你可以如下存储knowledge base到GRB：
 
 ```go
-	f, err := os.OpenFile("HugeRuleSet.grb", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	assert.Nil(t, err)
+f, err := os.OpenFile("HugeRuleSet.grb", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+assert.Nil(t, err)
 
-	// Save the knowledge base into the file and close it.
-	err = lib.StoreKnowledgeBaseToWriter(f, "HugeRuleSet", "0.0.1")
-	assert.Nil(t, err)
-	_ = f.Close()
+// Save the knowledge base into the file and close it.
+err = lib.StoreKnowledgeBaseToWriter(f, "HugeRuleSet", "0.0.1")
+assert.Nil(t, err)
+_ = f.Close()
 ```
 
 你的GRB文件现在包含了knowledge base的所有规则，然后已经可以被用来加载。
@@ -54,23 +52,23 @@ Normally you would load a GRL into your library as follows :
 加载GRB更简单，不需要builder。
 
 ```go
-	lib := ast.NewKnowledgeLibrary()
+lib := ast.NewKnowledgeLibrary()
 
-	// Open the existing safe file
-	f, err := os.Open("HugeRuleSet.grb")
-	assert.Nil(t, err)
+// Open the existing safe file
+f, err := os.Open("HugeRuleSet.grb")
+assert.Nil(t, err)
 
-	// Load the file directly into the library and close the file
-	// btw, you should not use the blueprint_kb in your engine execution.
-	bluerint_kb, err := lib.LoadKnowledgeBaseFromReader(f2, true)
-	assert.Nil(t, err)
-	_ = f.Close()
+// Load the file directly into the library and close the file
+// btw, you should not use the blueprint_kb in your engine execution.
+bluerint_kb, err := lib.LoadKnowledgeBaseFromReader(f2, true)
+assert.Nil(t, err)
+_ = f.Close()
 ```
 
 恭喜你,  GRB 会被加载到 `KnowledgeLibrary`，你可以像往常 一样获取knowledge base。
 
 ```go
-    kb := lib.NewKnowledgeBaseInstance("HugeRuleSet", "0.0.1")
+kb := lib.NewKnowledgeBaseInstance("HugeRuleSet", "0.0.1")
 ```
 
 还有一件事，如果你的`KnowledgeLibrary`包含了名字和版本号和GRB中一样的`KnowledgeBase`，`KnowledgeBase`将会被覆盖。

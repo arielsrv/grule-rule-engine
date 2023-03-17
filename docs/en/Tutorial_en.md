@@ -24,12 +24,12 @@ From your `go` you can import Grule.
 
 ```go
 import (
-	"github.com/hyperjumptech/grule-rule-engine/ast"
-	"github.com/hyperjumptech/grule-rule-engine/builder"
-	"github.com/hyperjumptech/grule-rule-engine/engine"
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
-) 
-``` 
+"github.com/hyperjumptech/grule-rule-engine/ast"
+"github.com/hyperjumptech/grule-rule-engine/builder"
+"github.com/hyperjumptech/grule-rule-engine/engine"
+"github.com/hyperjumptech/grule-rule-engine/pkg"
+)
+```
 
 ## Creating Fact Structure
 
@@ -40,12 +40,12 @@ methods defined below.  As an example:
 
 ```go
 type MyFact struct {
-    IntAttribute       int64
-    StringAttribute    string
-    BooleanAttribute   bool
-    FloatAttribute     float64
-    TimeAttribute      time.Time
-    WhatToSay          string
+IntAttribute       int64
+StringAttribute    string
+BooleanAttribute   bool
+FloatAttribute     float64
+TimeAttribute      time.Time
+WhatToSay          string
 }
 ```
 
@@ -54,23 +54,23 @@ As with normal Golang conventions, Grule is only able to access those
 
 ```go
 func (mf *MyFact) GetWhatToSay(sentence string) string {
-    return fmt.Sprintf("Let say \"%s\"", sentence)
+return fmt.Sprintf("Let say \"%s\"", sentence)
 }
 ```
 
 **NOTE:** Member functions are subject to the following requirements:
 
 * The member function must be **visible**; its name must start with a capital
-  letter.
+letter.
 * The member function must return `0` or `1` values. More than one return value
-  is not supported.
+is not supported.
 * All numerical argument and return types must be their 64 bit variant. i.e.
-  `int64`, `uint64`, `float64`.
+`int64`, `uint64`, `float64`.
 * The member function **should not** change the Fact's internal state. The
-  algorithm cannot automatically detect these changes, things become more
-  difficult to reason about, and bugs can creep in.  If you **MUST** change
-  some internal state of the Fact, then you can notify Grule using
-  `Changed(varname string)` built-in function.
+algorithm cannot automatically detect these changes, things become more
+difficult to reason about, and bugs can creep in.  If you **MUST** change
+some internal state of the Fact, then you can notify Grule using
+`Changed(varname string)` built-in function.
 
 ## Add Fact Into DataContext
 
@@ -78,11 +78,11 @@ To add a fact into `DataContext` you have to create an instance of your `fact`
 
 ```go
 myFact := &MyFact{
-    IntAttribute: 123,
-    StringAttribute: "Some string value",
-    BooleanAttribute: true,
-    FloatAttribute: 1.234,
-    TimeAttribute: time.Now(),
+IntAttribute: 123,
+StringAttribute: "Some string value",
+BooleanAttribute: true,
+FloatAttribute: 1.234,
+TimeAttribute: time.Now(),
 }
 ```
 
@@ -95,7 +95,7 @@ After the fact(s) have been created, you can then add those instances into the
 dataCtx := ast.NewDataContext()
 err := dataCtx.Add("MF", myFact)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -130,11 +130,11 @@ Next we can define a basic rule as a raw string in the DSL:
 // lets prepare a rule definition
 drls := `
 rule CheckValues "Check the default values" salience 10 {
-    when 
-        MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
-    then
-        MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
-        Retract("CheckValues");
+when
+MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
+then
+MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
+Retract("CheckValues");
 }
 `
 ```
@@ -147,7 +147,7 @@ And finally we can use the builder to add the definition to the
 bs := pkg.NewBytesResource([]byte(drls))
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", bs)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -159,7 +159,7 @@ section.
 ## Executing Grule Rule Engine
 
 To execute a KnowledgeBase, we need to get an instance of this `KnowledgeBase`
-from `KnowledgeLibrary` 
+from `KnowledgeLibrary`
 
 ```go
 knowledgeBase := knowledgeLibrary.NewKnowledgeBaseInstance("TutorialRules", "0.0.1")
@@ -183,7 +183,7 @@ Now lets execute the `KnowledgeBase` instance using the prepared `DataContext`.
 engine = engine.NewGruleEngine()
 err = engine.Execute(dataCtx, knowledgeBase)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -193,11 +193,11 @@ Here's the rule we defined above, just for reference:
 
 ```go
 rule CheckValues "Check the default values" salience 10 {
-    when 
-        MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
-    then
-        MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
-        Retract("CheckValues");
+when
+MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
+then
+MF.WhatToSay = MF.GetWhatToSay("Hello Grule");
+Retract("CheckValues");
 }
 ```
 
@@ -227,7 +227,7 @@ the contents of those files.
 fileRes := pkg.NewFileResource("/path/to/rules.grl")
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", fileRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -237,10 +237,10 @@ You can also load multiple files into a bundle with paths and glob patterns:
 bundle := pkg.NewFileResourceBundle("/path/to/grls", "/path/to/grls/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
@@ -250,7 +250,7 @@ for _, res := range resources {
 bs := pkg.NewBytesResource([]byte(rules))
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", bs)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -260,7 +260,7 @@ if err != nil {
 urlRes := pkg.NewUrlResource("http://host.com/path/to/rule.grl")
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", urlRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -272,7 +272,7 @@ headers.Set("Authorization", "Basic YWxhZGRpbjpvcGVuc2VzYW1l")
 urlRes := pkg.NewURLResourceWithHeaders("http://host.com/path/to/rule.grl", headers)
 err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", urlRes)
 if err != nil {
-    panic(err)
+panic(err)
 }
 ```
 
@@ -282,10 +282,10 @@ if err != nil {
 bundle := pkg.NewGITResourceBundle("https://github.com/hyperjumptech/grule-rule-engine.git", "/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
@@ -297,16 +297,16 @@ In the case of an auth token, supply the token as the `password` argument, and s
 bundle := pkg.NewGITResourceBundleWithAuth("https://github.com/hyperjumptech/grule-rule-engine.git", "username", "password|token", "/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
-    err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
-    if err != nil {
-        panic(err)
-    }
+err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)
+if err != nil {
+panic(err)
+}
 }
 ```
 
 ### From JSON
 
-You can now build rules from JSON! [Read how it works](GRL_JSON_en.md) 
+You can now build rules from JSON! [Read how it works](GRL_JSON_en.md)
 
 ## Compile GRL into GRB
 

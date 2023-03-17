@@ -30,13 +30,13 @@ offer a high level of flexibility to suit the needs of the user.
 The basic structure of a JSON rule is as follows:
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we keep increase the speed.",
-    "salience": 10,
-    "when": ...,
-    "then": [
-        ...
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we keep increase the speed.",
+"salience": 10,
+"when": ...,
+"then": [
+...
+]
 }
 ```
 
@@ -125,12 +125,12 @@ To demonstrate the JSON representation capabilities, the following example rule 
 
 ```
 rule SpeedUp "When testcar is speeding up we increase the speed." salience 10 {
-    when
-        TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
-    then
-        TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
-        DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
-        Log("Speed increased");
+when
+TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed
+then
+TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement;
+DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed;
+Log("Speed increased");
 }
 ```
 
@@ -140,15 +140,15 @@ The most basic representation of this rule in JSON is as follows:
 
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we increase the speed.",
-    "salience": 10,
-    "when": "TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed",
-    "then": [
-        "TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement",
-        "DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed",
-        "Log(\"Speed increased\")"
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we increase the speed.",
+"salience": 10,
+"when": "TestCar.SpeedUp == true && TestCar.Speed < TestCar.MaxSpeed",
+"then": [
+"TestCar.Speed = TestCar.Speed + TestCar.SpeedIncrement",
+"DistanceRecord.TotalDistance = DistanceRecord.TotalDistance + TestCar.Speed",
+"Log(\"Speed increased\")"
+]
 }
 ```
 
@@ -166,20 +166,20 @@ down the `when` and `then` conditions to a full object representation:
 
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we increase the speed.",
-    "salience": 10,
-    "when": {
-       "and": [
-           {"eq": ["TestCar.SpeedUp", true]},
-           {"lt": ["TestCar.Speed", "TestCar.MaxSpeed"]}
-       ]
-    },
-    "then": [
-        {"set": ["TestCar.Speed", {"plus": ["TestCar.Speed", "TestCar.SpeedIncrement"]}]},
-        {"set": ["DistanceRecord.TotalDistance", {"plus": ["DistanceRecord.TotalDistance", "TestCar.Speed"]}]},
-        {"call": ["Log", {"const": "Speed increased"}]}
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we increase the speed.",
+"salience": 10,
+"when": {
+"and": [
+{"eq": ["TestCar.SpeedUp", true]},
+{"lt": ["TestCar.Speed", "TestCar.MaxSpeed"]}
+]
+},
+"then": [
+{"set": ["TestCar.Speed", {"plus": ["TestCar.Speed", "TestCar.SpeedIncrement"]}]},
+{"set": ["DistanceRecord.TotalDistance", {"plus": ["DistanceRecord.TotalDistance", "TestCar.Speed"]}]},
+{"call": ["Log", {"const": "Speed increased"}]}
+]
 }
 ```
 
@@ -211,20 +211,20 @@ The most verbose possible version of the example rule in JSON syntax is as follo
 
 ```json
 {
-    "name": "SpeedUp",
-    "desc": "When testcar is speeding up we increase the speed.",
-    "salience": 10,
-    "when": {
-       "and": [
-           {"eq": [{"obj": "TestCar.SpeedUp"}, {"const": true}]},
-           {"lt": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.MaxSpeed"}]}
-       ]
-    },
-    "then": [
-        {"set": [{"obj": "TestCar.Speed"}, {"plus": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.SpeedIncrement"}]}]},
-        {"set": [{"obj": "DistanceRecord.TotalDistance"}, {"plus": [{"obj": "DistanceRecord.TotalDistance"}, {"obj": "TestCar.Speed"}]}]},
-        {"call": ["Log", {"const": "Speed increased"}]}
-    ]
+"name": "SpeedUp",
+"desc": "When testcar is speeding up we increase the speed.",
+"salience": 10,
+"when": {
+"and": [
+{"eq": [{"obj": "TestCar.SpeedUp"}, {"const": true}]},
+{"lt": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.MaxSpeed"}]}
+]
+},
+"then": [
+{"set": [{"obj": "TestCar.Speed"}, {"plus": [{"obj": "TestCar.Speed"}, {"obj": "TestCar.SpeedIncrement"}]}]},
+{"set": [{"obj": "DistanceRecord.TotalDistance"}, {"plus": [{"obj": "DistanceRecord.TotalDistance"}, {"obj": "TestCar.Speed"}]}]},
+{"call": ["Log", {"const": "Speed increased"}]}
+]
 }
 ```
 
@@ -235,7 +235,7 @@ JSON rules can be loaded from an underlying Resource or ResourceBundle provider 
 ```go
 f, err := os.Open("rules.json")
 if err != nil {
-    panic(err)
+panic(err)
 }
 underlying := pkg.NewReaderResource(f)
 resource := pkg.NewJSONResourceFromResource(underlying)
@@ -247,11 +247,11 @@ It is also possible to parse a byte array containing JSON rules directly into a 
 ```go
 jsonData, err := ioutil.ReadFile("rules.json")
 if err != nil {
-    panic(err)
+panic(err)
 }
 ruleset, err := pkg.ParseJSONRuleset(jsonData)
 if err != nil {
-    panic(err)
+panic(err)
 }
 fmt.Println("Parsed ruleset: ")
 fmt.Println(ruleset)

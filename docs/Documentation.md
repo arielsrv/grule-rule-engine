@@ -4,7 +4,7 @@
 
 :construction_worker: Inviting opensource translators. **grule-rule-engine**'s documentation is being translated.  Please read [CONTRIBUTING](../CONTRIBUTING.md) and [CONTRIBUTING TRANSLATION](CONTRIBUTING_TRANSLATION.md) guidelines.
 
-:writing_hand: Submit your PR !! 
+:writing_hand: Submit your PR !!
 
 ---
 

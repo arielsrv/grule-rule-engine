@@ -22,9 +22,9 @@
 `N is b.N where b is an instance of *testing.B`
 
 ### 规则:
- `100_rules.grl` 和 `1000_rules.grl` 文件 在 `examples/benchmark` 目录
+`100_rules.grl` 和 `1000_rules.grl` 文件 在 `examples/benchmark` 目录
 
-运行命令: 
+运行命令:
 ---
 ```go
 > go test -bench=. -benchmem
@@ -65,7 +65,7 @@ Benchmark_Grule_Load_Rules/1000_rules#10-12                    4         2618574
 加载`1000`规则到knowledgeBase耗费`261857403 ns/op`（取最高值），等于`~261ms`，同时需要 `88MB` 内存。
 
 ### 测试2 - 在规则上执行 fact
-运行命令: 
+运行命令:
 ```go
 Load 100 and 1000 Rules into Grule rule Engine
 Benchmark_Grule_Load_Rules/100_rules-12                       12          96674568 ns/op        49297966 B/op     731119 allocs/op
@@ -121,7 +121,6 @@ Benchmark_Grule_Execution_Engine/1000_rules#06-12           1896            5309
 Benchmark_Grule_Execution_Engine/1000_rules#07-12           1939            522682 ns/op          269694 B/op       3790 allocs/op
 Benchmark_Grule_Execution_Engine/1000_rules#08-12           1851            545408 ns/op          281652 B/op       3968 allocs/op
 Benchmark_Grule_Execution_Engine/1000_rules#09-12           1844            543697 ns/op          282657 B/op       3983 allocs/op
-
 
 
 ```

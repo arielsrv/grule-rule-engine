@@ -10,7 +10,7 @@
 
 ---
 
- 从1.8.0版本开始，Grule支持使用JSON数据作为事实。能够使用户使用JSON格式表述他们的事实，并且能够像正常代码一样把这些事实加载到`DataContext`中。加载的JSON事实在Grule脚本现在是可见的了。
+从1.8.0版本开始，Grule支持使用JSON数据作为事实。能够使用户使用JSON格式表述他们的事实，并且能够像正常代码一样把这些事实加载到`DataContext`中。加载的JSON事实在Grule脚本现在是可见的了。
 
 ## 添加JSON事实
 
@@ -18,18 +18,18 @@
 
 ```json
 {
-  "name" : "John Doe",
-  "age" : 24,
-  "gender" : "M",
-  "height" : 74.8,
-  "married" : false,
-  "address" : {
-    "street" : "9886 2nd St.",
-    "city" : "Carpentersville",
-    "state" : "Illinois",
-    "postal" : 60110
-  },
-  "friends" : [ "Roth", "Jane", "Jake" ]
+"name" : "John Doe",
+"age" : 24,
+"gender" : "M",
+"height" : 74.8,
+"married" : false,
+"address" : {
+"street" : "9886 2nd St.",
+"city" : "Carpentersville",
+"state" : "Illinois",
+"postal" : 60110
+},
+"friends" : [ "Roth", "Jane", "Jake" ]
 }
 ```
 
@@ -55,9 +55,9 @@ err := dataContext.AddJSON("MyJSON", myJSON)
 
 在GRL较本周，当你添加到 `DataContext`，通过你提供的标签，事实是可见的。比如下面的代码是添加你的JSON，而且被打上`MyJSON`标签。
 
- ```go
+```go
 err := dataContext.AddJSON("MyJSON", myJSON)
- ```
+```
 
 是的，你可以使用任何一个标签，只要他是一个词。
 
@@ -65,168 +65,168 @@ err := dataContext.AddJSON("MyJSON", myJSON)
 
 正如使用开头展示的JSON，你的GRL `when` 范围可以如下评估你的json。
 
- ```text
-when
-    MyJSON.name == "John Doe"
- ```
-
-或者 
-
 ```text
 when
-    MyJSON.address.city.StrContains("ville")
+MyJSON.name == "John Doe"
 ```
 
 或者
 
 ```text
 when
-    MyJSON.age > 30 && MyJSON.height < 60
+MyJSON.address.city.StrContains("ville")
+```
+
+或者
+
+```text
+when
+MyJSON.age > 30 && MyJSON.height < 60
 ```
 
 ### 像map一样访问成员变量
 
 你可以像使用`Map`一样访问JSON对象，也可以像正常对象一样，也可以两者混用
 
- ```text
-when
-    MyJSON["name"] == "John Doe"
- ```
-
-或者
-
 ```text
 when
-    MyJSON["address"].city.StrContains("ville")
+MyJSON["name"] == "John Doe"
 ```
 
 或者
 
 ```text
 when
-    MyJSON.age > 30 && MyJSON["HEIGHT".ToLower()] < 60
+MyJSON["address"].city.StrContains("ville")
+```
+
+或者
+
+```text
+when
+MyJSON.age > 30 && MyJSON["HEIGHT".ToLower()] < 60
 ```
 
 ### 访问数组成员变量
 
 你可以像正常的数组一样访问JSON 数组元素。
 
- ```text
+```text
 when
-    MyJSON.friends[3] == "Jake"
- ```
+MyJSON.friends[3] == "Jake"
+```
 
 ## 在GRL中写入JSON事实
 
-是的,你可以在`then`范围内写入你的值到JSON事实。这些变动的值将会在接下来的循环中被访问到。但是，有一些警告（参考下面的 你应该知道的）。 
+是的,你可以在`then`范围内写入你的值到JSON事实。这些变动的值将会在接下来的循环中被访问到。但是，有一些警告（参考下面的 你应该知道的）。
 
 ### 像正常对象写入成员变量
 
 正如开头展示的JSON，你的GRL `then`范围可以像如下修改你的试事实。
 
- ```text
-then
-    MyJSON.name = "Robert Woo";
- ```
-
-或者
-
 ```text
 then
-    MyJSON.address.city = "Corruscant";
+MyJSON.name = "Robert Woo";
 ```
 
 或者
 
 ```text
 then
-    MyJSON.age = 30;
+MyJSON.address.city = "Corruscant";
+```
+
+或者
+
+```text
+then
+MyJSON.age = 30;
 ```
 
 这个是完美的直接方式。但是有一些别扭。
 
 1. 你可以修改不仅仅是你JSON对象的成员变量，你可以修改类型。假设你的规则在接下来的评估过程中可以处理新的类型，否则强烈建议不要这么做。
-   
-   例子:
-   
-   你可以改变`MyJSON.age` 到 字符串.
-   
-   ```text
-    then
-        MyJSON.age = "Thirty";
-   ```
-   
-   这个修改在遇到下面的规则时，会导致引擎panic。
-   
-   ```text
-    when
-        myJSON.age > 25
-   ```
-   
+
+例子:
+
+你可以改变`MyJSON.age` 到 字符串.
+
+```text
+then
+MyJSON.age = "Thirty";
+```
+
+这个修改在遇到下面的规则时，会导致引擎panic。
+
+```text
+when
+myJSON.age > 25
+```
+
 2. 你可以赋值给一个不存在的成员变量。
 
-   比如:
-   
-      ```text
-       then
-           MyJSON.category = "FAT";
-      ```
+比如:
 
-    其中  `category` 变量在原始JSON中不存在。
-   
+```text
+then
+MyJSON.category = "FAT";
+```
+
+其中  `category` 变量在原始JSON中不存在。
+
 ### 像map一样写入成员变量
 
 正如开始所展示的JSON，在你的`then`范围内，你可以如下修改你的json事实。
 
- ```text
-then
-    MyJSON["name"] = "Robert Woo";
- ```
-
-或者 
-
 ```text
 then
-    MyJSON["address"]["city"] = "Corruscant";
+MyJSON["name"] = "Robert Woo";
 ```
 
 或者
 
 ```text
 then
-    MyJSON["age"] = 30;
+MyJSON["address"]["city"] = "Corruscant";
+```
+
+或者
+
+```text
+then
+MyJSON["age"] = 30;
 ```
 
 正如对象格式的，同样适用。
 
 1. 你可以修改不仅仅是你JSON对象的成员变量，你可以修改类型。假设你的规则在接下来的评估过程中可以处理新的类型，否则强烈建议不要这么做。
-   
-   举例
-   
-   你可以修改 `MyJSON.age` 到 字符串.
-   
-   ```text
-    then
-        MyJSON["age"] = "Thirty";
-   ```
-   
-   这个修改在遇到下面的规则时，会导致引擎panic。
-   
-   ```text
-    when
-        myJSON.age > 25
-   ```
-   
+
+举例
+
+你可以修改 `MyJSON.age` 到 字符串.
+
+```text
+then
+MyJSON["age"] = "Thirty";
+```
+
+这个修改在遇到下面的规则时，会导致引擎panic。
+
+```text
+when
+myJSON.age > 25
+```
+
 2. 你可以赋值给一个不存在的成员变量。
 
-   举例:
-   
-      ```text
-       then
-           MyJSON["category"] = "FAT";
-      ```
+举例:
 
-   其中  `category` 变量在原始JSON中不存在。
+```text
+then
+MyJSON["category"] = "FAT";
+```
+
+其中  `category` 变量在原始JSON中不存在。
 
 ### 写入数组成员变量
 
@@ -234,21 +234,21 @@ then
 
 ```text
 then
-   MyJSON.friends[3] == "Jake";
+MyJSON.friends[3] == "Jake";
 ```
 
 指定的索引必须有效。如果越界，Grule将会panic。正如正常的JSON，你可以使用其他类型去替换任意元素。你也可以获取数组的长度。
 
 ```text
 when
-   MyJSON.friends.Length() > 4;
+MyJSON.friends.Length() > 4;
 ```
 
 你可以通过 `Append` 函数往数组里面添加元素.  Append 也可以添加一个不同类型的元素到数组中。 (同样的警示 适用于 w.r.t. 修改指定类型)
 
 ```text
 then
-   MyJSON.friends.Append("Rubby", "Anderson", "Smith", 12.3);
+MyJSON.friends.Append("Rubby", "Anderson", "Smith", 12.3);
 ```
 
 **已知问题**
